@@ -1,0 +1,46 @@
+.floatingbutton {
+    --img-size: 14vw;
+    position: fixed;
+    height: 83px;
+    width: 83px;
+    border-radius: 100%;
+    bottom: 7vh;
+    right: 2.5vw;
+    z-index: 60;
+    cursor: pointer;
+}
+
+.floatingbutton img {
+    height: var(--img-size);
+    width: var(--img-size);
+    transition: transform 0.15s;
+}
+
+.floatingbutton img:hover {
+    transform: scale(1.2);
+}
+
+
+@media only screen and (min-width: 360px) {
+    .floatingbutton {
+        --img-size: 50px
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    .floatingbutton {
+        --img-size: 65px
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .floatingbutton {
+        --img-size: 85px
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .floatingbutton {
+        --img-size: 95px
+    }
+}

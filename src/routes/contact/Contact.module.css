@@ -1,0 +1,73 @@
+.contact {
+    padding-top: 15px;
+    padding-bottom: 2rem;
+    user-select: none;
+    margin: 1rem;
+}
+
+.form {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+
+.instructions {
+    font-size: 24px;
+    padding: 0 10px 10px 10px;
+}
+
+.wame, .gmail {
+    margin: auto 0;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.wame > div , .gmail > div {
+    display: inline-block;
+}
+
+.emaillink {
+    text-decoration: none;
+}
+
+.wame img {
+    height: 32vw;
+    width: 32vw;
+}
+
+.gmail img {
+    height: 6vw;
+    width: 6vw;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.logo img {
+    user-select: none;
+    border-radius: 100%;
+    width: 60vw;
+}
+
+@media only screen and (min-width: 480px) {
+    .wame img { height: 24vw; width: 24vw; }
+    .logo img { width: 40vw } 
+}
+
+@media only screen and (min-width: 768px) {
+    .wame img { height: 16vw; width: 16vw; }
+    .logo img { width: 400px } 
+}
+
+@media only screen and (min-width: 1024px) {
+    .wame img { height: 150px; width: 150px; }
+    .logo img { width: 450px } 
+}
+
+.wame_animation:hover { transform: scale(1.2); cursor: pointer; }
+.wame_animation { transition: transform 0.15s }

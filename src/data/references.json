@@ -1,0 +1,12 @@
+{
+    "basename": "",
+    "data_uri": "/data/data.json",
+    "links_uri": "/data/googlesheets.json",
+    "googlesheetv4_uri": "/data/googlesheetsv4.json",
+    "priceundefined": "consultar",
+    "columnwidth": 72,
+    "cache-time": 2,
+    "credits": "https://guillenh.com",
+    "apikey": "AIzaSyDO1CPpLOj3y85cQeInm9-r-ZYRh614Pwk",
+    "maxminutesondb": 120
+}
