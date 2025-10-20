@@ -1,0 +1,9 @@
+.imgcontainer {
+    height: var(--img-size);
+    width: var(--img-size);
+}
+
+.imgcontainer img {
+    height: var(--img-size);
+    width: var(--img-size);
+}

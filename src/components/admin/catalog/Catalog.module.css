@@ -1,0 +1,42 @@
+.categories {
+    display: flex;
+    flex-direction: row;
+    max-width: 100vw;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+    background-color: rgb(167, 102, 217);
+}
+
+.category {
+    user-select: none;
+    padding: .9em .5em;
+    margin: .1em .5em;
+    font-size: 1.2em;
+    transition: transform 0.1s;
+}
+
+.category:hover {
+    cursor: pointer;
+    color: blue;
+    transform: scale(1.1)
+}
+
+.categorySelected {
+    font-size: 1.35em;
+    color:blue
+}
+
+.selectcategory {
+    font-size: 2em;
+    margin-top: 2em;
+    text-align: center;
+    user-select: none;
+}
+
+.articles {
+    display: flex;
+    flex-direction: column;
+    margin: 1em 2em;
+}

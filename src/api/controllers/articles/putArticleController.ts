@@ -1,0 +1,27 @@
+import axios from '../axios.ts'
+import { getLocalToken, getLocalUser } from '../../localtoken.ts'
+
+const endpoint = "/articles";
+
+/**
+ * Puts an article into DataBase
+ * @param {JSON} article Article in JSON format
+ * @returns result of the request
+ */
+export const putArticle = async(article:any) => {
+
+    const { data } = await axios.put(
+        endpoint, 
+        article, 
+        { 
+            headers: { 
+                token: getLocalToken(), 
+                user: getLocalUser() 
+            } 
+        }
+    )
+    
+    return data;
+}
+
+export default putArticle

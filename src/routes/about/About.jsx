@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom";
-import image from '../../assets/images/logo.jpeg';
+import logo from '../../assets/images/logo.jpeg';
+import icon from '../../assets/icons/logo.webp';
 import styles from "./About.module.css";
 
 import Header from '../../components/header/Header';
 import Footer from "../../components/footer/Footer";
 
-import { title } from "../../data/client-info.json";
-import { credits } from "../../data/references.json";
+import { title, credits } from "../../assets/data/data.json";
 
 export default function About() {
 
     return (<>
-        <Header pageName={title}>
+        <Header pageName={title} logo={icon}>
             <Link to="/about"> Nosotros </Link>
             <Link to="/contact"> Contacto </Link>
         </Header>
@@ -43,7 +43,7 @@ export default function About() {
             </section>
             
             <section className={styles.bottom}>
-                <img className={styles.bottomImg} src={image}/>
+                <img className={styles.bottomImg} src={logo}/>
             </section>
 
         </main>

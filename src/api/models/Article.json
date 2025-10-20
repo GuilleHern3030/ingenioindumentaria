@@ -1,0 +1,13 @@
+[
+    "ID",
+    "Name",
+    "Category",
+    "Description",
+    "Price",
+    "Sizes",
+    "Sex",
+    "Recent",
+    "InStock",
+    "ImageSrc",
+    "Date"
+]

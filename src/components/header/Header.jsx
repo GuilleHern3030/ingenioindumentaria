@@ -1,7 +1,3 @@
-/**
- * requires normalize.css
- */
-
 import { Link } from 'react-router-dom';
 import Nav from './Nav';
 import { useLayoutEffect, useRef, useEffect, useState } from 'react';
@@ -15,12 +11,14 @@ export default function Header(
         {
             children, 
             image, 
+            logo,
             pageName,
             color="#000",
             title,
             subtitle, 
             titleColor,
             subtitleColor,
+            mainLink="/",
             backgroundColor="#ebe9e9",
             changeBackgroundOnScroll=false,
             backgroundColorOnScroll="#7d7d7d48",
@@ -50,22 +48,25 @@ export default function Header(
                 className={`${styles.top} ${ pageScrolled === false ? styles.header__opaque : pageScrolled === true ? styles.header__transparent : "" }`} 
                 style={{ backgroundColor: pageScrolled === undefined ? backgroundColor : {} }}
             >
-                { 
-                    pageName ? 
-                        <Link 
-                            className={styles.pageName} 
-                            style={
-                                { 
-                                    color: pageScrolled ? colorOnScroll : color 
-                                }
-                            } 
-                            to="/" 
-                            onClick={()=>goTop()}
-                        > 
-                            <h2> {pageName} </h2> 
-                        </Link> 
-                    : <p></p> 
-                }
+                <div className={styles.pageNameContainer}>
+                    { logo ? <Link className={styles.logo} to={mainLink} onClick={()=>goTop()}><img className={styles.logo} src={logo}/></Link> : <></> }
+                    { 
+                        pageName ? 
+                            <Link 
+                                className={styles.pageName} 
+                                style={
+                                    { 
+                                        color: pageScrolled ? colorOnScroll : color 
+                                    }
+                                } 
+                                to={mainLink} 
+                                onClick={()=>goTop()}
+                            > 
+                                <h2> {pageName} </h2> 
+                            </Link> 
+                        : <p></p> 
+                    }
+                </div>
                 { 
                     children && topHeight > 0 ? 
                         <Nav 

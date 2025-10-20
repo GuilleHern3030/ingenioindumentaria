@@ -1,0 +1,35 @@
+
+
+.header {
+    background-color: #ebe9e9;
+    display: flex;
+    user-select: none;
+}
+
+.header__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    height: 4em;
+    margin: .2em .5em .2em .4em;
+}
+
+.main {
+}
+
+.footer {
+    background-color: rgb(215, 211, 219);
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-evenly;
+    user-select: none;
+    padding: 1em 0;
+}
+
+.footer__button {
+    
+}

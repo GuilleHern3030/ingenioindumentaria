@@ -21,3 +21,11 @@
       height: 80px;
     }
 }
+
+.fullloading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

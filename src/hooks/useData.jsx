@@ -1,7 +1,7 @@
 import { useContext } from 'react'
-import { DataContext } from '../context/DataContext'
+import { ClientInfoContext } from '../context/ClientInfoContext'
 
 export default function useData() {
-    const { data } = useContext(DataContext)
+    const { data } = useContext(ClientInfoContext)
     return data;
 }

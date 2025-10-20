@@ -1,75 +1,48 @@
-import facebookIcon from "../../assets/icons/facebook-icon.webp";
-import instagramIcon from "../../assets/icons/instagram-icon.webp";
-import threadsIcon from "../../assets/icons/threads-icon.webp";
-import twitterIcon from "../../assets/icons/twitter-icon.webp";
+import { Link } from "react-router-dom"
+import styles from './Footer.module.css'
+
+import { credits, title } from '../../assets/data/data.json'
 
 import useData from "../../hooks/useData"
 
-import styles from './Footer.module.css';
+import logo from "../../assets/icons/logo.webp"
 
-export default function Footer({children, copyrigth, color="#e8e8e8", backgroundColor="#3f3e3ec3", useStoredData=true, copyrightHref=undefined}) {
+import facebook from "../../assets/icons/facebook-icon.webp";
+import instagram from "../../assets/icons/instagram-icon.webp";
+import twitter from "../../assets/icons/twitter-icon.webp";
+
+const goTop = () => window.scrollTo({top:0});
+
+export default () => {
 
     const data = useData()
 
-    if (data == undefined) return null;
+    return data == undefined ? null : <footer className={styles.footer}>
 
-    if (children !== undefined) 
-        return (
-            <footer className={styles.footer} style={{backgroundColor:backgroundColor}}>
-                <div className={styles.container}>
-                    { children }   
-                </div> 
-                { copyrigth ? (<p className={styles.copyright}>{copyrigth}</p>) : (<></>) }
-            </footer>
-        );
+        <div className={styles.pagename_container}>
+            <Link className={styles.pagename} to="/" onClick={()=>goTop()}>
+                <img className={styles.logo} src={logo}/>
+                <p>{title}</p>
+            </Link>
+        </div>
 
-    else if(useStoredData) try {
+        <div className={styles.info}>
+            { data.contactNumber ? <a href={data.contactlink} target="_BLANK">{data.contactNumber}</a> : <></> }
+            { data.email ? <a className={styles.email} aria-label="email" href={`mailto:${data.email}?subject=IngenioIndumentaria"`}>{data.email}</a> : <></> }
+            { data.address ? <a href={data.googlemaps} target="_BLANK">{data.address}</a> : <></> }
+        </div>
 
-        return (
-            <footer className={styles.footer} style={{backgroundColor:backgroundColor}}>
-                <div className={styles.container}>
-                    <div className={styles.contact} style={{color:color}}>
-                        <p className={styles.title} style={{color:color}}>Contacto</p>
-                    </div>
-                    <div className={styles.contact} style={{color:color}}>
-                        { (data.email) ? <a style={{color:color}} aria-label="email" href={`mailto:${data.email}?subject=Mail from homepage`}>{data.email}</a> : (<></>) }
-                        { (data.contactNumber) ? <a style={{color:color}} href={data.contactlink} target="_BLANK">{data.contactNumber}</a> : (<></>) }
-                        { (data.googlemaps) ? <a style={{color:color}} href={data.googlemaps} target="_BLANK">{data.direction}</a> : (<></>) }
-                        { (data.location) ? <p style={{color:color}}>{data.location}</p> : (<></>) }
-                        { (data.country) ? <p style={{color:color}}>{data.country}</p> : (<></>) }
-                    </div>
-                    <div className={styles.social}>
-                        { (data.facebook) ? <a href={data.facebook} style={{color:color}}><img src={facebookIcon} alt="Facebook"/></a> : (<></>) }
-                        { (data.instagram) ? <a href={data.instagram} style={{color:color}}><img src={instagramIcon} alt="Instragram"/></a> : (<></>) }
-                        { (data.threads) ? <a href={data.threads} style={{color:color}}><img src={threadsIcon} alt="Threads"/></a> : (<></>) }
-                        { (data.twitter) ? <a href={data.twitter} style={{color:color}}><img src={twitterIcon} alt="Twitter"/></a> : (<></>) }
-                        {/* (data.discord) ? <a href={data.discord} style={{color:color}}><img src={discordIcon} alt="Discord"/></a> : (<></>) */}
-                    </div>
-                </div>
-                { 
-                    copyrigth ? 
-                        copyrightHref == undefined ?
-                            (<p className={styles.copyright} style={{color:color}}>{copyrigth}</p>) 
-                            : (<a className={styles.copyright} style={{color:color}} href={copyrightHref}>{copyrigth}</a>) 
-                    : (<></>) 
-                }
-            </footer>
-        );
-    }
+        <div className={styles.social}>
+            { data.facebook ? <a href={data.facebook} target="_BLANK"><img className={styles.icon} src={facebook}/></a> : <></> }
+            { data.instagram ? <a href={data.instagram} target="_BLANK"><img className={styles.icon} src={instagram}/></a> : <></> }
+            { data.twitter ? <a href={data.twitter} target="_BLANK"><img className={styles.icon} src={twitter}/></a> : <></> }
+        </div>
 
-    catch(e) { 
-        console.warn(e)
-        return (
-            <footer className={styles.footer} style={{backgroundColor:backgroundColor}}>
-                { 
-                    copyrigth ? 
-                        copyrightHref == undefined ?
-                            (<p className={styles.copyright} style={{color:color}}>{copyrigth}</p>) 
-                            : (<a className={styles.copyright} style={{color:color}} href={copyrightHref}>{copyrigth}</a>) 
-                    : (<></>) 
-                    // copyrigth ? (<p className={styles.copyright}>{copyrigth}</p>) : (<></>) 
-                }
-            </footer>
-        );
-    }
+        <div className={styles.privacy}>
+            <Link to="/privacy" onClick={()=>goTop()}>Aviso legal</Link>
+            <a target="_BLANK" href={credits}>Webpage created by GuilleNH</a>
+        </div>
+
+    </footer>
+
 }

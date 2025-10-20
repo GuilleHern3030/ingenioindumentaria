@@ -3,7 +3,7 @@
     background-color: #0000;
 }
 
-.topTransparent { background-color: #7d7d7d48; }
+.topTransparent { background-color: #4f4d4d87; }
 .topOpaque { background-color: #ebe9e9; }
 .top {
     position: fixed;
@@ -13,8 +13,8 @@
     text-align: center;
     width: 100%;
     min-height: 50px;
-    padding-left: 1rem;
-    padding-right: 0.5rem;
+    padding-left: 10px;
+    padding-right: 10px;
     z-index: 100;
     transition: transform 0.3s;
 }
@@ -23,14 +23,28 @@
     user-select: none;
 }
 
-.pageName:hover { transform: scale(1.07) }
+.pageNameContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.25s;
+    justify-content: center;
+}
+
+.pageNameContainer:hover { transform: scale(1.07) }
 .pageName {
-    font-size: 3.2vw;
+    font-size: 3vw;
     padding: 0 3px;
     text-align: start;
     font-family: 'Courier New', Courier, monospace;
     text-decoration: none;
     transition: transform 0.25s;
+}
+.logo { 
+    height: 8vw; 
+    width: 8vw; 
+    margin-right: 4px
 }
 
 .content {
@@ -50,20 +64,24 @@
 .contentText h1 { font-size: 32px }
 .contentText p { font-size: 17px }
 
+
 @media only screen and (min-width: 360px) {
-    .pageName { font-size: 14px }
+    .pageName { font-size: 13px }
+    .logo { height: 30px; width: 30px; }
 }
 
 @media only screen and (min-width: 480px) {
     .contentText h1 { font-size: 40px }
     .contentText p { font-size: 22px }
-    .pageName { font-size: 17px }
+    .logo { height: 35px; width: 35px; }
+    .pageName { font-size: 15px }
 }
 
 @media only screen and (min-width: 768px) {
     .contentText h1 { font-size: 48px }
     .contentText p { font-size: 26px }
-    .pageName { font-size: 19px }
+    .logo { height: 40px; width: 40px; }
+    .pageName { font-size: 18px }
 }
 
 /* Background color animation */
