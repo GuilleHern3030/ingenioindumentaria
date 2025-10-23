@@ -41,11 +41,25 @@ export class Article {
     description = () => this.#json.Description
     price = () => this.#json.Price.length == 0 ? 0 : Number(this.#json.Price)
     discount = () => this.#json.Discount.length == 0 ? 0 : Number(this.#json.Discount)
-    sizes = () => this.#json.Sizes
-    sex = () => this.#json.Sex
+    sizes = () => this.#json.Sizes.split(',')
+    sex = () => this.#json.Sex.split(',')
     recent = () => this.#json.Recent.length > 0
-    inStock = () => (!this.#json.InStock || Number(this.#json.InStock) === 0) ? false : (isNaN(Number(this.#json.InStock))) ? true : Number(this.#json.InStock)
+    inStock = () => this.#json.InStock.split(',').map((stock:string|number) =>
+        (!stock || Number(stock) === 0) ? false : (isNaN(Number(stock))) ? true : Number(stock)
+    )
+        
+        
     date = () => parseDate(this.#json.Date)
+
+    sexName = () => {
+        if (this.#json.Sex == 'M') return "Hombre"
+        else if (this.#json.Sex == 'F') return "Mujer"
+        else if (this.#json.Sex == 'B') return "Niño"
+        else if (this.#json.Sex == 'G') return "Niña"
+        else if (this.#json.Sex == 'BG' || this.#json.Sex == 'GB') return "Unisex niño"
+        else if (this.#json.Sex == 'Y') return "Bebé"
+        else return "Unisex"
+    }
 
     images = ():Array<any> => {
         if (this.#json.ImageSrc.length == 0) return []

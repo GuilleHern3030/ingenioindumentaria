@@ -1,5 +1,4 @@
 import { createContext, useState, useEffect } from "react";
-import { dbPull as loadDataBase } from '../hooks/useIndexedDB';
 import { getLocalUser } from "../api/localtoken";
 
 const USE_CLOUDFLARE_AUTHENTICATION = false
@@ -14,16 +13,8 @@ export function AdminContextProvider(props) {
         else return () => true
     }
 
-    const [ articlesEdited, setArticlesEdited ] = useState([])
-
-    useEffect( () => {
-        loadDataBase().then(articles => {
-            console.log("Admin loaded", articles)
-        })
-    }, []);
-
     return (<>
-        <AdminContext.Provider value = {{ isLogged, articlesEdited, setArticlesEdited }}>
+        <AdminContext.Provider value = {{ isLogged }}>
             {props.children}
         </AdminContext.Provider>
     </>)

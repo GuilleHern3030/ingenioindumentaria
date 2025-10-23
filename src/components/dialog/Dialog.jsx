@@ -1,7 +1,7 @@
-import styles from './Confirmation.module.css'
+import styles from './Dialog.module.css'
 
-import accept from '../../../assets/icons/accept.png'
-import cancel from '../../../assets/icons/cancel.png'
+import accept from '../../assets/icons/accept.png'
+import cancel from '../../assets/icons/cancel.png'
 
 export default function({title, message, onAccept, onReject}) {
     

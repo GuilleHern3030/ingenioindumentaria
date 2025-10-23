@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 import Header from '../../components/header/Header'
 import Footer from '../../components/footer/Footer'
@@ -26,15 +26,7 @@ export default function Home() {
         
         <FloatingButton/>
 
-        <div className={styles.logo}>
-            <img src={logo}/>
-        </div>
-        
-        <p className={styles.logo} style={{fontSize:"28px"}}>Proximamente...</p>
-
-        <Article id={1} name={"calzon"} category={"Ropa interior"} description={"Jean"} price={120} sizes={"S,M,L"} sex="" recently="" imageSrc="https://i.imgur.com/MXNGfKx.jpeg"/>
-
-        <div style={{paddingTop:'16vw'}} />
+        <Outlet/>
 
         <Footer color='#000' backgroundColor='#b2afafff' copyrigth='Webpage created by GuilleNH' copyrightHref={credits}/>
 

@@ -1,25 +1,17 @@
 import styles from './Article.module.css'
 
 export default function Article({
-    id, 
-    name, 
-    category,
-    description,
-    price,
-    sizes,
-    sex,
-    recently,
-    imageSrc,
+    article,
     className,
     onClick
 }) 
     {
 
-        const img = imageSrc.includes(",") ? imageSrc.split(",") : imageSrc
-
-        return <div className={className} id={id}>
+        return <div className={className} id={article.id()} onClick={onClick}>
+            <p>{article.name()}</p>
+            <p>{article.description()}</p>
             <div className={styles.imgcontainer}>
-                <img src={imageSrc}/>
+                <img src={article.getImage(0).src}/>
             </div>
         </div>
 

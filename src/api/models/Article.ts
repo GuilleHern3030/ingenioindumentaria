@@ -25,14 +25,14 @@ export const Model:Record<string, any> = {
     allowNull: false
   },
   Sizes: {
-    type: "string",
+    type: "string", // XS,S,M,L,XL | U
     allowNull: true,
     defaultValue: "U" // unique
   },
   Sex: {
-    type: "string",
+    type: "string", // M (male) | F (female) | MF (unisex) | B (boy) | G (girl) | BG (unisex kids) | Y (baby)
     allowNull: true,
-    defaultValue: "U" // unique
+    defaultValue: "M,F" // unique
   },
   Recent: {
     type: "string",
@@ -42,7 +42,7 @@ export const Model:Record<string, any> = {
   InStock: {
     type: "string",
     allowNull: true,
-    defaultValue: "T" // true
+    defaultValue: "Inf" // infinite
   },
   ImageSrc: {
     type: "string",

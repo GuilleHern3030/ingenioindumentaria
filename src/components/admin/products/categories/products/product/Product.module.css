@@ -1,0 +1,160 @@
+.recent {
+    color:brown;
+    font-weight: bold;
+}
+
+.product {
+    user-select: none;
+    transition: transform 0.1s;
+    background-color: rgb(214, 214, 214);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    border-top: 1px solid rgba(74, 73, 73, 0.85);
+}
+
+.productdata {
+    display: flex;
+    flex-direction: column;
+}
+
+.images {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1em 0;
+}
+
+.image {
+    height: 6.25em;
+    width: 5em;
+    margin-right: .5em;
+    border-radius: 5px;
+    object-fit: scale-down;
+    border: 1px solid black;
+}
+
+.bigimagecontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background-color: rgba(51, 51, 51, 0.902);
+}
+
+.bigimage {
+    height: 100%
+}
+
+.producteditor {
+    margin: 2em 0em;
+    flex-direction: column;
+    display: block;
+}
+
+.productdataeditable {
+    display: flex;
+    margin: .3em 0;
+    align-items: center;
+}
+
+.inputText {
+    margin-left: .6em;
+    border-radius: 4px;
+    border: 1px solid rgba(175, 175, 175, 0.808);
+    resize: none;
+    padding: .2em;
+}
+
+.tinyInput {
+    width: 3em;
+    margin-bottom: .3em;
+}
+
+.sex {
+    margin-left: 2em;
+}
+
+.sizes {
+    display: grid;
+    grid-template-columns: repeat(4, 5em)
+}
+
+.plus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: rgb(38, 54, 84);
+    border: 1px solid black;
+    height: 1.3em;
+    width: 1.3em;
+    padding: .35em;
+    margin: 0 .5em;
+    align-self: center;
+    text-align: center;
+}
+
+.plus p {
+    color: antiquewhite;
+}
+
+.stocks {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1em;
+}
+
+.stockinput {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.imagedetailedcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2em;
+    justify-content: space-evenly;
+    width: 80%;
+}
+
+.imagesdetailed, .imagesadded {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2em;
+    align-items: flex-start;
+}
+
+.imagedetailed {
+    height: 12.5em;
+    width: 10em;
+    margin-right: 1em;
+    border-radius: 5px;
+    border: 1px solid black;
+    transition: transform 0.1s;
+    object-fit: scale-down;
+}
+
+.imagedetailed:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.button {
+    height: 2em;
+    width: 2em;
+    transition: transform 0.1s;
+
+}
+
+.button:hover {
+    cursor: pointer;
+}

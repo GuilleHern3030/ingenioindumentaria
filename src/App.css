@@ -1,34 +1,35 @@
 #root {
   background-color: rgb(234, 194, 244);
-  --img-size: 45px;
   font-size: 12px; 
+  --img-size: 45px;
+  --header-height: 3.5em
 }
 
 @media only screen and (min-width: 360px) {
   #root { 
-    --img-size: 45px;
     font-size: 14px; 
+    --img-size: 45px;
   }
 }
 
 @media only screen and (min-width: 480px) {
   #root { 
-    --img-size: 45px;
     font-size: 16px; 
+    --img-size: 45px;
   }
 }
 
 @media only screen and (min-width: 768px) {
   #root { 
-    --img-size: 45px;
     font-size: 18px; 
+    --img-size: 45px;
   }
 }
 
 @media only screen and (min-width: 1024px) {
   #root { 
-    --img-size: 45px;
     font-size: 20px; 
+    --img-size: 45px;
   }
 }
 
@@ -45,4 +46,21 @@ span {
 
 a {
   text-decoration: none;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-center-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }

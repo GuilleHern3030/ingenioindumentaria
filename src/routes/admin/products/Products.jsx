@@ -5,15 +5,12 @@ import styles from "./Products.module.css"
 
 import useIndexedDB from "../../../hooks/useIndexedDB"
 
-import { cacheKey, cacheTime } from '../../../api/config.json'
-import { removeLocalToken, removeLocalUser } from "../../../api/localtoken"
-
 import Header from "../../../components/header/Header"
-import Confirmation from "../../../components/admin/confirmation/Confirmation"
+import Dialog from "../../../components/dialog/Dialog"
 import Loading from "../../../components/loading/Loading"
-import Catalog from "../../../components/admin/catalog/Catalog"
 
 import logo from '../../../assets/icons/logo.webp'
+import Catalog from "../../../components/admin/products/Index"
 
 export default function() {
 
@@ -26,7 +23,7 @@ export default function() {
 
         if (confirmed == undefined) {
             setDialog(
-                <Confirmation
+                <Dialog
                     title={"¿Deseas recargar el catálogo?"}
                     onAccept={() => handleReload(true)}
                     onReject={() => handleReload(false)}

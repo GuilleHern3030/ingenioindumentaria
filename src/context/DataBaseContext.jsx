@@ -1,12 +1,18 @@
 import { createContext, useRef, useEffect, useState } from 'react';
-import { dbPull as loadDataBase } from '../hooks/useIndexedDB';
+import { pull as loadDataBase, getIndex } from '../hooks/useIndexedDB';
 import { cacheTime, cacheKey } from '../api/config.json'
+import { useDispatch } from 'react-redux';
+
+import { setIndex } from '../redux/reducers/index/indexSlice'
 
 export const DataBaseContext = createContext();
 
 export function DataBaseContextProvider(props) {
 
     const initialized = useRef(false)
+
+    const dispatch = useDispatch()
+
     const [ isLoading, setIsLoading ] = useState(true)
 
     useEffect(() => {
@@ -16,6 +22,7 @@ export function DataBaseContextProvider(props) {
         if (!isValidCache()) try {
             //setIsLoading(true)
             loadDataBase().then(articles => {
+                dispatch(setIndex(articles.index))
                 console.log("Loaded:\n", articles)
                 createCache()
                 setIsLoading(false)
@@ -25,7 +32,15 @@ export function DataBaseContextProvider(props) {
             setIsLoading(null)
         } else {
             console.warn("Loaded from cache")
-            setIsLoading(false)
+            getIndex().then(index => {
+                console.log(index)
+                dispatch(setIndex(index))
+                setIsLoading(false)
+            })
+            .catch(e => {
+                console.error(err)
+                setIsLoading(null)
+            })
         }
 
     }, [])

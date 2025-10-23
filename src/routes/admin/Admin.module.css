@@ -3,6 +3,7 @@
     grid-template-columns: 100%;
     grid-template-rows: max-content 1fr max-content;
     min-height: 100vh;
+    background-color: rgb(185, 184, 182);
 }
 
 .body > * {
