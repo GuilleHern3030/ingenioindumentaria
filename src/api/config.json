@@ -9,5 +9,5 @@
     "maxMessageSize": 3000,
     "imagesType": ["webp", "png", "jpg", "jpeg"],
     "cacheKey": "cache-timeStamp",
-    "apiUrl": "http://localhost:5431"
+    "apiUrl": "https://backend.ingenioindumentaria.com"
 }
