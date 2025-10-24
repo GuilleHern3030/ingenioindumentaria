@@ -19,7 +19,7 @@ export const putArticles = async(articles:Array<Article>):Promise<any> => new Pr
     } catch(err:any) {
         console.error(err)
         try {
-            const message = err.response.data.message
+            const message = err.response.data.message ? err.response.data.message : err.message
             reject(message)
         } catch (e) { // no message received (server shutdown?)
             const message = err.message

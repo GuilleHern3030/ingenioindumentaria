@@ -22,7 +22,7 @@ export const validateToken = async(token:string) => new Promise(async (resolve, 
     } catch(err:any) {
         console.error(err)
         try {
-            const message = err.response.data.message
+            const message = err.response.data.message ? err.response.data.message : err.message
             reject(message)
         } catch (e) { // no message received (server shutdown?)
             const message = err.message

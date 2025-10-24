@@ -6,6 +6,7 @@
     "localData": "/assets/articles.json",
     "maxImagesSize": 9000000000,
     "maxImageSize": 25000000,
+    "maxMessageSize": 3000,
     "imagesType": ["webp", "png", "jpg", "jpeg"],
     "cacheKey": "cache-timeStamp",
     "apiUrl": "http://localhost:5431"

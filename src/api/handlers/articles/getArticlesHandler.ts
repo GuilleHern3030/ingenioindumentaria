@@ -22,7 +22,7 @@ export const getArticles = async():Promise<Article[]> => new Promise(async(resol
     } catch(err:any) {
         console.error(err)
         try {
-            const message = err.response.data.message
+            const message = err.response.data.message ? err.response.data.message : err.message
             reject(message)
         } catch (e) { // no message received (server shutdown?)
             const message = err.message

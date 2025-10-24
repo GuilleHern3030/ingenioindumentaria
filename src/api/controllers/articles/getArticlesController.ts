@@ -6,10 +6,8 @@ const endpoint = "/articles";
  * @returns Promise with a JSON of articles
  */
 export default async function():Promise<any> {
-  if ((window.location.href).includes("localhost"))
-    return fetch(api.localData).then(res => res.json())
-      .catch(() => fetchGoogleSheetsV4())
-  else return fetchGoogleSheetsV4()
+  return fetch(api.localData).then(res => res.json())
+    .catch(() => fetchGoogleSheetsV4())
 };
 
 const fetchGoogleSheetsV4 = async (): Promise<Record<string, string>[]> => {

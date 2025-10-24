@@ -27,7 +27,7 @@ export const getToken = async(user:string, password:string) => new Promise(async
     } catch(err:any) {
         console.error(err)
         try {
-            const message = err.response.data.message
+            const message = err.response.data.message ? err.response.data.message : err.message
             reject(message)
         } catch (e) { // no message received (server shutdown?)
             const message = err.message

@@ -22,9 +22,10 @@ export default ({hide}) => {
             </ul>
             <hr/>
             <ul className='menu__useful menu__ul'>
-                <li>Dónde estamos</li>
-                <li>Contacto</li>
-                <li>Ayuda</li>
+                <li><Link to='/about' onClick={hide}>Dónde estamos</Link></li>
+                <li><Link to='/contact' onClick={hide}>Contacto</Link></li>
+                <li><Link to='/help' onClick={hide}>Ayuda</Link></li>
+                <li><Link to='/admin' onClick={hide}>Admin</Link></li>
             </ul>
         </div>
     </div>

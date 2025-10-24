@@ -45,7 +45,7 @@ export const postImage = async(img:Record<string, any>, article:Article|undefine
     } catch(err:any) {
         console.error(err)
         try {
-            const message = err.response.data.message
+            const message = err.response.data.message ? err.response.data.message : err.message
             reject(message)
         } catch (e) { // no message received (server shutdown?)
             const message = err.message
