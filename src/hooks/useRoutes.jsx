@@ -15,6 +15,7 @@ import Catalog from '../routes/catalog/Catalog'
 import Admin from '../routes/admin/Admin'
 import Products from '../routes/admin/products/Products'
 import Messages from '../routes/admin/messages/Messages'
+import Article from '../components/article/Article'
 
 export default function useRoutes() {
     return createBrowserRouter([
@@ -27,10 +28,11 @@ export default function useRoutes() {
       path: "",
       element: <Home/>,
       children: [
-        { path: 'recent', element: <Catalog filter='recent'/> },
-        { path: 'promos', element: <Catalog filter='promos'/> },
-        { path: 'recent', element: <Catalog filter='recent'/> },
-        { path: 'recent', element: <Catalog filter='recent'/> },
+        { path: 'product/:id', element: <Article/> },
+        { path: 'recent', element: <Catalog param='recent'/> },
+        { path: 'promos', element: <Catalog param='promos'/> },
+        { path: 'category/:gender/:category', element: <Catalog param='category'/> },
+        { path: 'products/:category', element: <Catalog param='products'/> },
       ]
     },
     {

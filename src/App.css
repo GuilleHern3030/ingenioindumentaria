@@ -38,18 +38,20 @@ p {
   /* color: whitesmoke */
 }
 
-span {
-  /* color: #171C60; */
-  color:rgb(161, 71, 194);
-  font-weight: 600;
-}
-
 a {
   text-decoration: none;
 }
 
+.unselectable {
+  user-select: none;
+}
+
 .cursor {
   cursor: pointer;
+}
+
+.crossed {
+  text-decoration: dashed !important;
 }
 
 .flex-center {

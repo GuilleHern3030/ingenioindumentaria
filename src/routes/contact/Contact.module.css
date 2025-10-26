@@ -35,6 +35,8 @@
 
 .main span {
     font-size: 1.6em;
+    color:rgb(161, 71, 194);
+    font-weight: 600;
 }
 
 .main p {

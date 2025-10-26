@@ -37,3 +37,10 @@
 .menu li:hover {
     cursor: pointer;
 }
+
+.category {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: .85em;
+    padding-left: .9em;
+    margin: .6em .3em !important;
+}

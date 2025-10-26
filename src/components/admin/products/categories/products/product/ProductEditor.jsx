@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import remove from '../../../../../../assets/icons/delete.png'
+import remove from '../../../../../../assets/icons/delete.webp'
 import styles from './Product.module.css'
 
 import Dialog from '../../../../../dialog/Dialog'

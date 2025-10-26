@@ -1,7 +1,7 @@
 import styles from './Dialog.module.css'
 
-import accept from '../../assets/icons/accept.png'
-import cancel from '../../assets/icons/cancel.png'
+import accept from '../../assets/icons/accept.webp'
+import cancel from '../../assets/icons/cancel.webp'
 
 export default function({title, message, onAccept, onReject}) {
     

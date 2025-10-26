@@ -1,15 +1,7 @@
-
-
 .header {
     background-color: #ebe9e9;
     display: flex;
     user-select: none;
-}
-
-.header__logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .logo {

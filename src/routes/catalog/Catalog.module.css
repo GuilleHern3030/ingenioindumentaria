@@ -1,0 +1,15 @@
+.subtitlecontainer {
+    margin: 1em 0;
+    padding-left: 1em;
+    font-family:'Courier New', Courier, monospace;
+
+}
+
+.subtitle {
+    font-size: 2em;
+}
+
+.amount {
+    padding-left: .5em;
+    color: rgb(133, 133, 133);
+}

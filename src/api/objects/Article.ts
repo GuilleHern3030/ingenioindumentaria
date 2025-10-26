@@ -43,13 +43,17 @@ export class Article {
     discount = () => this.#json.Discount.length == 0 ? 0 : Number(this.#json.Discount)
     sizes = () => this.#json.Sizes.split(',')
     sex = () => this.#json.Sex.split(',')
-    recent = () => this.#json.Recent.length > 0
+    recent = () => this.#json.Recent !== 'F'
     inStock = () => this.#json.InStock.split(',').map((stock:string|number) =>
         (!stock || Number(stock) === 0) ? false : (isNaN(Number(stock))) ? true : Number(stock)
     )
         
-        
     date = () => parseDate(this.#json.Date)
+
+    priceText = (symbol:string = "$", thousandSeparator:string = ",", decimalSeparator = ".") => {
+        const price = `${this.price()}`
+        return `${symbol}${price}`
+    }
 
     sexName = () => {
         if (this.#json.Sex == 'M') return "Hombre"

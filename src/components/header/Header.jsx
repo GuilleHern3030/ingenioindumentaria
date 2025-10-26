@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import styles from './Header.module.css'
 
@@ -8,10 +8,21 @@ import shoppingcart from '../../assets/icons/shoppingcart.webp'
 
 import MenuBar from './menu-icon/MenuHamburger'
 import Menu from './menu/Menu'
+import useArticleFilter from '../../hooks/useArticleFilter'
+
+export const goTop = () => window.scrollTo({top:0})
 
 export default () => {
 
     const [ isMenuShowed, setIsMenuShowed ] = useState(false)
+    const { hideFunction, setHideFunction } = useArticleFilter()
+
+    useEffect(() => {
+        setHideFunction(() => () => {
+            goTop()
+            setIsMenuShowed(false)
+    })
+    }, [])
 
     return <>
         <header className={styles.header}>
@@ -35,7 +46,7 @@ export default () => {
                     </div>
                 </div>
             </div>
-            { isMenuShowed === true ? <Menu hide={() => setIsMenuShowed(false)}/> : <></> }
+            { isMenuShowed === true ? <Menu hide={hideFunction}/> : <></> }
         </header>
 
 

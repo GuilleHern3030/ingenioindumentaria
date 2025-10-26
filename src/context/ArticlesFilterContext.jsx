@@ -10,6 +10,9 @@ export function ArticlesFilterContextProvider(props) {
     const [ categoriesToShow, setCategoriesToShow ] = useState()
     const [ gendersToShow, setGendersToShow ] = useState()
 
+    const [ hideFunction, setHideFunction ] = useState()
+
+
     return (<>
         <ArticlesFilterContext.Provider value = {
             { 
@@ -17,6 +20,7 @@ export function ArticlesFilterContextProvider(props) {
                 categorySelected, setCategorySelected,
                 categoriesToShow, setCategoriesToShow,
                 gendersToShow, setGendersToShow,
+                hideFunction, setHideFunction
             }
         }>
             {props.children}

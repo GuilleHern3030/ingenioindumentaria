@@ -18,7 +18,7 @@ export default () => {
         setGendersToShow(genders) 
     }, [])
 
-    if (!gendersToShow) 
+    if (!gendersToShow || !Array.isArray(gendersToShow)) 
         return null
 
     //return gendersToShow && gendersToShow.length == 1 ? <Categories/> : <>

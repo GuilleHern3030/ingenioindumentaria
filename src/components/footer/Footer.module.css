@@ -5,6 +5,7 @@
     background-color: rgb(85, 10, 147);
     align-items: center;
     padding: 1rem 0;
+    user-select: none;
     --logo-size: 20vw;
     --icon-size: 18vw;
 }

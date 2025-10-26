@@ -1,9 +1,40 @@
-.imgcontainer {
-    height: var(--img-size);
-    width: var(--img-size);
+.imagecontainer {
+    display: grid;
+    place-items: center;
+    margin: 2em;
 }
 
-.imgcontainer img {
-    height: var(--img-size);
-    width: var(--img-size);
+.imagecontainer button {
+    background-color: black;
+    color: wheat;
+    border-radius: 8px;
+    padding: .3em .8em;
+}
+
+.image {
+    max-height: 10em;
+}
+
+.strike {
+    color: rgb(133, 133, 133);
+    margin-right: .7em;
+}
+
+.category {
+    padding: .5em;
+    color: rgb(133, 133, 133);
+}
+
+.name {
+    font-size: 1.5em;
+    margin: 1em;
+    font-weight: bold;
+}
+
+.button {
+    background-color: black;
+    color: antiquewhite;
+    padding: .5em .8em;
+    border-radius: 12px;
+    margin: 1em 0;
 }

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState } from "react"
 import Article, { getArticles, genders } from "../api"
 
 const DATA_BASE = "IngenioIndumentaria"
@@ -44,6 +44,16 @@ function obtainGenders(gendercategories) {
         }
     } catch(e) { }
     return gendersObject
+}
+
+// Convierte el nombre de un género en la letra que lo identifica
+function parseGender(genderName) {
+    if (genderName && genderName.length > 1) {
+        for (const gender in genders) {
+            if (genders[gender] === genderName)
+                return gender
+        }
+    } else return genderName
 }
 
 const open = async() => new Promise((resolve, reject) => {
@@ -150,7 +160,7 @@ const put = async(articles) => {
                 add(sexCategories, sex, article.category())
             })
             article.sizes().forEach(size => { add(sizesId, size, id) })
-            if (article.recent()) recentId.add(id)
+            if (article.recent() === true) recentId.add(id)
         })
         return new Promise(resolve => {
             const { transaction, store } = write(IDBrequest, CATEGORIES)
@@ -287,7 +297,7 @@ const selectCategoriesOfGender = async(gender) => open().then(IDBrequest =>
         const { db, store } = read(IDBrequest, CATEGORIES)
         const cursor = store.get('gendercategories')
         cursor.onsuccess = () => {
-            const categories = cursor.result.categories[gender]
+            const categories = cursor.result.value[gender]
             db.close()
             resolve(categories)
         }
@@ -296,7 +306,9 @@ const selectCategoriesOfGender = async(gender) => open().then(IDBrequest =>
 )
 
 const selectArticlesOfCategoryOfGender = async(gender, category) => open().then(IDBrequest =>
-    new Promise(async resolve => {
+    new Promise(async (resolve, reject) => {
+
+        console.log("Getting", gender, category)
 
         try {
         
@@ -306,19 +318,21 @@ const selectArticlesOfCategoryOfGender = async(gender, category) => open().then(
                 if (!category) throw new Error("Category isn't defined")
                 const cursor = store.get('category')
                 cursor.onsuccess = () => { resolve(cursor.result.value[category]) }
+                cursor.onerror = e => { reject(e) }
             })
 
-            const getSexIds = async(gender) => new Promise(resolve => {
-                if (!gender) throw new Error("Gender isn't defined")
-                const cursor = store.get('sex')
-                cursor.onsuccess = () => { resolve(cursor.result.value[gender]) }
-                
+            const getSexIds = async(gender) => new Promise((resolve, reject) => {
+                if (gender) { 
+                    const cursor = store.get('sex')
+                    cursor.onsuccess = () => { resolve(cursor.result.value[gender]) }
+                    cursor.onerror = e => { reject(e) }
+                } else { resolve(null) }
             })
 
             const categoryIds = await getCategoryIds(category)
-            const genderIds = await getSexIds(gender)
+            const genderIds = await getSexIds(parseGender(gender))
 
-            const ids = [...categoryIds].filter(x => genderIds.has(x))
+            const ids = genderIds ? [...categoryIds].filter(x => genderIds.has(x)) : [...categoryIds]
 
             const tx = db.transaction(ARTICLES, "readonly")
             const articles = tx.objectStore(ARTICLES)
@@ -339,7 +353,7 @@ const selectArticlesOfCategoryOfGender = async(gender, category) => open().then(
             });
 
         } catch(e) {
-            console.error(e)
+            reject(e)
         }
     })
 )
@@ -372,6 +386,55 @@ const selectRecent = async() => open().then(IDBrequest =>
             db.close()
             console.error('Error obteniendo objetos:', err)
         });
+    })
+)
+
+const selectDiscounts = async() => open().then(IDBrequest => 
+    new Promise(async resolve => {
+        const articles = []
+
+        const getIds = () => new Promise(resolve => {
+            const { db, store } = read(IDBrequest, CATEGORIES)
+            const cursor = store.get('discount')
+            cursor.onsuccess = () => resolve (cursor.result.value) 
+        })
+
+        const ids = [...await getIds()]
+
+        const { db, store } = read(IDBrequest, ARTICLES)
+        
+        // Convertimos cada key en una promesa
+        const promises = ids.map(key => new Promise((resolve, reject) => {
+            const req = store.get(key)
+            req.onsuccess = () => resolve(new Article(req.result))
+            req.onerror = (e) => reject(e)
+        }))
+
+        // Esperamos a que se obtengan todas
+        Promise.all(promises).then(results => {
+            db.close()
+            resolve(results)
+        }).catch(err => {
+            db.close()
+            console.error('Error obteniendo objetos:', err)
+        });
+    })
+)
+
+const selectById = async(id) => open().then(IDBrequest => 
+    new Promise(async (resolve, reject) => {
+        const { db, store } = read(IDBrequest, ARTICLES)
+        const cursor = store.get(Number(id))
+        cursor.onsuccess = () => {
+            const article = cursor.result;
+            console.log(article)
+            db.close()
+            resolve (new Article(article))
+        }
+        cursor.onerror = e => {
+            console.error(e)
+            reject(e)
+        }
     })
 )
 
@@ -430,7 +493,6 @@ const putCategoryOfGender = async(gender, category) => open().then(IDBrequest =>
 export default function() {
 
     const [ isLoading, setIsLoading ] = useState()
-    const initialized = useRef(false)
 
     const request = async(req, ...params) => new Promise(async (resolve, reject) => {
         if (isLoading !== true) try {
@@ -451,7 +513,9 @@ export default function() {
             size: () => request(size), // obtener el tamaño total de todas las imágenes del catálogo
             pull: (articles) => request(pull, articles), // obtener los articulos desde la base de datos externa y ponerla en el IndexedDB
             selectAll: () => request(selectAll), // devuelve todos los artículos
+            selectById: (id) => request(selectById, id), // devuelve un artículo específico
             selectRecent: () => request(selectRecent), // devuelve los artículos marcados como 'recientes'
+            selectDiscounts: () => request(selectDiscounts), // devuelve los artículos que tienen descuento
             selectGenders: () => request(selectGenders), // devuelve los géneros disponibles en el catálogo
             selectCategoriesOfGender: (gender) => request(selectCategoriesOfGender, gender), // devuelve las categorías pertenecientes a un género en el catálogo
             selectArticlesOfCategoryOfGender: (gender, category) => request(selectArticlesOfCategoryOfGender, gender, category), // devuelve los artículos pertenecientes a una categoría perteneciente a un género en el catálogo

@@ -49,15 +49,10 @@ export default function() {
         { dialog ? dialog : <></> }
         <>
 
-            <Header 
-                pageName={"Administración"}
-                colorOnScroll='#1f1f1fff'
-                logo={logo}
-                mainLink={null}
-                changeBackgroundOnScroll={false}>
+            <header className={styles.header}>
                 <Link to="/admin/products"> Artículos </Link>
                 <Link to="/admin/messages"> Mensajes </Link>
-            </Header>
+            </header>
 
             {/*<header className={styles.header}>
                 <div className={styles.header__logo}>
