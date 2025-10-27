@@ -1,0 +1,82 @@
+.main {
+    list-style: none;
+    user-select: none;
+}
+
+.section {
+    padding: .5em;
+    margin: .5em 0;
+}
+
+.welcomes {
+    margin: .5em;
+}
+
+.welcome {
+    font-size: 1.2em;
+    text-align: center;
+    margin: .2em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.info {
+    font-size: 1.1em;
+    margin-bottom: .4em;
+}
+
+.title {
+    display: grid;
+    place-items: center;
+    margin: 1em 0;
+    font-size: 2em;
+    user-select: none;
+}
+
+.title p {
+    color: blueviolet !important;
+    text-align: center;
+    font-family: cursive;
+    font-style: italic;
+    text-decoration: dashed;
+    font-weight: bold;
+    line-height: 16px;
+}
+
+.most li {
+    font-size: 1.2em;
+    padding: .3em;
+    margin: .2em;
+}
+
+.most a {
+    color: rgb(29, 21, 133)
+}
+
+.button {
+    font-size: 1.1em;
+    padding: .6em 1.7em;
+    border-radius: 24px;
+    background-color: rgba(45, 45, 45, .3);
+    backdrop-filter: blur(10px);
+    border: 1px solid #fff;
+    color: rgb(75, 26, 103);
+    font-weight: bold;
+    transition: border .5s;
+    margin: .5em;
+}
+
+.button:hover, .offer:hover {
+    cursor: pointer;
+    outline: 1px solid rgb(66, 79, 200);
+}
+
+.offer {
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 0px;
+    background-color: #fff;
+    padding: .5em 1.5em;
+    margin: .5em;
+    box-shadow: 6px 4px 3px 0 #000;
+    outline: 1px solid rgb(23, 23, 23);
+}

@@ -1,10 +1,10 @@
 import img from '../../assets/icons/whatsapp-icon2.webp'
 import styles from './FloatingButton.module.css'
-import useData from '../../hooks/useData'
+import useClientInfo from '../../hooks/useClientInfo'
 
 export default function FloatingButton() {
 
-    const data = useData()
+    const { data } = useClientInfo()
 
     const handleFloatingButton = () => {
         /*const params = ticketParams()

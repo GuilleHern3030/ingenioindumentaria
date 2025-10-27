@@ -1,7 +1,7 @@
 import postImage from './postImageHandler.ts'
 import { maxImagesSize, maxImageSize } from '../../config.json'
 import Article from '../../objects/Article.ts'
-import { size as getImagesSize } from '../../../hooks/useIndexedDB.jsx'
+import { size as getImagesSize } from '../../../api/indexedDB.js'
 
 /**
  * Upload some images into DataBase

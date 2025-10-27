@@ -1,5 +1,6 @@
 import request from '../../controllers/authenticate/getTokenController.ts'
-import { setLocalToken, setLocalUser } from '../../localtoken.ts'
+import { setLocalToken, setLocalUser } from '../../../api'
+import handleError from '../errorHandler.ts'
 
 /**
  * Checks if the token is valid
@@ -24,16 +25,7 @@ export const getToken = async(user:string, password:string) => new Promise(async
         console.log(token)
         resolve(token)
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default getToken;

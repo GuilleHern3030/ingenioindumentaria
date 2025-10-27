@@ -32,7 +32,7 @@ export default () => {
                         <MenuBar onClick={e => setIsMenuShowed(e)} deploy={isMenuShowed}/>
                         <p className={styles.hidableText} onClick={() => setIsMenuShowed(!isMenuShowed)}>Menu</p>
                     </div>
-                    <div className={`${styles.search} flex-center cursor`}>
+                    <div className={`${styles.search} flex-center cursor disabled`}>
                         <img src={search}/>
                         <p className={styles.hidableText}>Buscar</p>
                     </div>
@@ -40,7 +40,7 @@ export default () => {
                 <div className={`${styles.logo} flex-center cursor`}>
                     <img src={logo}/>
                 </div>
-                <div className={`flex-center`} style={{justifyContent:'flex-end'}}>
+                <div className={`flex-center disabled`} style={{justifyContent:'flex-end'}}>
                     <div className={`${styles.shoppingcart} cursor`}>
                         <img src={shoppingcart}/>
                     </div>

@@ -9,7 +9,6 @@ export const indexSlice = createSlice({
   initialState, // valor inicial del "estado global"
   reducers: { // funciones/métodos que el "estado global" puede usar
     setIndex: (state, action) => {
-      console.log(action)
       state.index = action.payload
     },
     setSelection: (state, action) => { // params: id, amount

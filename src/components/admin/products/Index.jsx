@@ -47,12 +47,12 @@ export default () => {
         if (initialized.current) return; // evita múltiples ejecuciones
         initialized.current = true;
 
-        database.pull().then(() => {
+        //database.pull().then(() => {
             database.selectGenders()
             .then(genders => {
                 setGendersToShow(genders)
             })
-        })
+        //})
     }, []);
 
     useEffect(() => {
@@ -76,7 +76,7 @@ export default () => {
 
             isCreating === true ? <div className='creating-div center'>
                 <p>Seleccione un género</p>
-                { gendersToShow['Hombre'] == undefined ? <p className='gender-option' onClick={() => createGender('M')}>Hombre</p> : <></> }
+                { gendersToShow['Hombre'] == undefined ? <p className='gender-option create-button' onClick={() => createGender('M')}>Hombre</p> : <></> }
                 { gendersToShow['Mujer'] == undefined ? <p className='gender-option create-button' onClick={() => createGender('F')}>Mujer</p> : <></> }
                 { gendersToShow['Niño'] == undefined ? <p className='gender-option create-button' onClick={() => createGender('B')}>Niño</p> : <></> }
                 { gendersToShow['Niña'] == undefined ? <p className='gender-option create-button' onClick={() => createGender('G')}>Niña</p> : <></> }

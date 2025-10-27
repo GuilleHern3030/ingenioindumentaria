@@ -7,8 +7,9 @@ import useIndexedDB from "../../hooks/useIndexedDB"
 import catalog from "./Catalog.json"
 import styles from "./Catalog.module.css"
 
-import Articles from "../../components/articles/Articles"
-import Loading from "../../components/loading/Loading"
+import Articles from "./articles/Articles"
+import NoArticles from "./articles/NoArticles"
+import Loading from "../loading/Loading"
 
 
 export default ({param}) => {
@@ -33,26 +34,33 @@ export default ({param}) => {
 
     const showArticle = id => navigate(`/product/${id}`)
 
-    useEffect(() => {
-        console.log("Showing:", articles)
-    }, [articles])
+    //useEffect(() => { console.log("Showing:", articles) }, [articles])
 
     useEffect(() => {
         switch(param) {
-            case 'promos': { loadCatalog(database.selectRecent); break; }
+            case 'home': { loadCatalog(database.selectAll); break; }
+            case 'promos': { loadCatalog(database.selectDiscounts); break; }
             case 'recent': { loadCatalog(database.selectRecent); break; }
             default: { loadCatalog(database.selectArticlesOfCategoryOfGender, gender, category) } // categories
         }
     }, [param, category])
 
     return <>
+
     <div className={`${styles.subtitlecontainer} unselectable`}>
         <p className={`${styles.subtitle}`}> {catalog[param] ? catalog[param].title : category} </p>
-        { articles ? <p className={`${styles.amount}`}> {articles.length} productos </p> : <></> }
+        { articles && articles.length > 0 ? <p className={`${styles.amount}`}> {articles.length} productos </p> : <></> }
     </div>
 
     { articles && isLoading === false ? 
-        <Articles articles={articles} onArticleSelect={showArticle}/> :
+        (
+            articles.length > 0 ?
+                <Articles articles={articles} onArticleSelect={showArticle}/> :
+                <NoArticles>
+                    <p>Aún no hay artículos</p>
+                </NoArticles>
+        )
+        :
         <Loading/>
     }
 

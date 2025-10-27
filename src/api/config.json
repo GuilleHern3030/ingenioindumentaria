@@ -1,13 +1,15 @@
 {
+    "loadFromBackend": false,
+    "loadFromLocalStorage": false,
+    "useIndexedDB": true,
+    "cacheTime": 120,
     "googleSheetsApiKey": "AIzaSyD9yEoRR17TihSnABVC-_VcIVT2dcCydUg",
     "googleSheetsId": "1xWQS0qy-6yvwlRjHCWvrU_hviXO1no0UuHcX-DFsTCc",
     "googleSheetsName": "sheet",
-    "cacheTime": 120,
     "localData": "/assets/articles.json",
     "maxImagesSize": 9000000000,
     "maxImageSize": 25000000,
     "maxMessageSize": 3000,
     "imagesType": ["webp", "png", "jpg", "jpeg"],
-    "cacheKey": "cache-timeStamp",
     "apiUrl": "https://backend.ingenioindumentaria.com"
 }

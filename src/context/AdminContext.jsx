@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import { getLocalUser } from "../api/localtoken";
+import { getLocalUser } from "../api";
 
 const USE_CLOUDFLARE_AUTHENTICATION = false
 

@@ -1,0 +1,40 @@
+.info {
+    margin: 1em;
+    font-size: 1.2em;
+}
+
+.messagebox {
+    margin: 1em;
+    padding: .5em;
+    border: 1px solid black;
+    border-radius: 6px;
+    background-color: rgb(184, 191, 197);
+    user-select: none;
+}
+
+.box_title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: .3em;
+}
+
+.box_content {
+    margin-bottom: .7em;
+    padding-left: 1em;
+}
+
+.box_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box_button > img {
+    height: 2em;
+    transition: transform .15s;
+}
+
+.box_button > img:hover {
+    cursor: pointer;
+    /*transform: scale(1.08);*/
+}

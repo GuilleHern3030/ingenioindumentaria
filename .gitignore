@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 # Test
-#articles.json
+articles.json

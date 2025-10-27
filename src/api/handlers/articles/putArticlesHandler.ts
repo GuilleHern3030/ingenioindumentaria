@@ -1,5 +1,6 @@
 import request from '../../controllers/articles/putArticlesController.ts'
 import Article from '../../objects/Article.ts'
+import handleError from '../errorHandler.ts'
 
 export const putArticles = async(articles:Array<Article>):Promise<any> => new Promise(async(resolve, reject) => {
 
@@ -16,16 +17,7 @@ export const putArticles = async(articles:Array<Article>):Promise<any> => new Pr
         return response
 
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default putArticles

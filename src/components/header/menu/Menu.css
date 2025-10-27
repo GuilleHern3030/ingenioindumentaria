@@ -4,6 +4,7 @@
     height: calc(100vh - 3.5em);
     width: 100%;
     background-color: rgba(0, 0, 0, 0.849);
+    z-index: 999;
 }
 
 .menu {

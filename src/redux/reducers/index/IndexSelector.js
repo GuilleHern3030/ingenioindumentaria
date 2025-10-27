@@ -8,10 +8,6 @@ const getValue = (array, key) => {
     }
 }
 
-const getGender = (gender, genders) => {
-
-}
-
 // Obtiene un array de los nombres de los géneros existentes
 export const getGenders = () =>
   createSelector(
@@ -49,5 +45,23 @@ export const getMost = (length=4) =>
         const categoriesName = categoriesList.map(([key, _]) => key)
 
         return categoriesName.splice(0, length)
+    }
+)
+
+export const hasRecent = () => 
+  createSelector(
+    (state) => state.index.index,
+    (index) => {
+        const ids = getValue(index, 'recent')
+        return ids.length > 0
+    }
+)
+
+export const hasPromos = () => 
+  createSelector(
+    (state) => state.index.index,
+    (index) => {
+        const ids = getValue(index, 'promotion')
+        return ids.length > 0
     }
 )

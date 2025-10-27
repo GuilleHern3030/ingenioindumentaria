@@ -1,11 +1,10 @@
 import { createContext, useRef, useEffect, useState } from 'react';
-import { pull as loadDataBase, getIndex } from '../hooks/useIndexedDB';
-import { cacheTime, cacheKey } from '../api/config.json'
+import { loadDataBase, loadIndex, setCache, isValidCache } from '../api';
 import { useDispatch } from 'react-redux';
 
 import { setIndex } from '../redux/reducers/index/indexSlice'
 
-export const DataBaseContext = createContext();
+export const DataBaseContext = createContext()
 
 export function DataBaseContextProvider(props) {
 
@@ -24,7 +23,7 @@ export function DataBaseContextProvider(props) {
             loadDataBase().then(articles => {
                 dispatch(setIndex(articles.index))
                 console.log("Loaded:\n", articles)
-                createCache()
+                setCache()
                 setIsLoading(false)
             })
         } catch(err) {
@@ -32,8 +31,7 @@ export function DataBaseContextProvider(props) {
             setIsLoading(null)
         } else {
             console.warn("Loaded from cache")
-            getIndex().then(index => {
-                console.log(index)
+            loadIndex().then(index => {
                 dispatch(setIndex(index))
                 setIsLoading(false)
             })
@@ -50,19 +48,4 @@ export function DataBaseContextProvider(props) {
             {props.children}
         </DataBaseContext.Provider>
     </>)
-}
-
-const createCache = () => {
-    window.localStorage.setItem(cacheKey, new Date().toISOString())
-}
-
-const isValidCache = () => {
-    const timeStamp = window.localStorage.getItem(cacheKey)
-    if (timeStamp != null)  {
-        const now = new Date();
-        const saved = new Date(timeStamp);
-        const diffMinutes = Math.floor((now - saved) / 60000);
-        return diffMinutes < cacheTime
-    }
-    return false
 }

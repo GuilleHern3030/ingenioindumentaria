@@ -1,6 +1,7 @@
 import request from '../../controllers/articles/getArticlesController.ts'
 import Article from '../../objects/Article.ts'
 import { hasUniqueValues } from '../../models/Article.ts'
+import handleError from '../errorHandler.ts'
 
 export const getArticles = async():Promise<Article[]> => new Promise(async(resolve, reject) => {
 
@@ -19,16 +20,7 @@ export const getArticles = async():Promise<Article[]> => new Promise(async(resol
         resolve(articlesArray)
 
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default getArticles

@@ -3,7 +3,7 @@ import styles from './Footer.module.css'
 
 import { credits, title } from '../../assets/data/data.json'
 
-import useData from "../../hooks/useData"
+import useClientInfo from "../../hooks/useClientInfo"
 
 import logo from "../../assets/icons/logo.webp"
 
@@ -15,7 +15,7 @@ const goTop = () => window.scrollTo({top:0});
 
 export default () => {
 
-    const data = useData()
+    const { data } = useClientInfo()
 
     return data == undefined ? null : <footer className={styles.footer}>
 

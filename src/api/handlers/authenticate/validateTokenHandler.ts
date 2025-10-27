@@ -1,4 +1,5 @@
 import request from '../../controllers/authenticate/validateTokenController.ts'
+import handleError from '../errorHandler.ts'
 
 /**
  * Checks if the token is valid
@@ -19,16 +20,7 @@ export const validateToken = async(token:string) => new Promise(async (resolve, 
         console.log(response)
         resolve(response)
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default validateToken;

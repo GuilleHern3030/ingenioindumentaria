@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./Contact.module.css"
 
 import { sendMessage } from "../../api/messages.ts"
-import useData from "../../hooks/useData";
+import useClientInfo from "../../hooks/useClientInfo";
 
 // Images
 import whatsapp from "../../assets/icons/whatsapp-icon.webp";
@@ -39,7 +39,7 @@ export default () => {
         })
     }
 
-    const data = useData()
+    const { data } = useClientInfo()
     
     return data == undefined ? null : <>
 

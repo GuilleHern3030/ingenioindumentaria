@@ -1,5 +1,6 @@
 import request from '../../controllers/images/deleteImageController.ts'
 import Article from '../../objects/Article.ts'
+import handleError from '../errorHandler.ts'
 
 /**
  * Upload an image to DataBase
@@ -23,16 +24,7 @@ export const deleteImage = async(img:Record<string, any>, article:Article|undefi
         resolve(response)
 
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default deleteImage

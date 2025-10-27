@@ -1,5 +1,5 @@
 import axios from "../axios.ts";
-import { getLocalToken, getLocalUser } from '../../localtoken.ts'
+import { getLocalToken, getLocalUser } from '../../../api'
 
 const endpoint = "/messages";
 

@@ -1,4 +1,6 @@
+import axios from '../axios.ts'
 import api from '../../config.json'
+import { loadFromBackend, loadFromLocalStorage } from '../../config.json'
 const endpoint = "/articles";
 
 /**
@@ -6,11 +8,20 @@ const endpoint = "/articles";
  * @returns Promise with a JSON of articles
  */
 export default async function():Promise<any> {
-  return fetch(api.localData).then(res => res.json())
-    .catch(() => fetchGoogleSheetsV4())
-};
+  return loadFromBackend === true ? getArticles() : 
+    loadFromLocalStorage === true ? 
+      fetch(api.localData).then(res => res.json())
+      .catch(() => fetchGoogleSheetsV4())
+      .catch(() => getArticles()) 
+      : fetchGoogleSheetsV4().catch(() => getArticles())
+}
 
-const fetchGoogleSheetsV4 = async (): Promise<Record<string, string>[]> => {
+export const getArticles = async () => {
+    const { data } = await axios.get(endpoint)
+    return data;
+}
+
+export const fetchGoogleSheetsV4 = async (): Promise<Record<string, string>[]> => {
   const res = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${api.googleSheetsId}/values/${api.googleSheetsName}?key=${api.googleSheetsApiKey}`
   );
@@ -33,4 +44,4 @@ const fetchGoogleSheetsV4 = async (): Promise<Record<string, string>[]> => {
   });
 
   return objectStores;
-};
+}

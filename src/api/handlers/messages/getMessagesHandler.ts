@@ -1,4 +1,5 @@
 import request from '../../controllers/messages/getMessagesController.ts'
+import handleError from '../errorHandler.ts'
 
 /**
  * Download messages from DataBase
@@ -15,16 +16,7 @@ export const getMessages = async():Promise<any> => new Promise(async(resolve, re
         console.log("Mensajes:", messages)
         resolve(messages)
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default getMessages

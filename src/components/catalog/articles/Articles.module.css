@@ -33,3 +33,9 @@
     .articles {
     }
 }
+
+.nocontent {
+    font-size: 1.5em;
+    text-align: center;
+    margin: 1.5em .5em;
+}

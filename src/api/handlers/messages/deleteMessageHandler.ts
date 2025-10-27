@@ -1,26 +1,22 @@
-import request from '../../controllers/messages/deleteMessagesController.ts'
+import request from '../../controllers/messages/deleteMessageController.ts'
+import handleError from '../errorHandler.ts'
 
 /**
- * Delete all messages from DataBase
+ * Delete a message from DataBase
  * @returns Promise with JSON object
  */
-export const deleteMessage = async():Promise<any> => new Promise(async(resolve, reject) => {
+export const deleteMessage = async(id:number):Promise<any> => new Promise(async(resolve, reject) => {
 
     try {
 
-            const result = await request()
+        if (id != undefined && !isNaN(id) && id >= 0) {
+
+            const result = await request(id)
             resolve(result)
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+        } else reject("El mensaje no existe")
+
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default deleteMessage

@@ -1,5 +1,6 @@
 import request from '../../controllers/messages/postMessageController.ts'
 import { maxMessageSize } from '../../config.json'
+import handleError from '../errorHandler.ts'
 
 /**
  * Upload a message to DataBase
@@ -26,16 +27,7 @@ export const postMessage = async(sender:string, message:string, email:string, ph
 
         } else reject("El mensaje no puede estar vacío")
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default postMessage

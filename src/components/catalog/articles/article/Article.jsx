@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import styles from './Article.module.css'
-import loading from '../../../assets/icons/logo.webp'
+import loading from '../../../../assets/icons/logo.webp'
 
 export default function Article({ article, className, onClick }) {
 

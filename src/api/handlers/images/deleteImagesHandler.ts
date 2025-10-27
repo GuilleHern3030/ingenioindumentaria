@@ -1,5 +1,6 @@
 import deleteImage from './deleteImageHandler.ts'
 import Article from '../../objects/Article.ts'
+import handleError from '../errorHandler.ts'
 
 /**
  * Deletes an image from DataBase

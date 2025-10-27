@@ -1,18 +1,18 @@
 import { useParams } from 'react-router-dom'
 
 import styles from './Article.module.css'
-import useIndexedDB from '../../hooks/useIndexedDB'
+import useIndexedDB from '../../../hooks/useIndexedDB'
 import { useEffect, useState } from 'react'
-import Loading from '../loading/Loading'
+import Loading from '../../loading/Loading'
 
-import logo from '../../assets/icons/logo2.webp'
-import useData from '../../hooks/useData'
+import logo from '../../../assets/icons/logo2.webp'
+import useClientInfo from '../../../hooks/useClientInfo'
 
 export default function Article()  {
 
         const { id } = useParams()
         const { isLoading, database } = useIndexedDB()
-        const data = useData()
+        const { data } = useClientInfo()
 
         const [ article, setArticle ] = useState()
         const [ iImage, setIImage ] = useState(0)
@@ -60,9 +60,13 @@ export default function Article()  {
                         }
                     </p>
                     
-                    <button className={styles.button} onClick={handleAddToCart}>Agregar al carrito</button>
+                    {
+                     //   <button className={styles.button} onClick={handleAddToCart}>Agregar al carrito</button>
+                    }
                     
-                    <button className={styles.button} onClick={handleContact}>Consultar</button>
+                    {
+                        <button className={styles.white_button} onClick={handleContact}>Consultar</button>
+                    }
 
                 </div>
 

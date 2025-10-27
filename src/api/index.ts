@@ -1,61 +1,45 @@
-import Article from "./objects/Article.ts"
-import gendersJson from "./models/genders.json"
+import { useIndexedDB, cacheTime } from './config.json'
+import backend from './backend.js'
+import indexedDB from './indexedDB'
+export default (forceIndexedDB?:boolean) => (useIndexedDB == true || forceIndexedDB && forceIndexedDB === true) ? indexedDB : backend
 
-import { get } from "./articles"
-export const getArticles = () => get()
+export { default as indexedDB } from './indexedDB.js'
+export { default as backendDB } from './backend.js'
 
-import { post as postArticle, put as putArticle, delete as removeArticle } from './articles.ts'
-import { deleteAll as deleteImages, uploadAll as uploadImages } from './images.ts'
-
-export const deleteArticle = async(article:Article) => {
-
-    console.log("Removing: ", article)
-
-    console.log("Removing images ", article.images())
-    const results = await deleteImages(article.images(), article)
-    console.log("Remove images result: ", results)
-
-    console.log("Removing article ", article.name())
-    const result = removeArticle(article)
-    console.log("Remove result: ", result)
-
+import { pull, getIndex } from './indexedDB.js'
+export const loadDataBase = async() => {
+    if (useIndexedDB) 
+        return pull()
 }
 
-export const editArticle = async(article:Article, addedImages=[], removedImages=[]) => {
-
-    //console.log("Editing: ", article)
-
-    if (addedImages.length > 0) {
-        //console.log("Uploading ", addedImages)
-        const results = await uploadImages(addedImages, article)
-        //console.log("Upload images result: ", results)
-    }
-
-    if (removedImages.length > 0) {
-        //console.log("Removing ", removedImages)
-        const results = await deleteImages(removedImages, article)
-        //console.log("Remove images result: ", results)
-    }
-
-    //console.log("Editing article ", article)
-    const result = await putArticle(article)
-    //console.log("Edition result: ", result)
+export const loadIndex = async() => {
+    if (useIndexedDB) 
+        return getIndex()
 }
 
-export const createArticle = async(article:Article, addedImages=[]) => {
+const KEY = 'tmp-token'
+const USER = 'tmp-user'
+const CACHE = 'cache-timeStamp'
 
-    console.log("Creating: ", article)
+export const getLocalToken = () => sessionStorage.getItem(KEY)
+export const setLocalToken = (token:string) => sessionStorage.setItem(KEY, token != undefined ? token : "")
+export const removeLocalToken = () => sessionStorage.removeItem(KEY)
 
-    console.log("Uploading ", addedImages)
-    const results = await uploadImages(addedImages, article)
-    console.log("Upload images result: ", results)
+export const getLocalUser = () => sessionStorage.getItem(USER)
+export const setLocalUser = (user:string) => sessionStorage.setItem(USER, user != undefined ? user : "")
+export const removeLocalUser = () => sessionStorage.removeItem(USER)
 
-    console.log("Creating article ", article.name())
-    const result = await postArticle(article)
-    console.log("Creation result: ", result)
+export const isSignedIn = () =>
+    sessionStorage.getItem(KEY) != null || sessionStorage.getItem(USER) != null
 
+export const setCache = () => window.localStorage.setItem(CACHE, new Date().toISOString())
+export const isValidCache = () => {
+    const timeStamp = window.localStorage.getItem(CACHE)
+    if (timeStamp != null && !isSignedIn() && useIndexedDB == true) try {
+        const now:any = new Date()
+        const saved:any = new Date(timeStamp)
+        const diffMinutes = Math.floor((now - saved) / 60000);
+        return diffMinutes < cacheTime
+    } catch (e) { }
+    return false
 }
-
-export const genders = gendersJson
-
-export default Article

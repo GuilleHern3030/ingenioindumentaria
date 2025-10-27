@@ -1,4 +1,7 @@
 import postMessageHandler from './handlers/messages/postMessageHandler.ts'
+export { default as getMessages } from './handlers/messages/getMessagesHandler.ts'
+export { default as deleteMessage } from './handlers/messages/deleteMessageHandler.ts'
+export { default as deleteMessages } from './handlers/messages/deleteMessagesHandler.ts'
 
 export const sendMessage = async(formEvent:any) => new Promise(async(resolve, reject) => {
     const sender = formEvent.target[0].value;

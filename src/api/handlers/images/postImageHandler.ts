@@ -1,6 +1,7 @@
 import request from '../../controllers/images/postImageController.ts'
 import { maxImageSize, imagesType } from '../../config.json'
 import Article from '../../objects/Article.ts'
+import handleError from '../errorHandler.ts'
 
 /**
  * Upload an image to DataBase
@@ -42,16 +43,7 @@ export const postImage = async(img:Record<string, any>, article:Article|undefine
 
         } else reject(`La imagen supera el límite máximo de ${maxImageSize/1000} KB`)
 
-    } catch(err:any) {
-        console.error(err)
-        try {
-            const message = err.response.data.message ? err.response.data.message : err.message
-            reject(message)
-        } catch (e) { // no message received (server shutdown?)
-            const message = err.message
-            reject(message)
-        }
-    }
+    } catch(err:any) { reject(handleError(err)) }
 })
 
 export default postImage

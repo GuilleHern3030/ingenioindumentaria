@@ -9,13 +9,14 @@ import { AdminContextProvider } from '../context/AdminContext'
 import Home from '../routes/home/Home'
 import Contact from '../routes/contact/Contact'
 import About from '../routes/about/About'
-import Catalog from '../routes/catalog/Catalog'
+import Catalog from '../components/catalog/Catalog'
+import Introduction from '../components/introduction/Introduction'
 
 // Admin routes
 import Admin from '../routes/admin/Admin'
 import Products from '../routes/admin/products/Products'
 import Messages from '../routes/admin/messages/Messages'
-import Article from '../components/article/Article'
+import Article from '../components/catalog/article/Article'
 
 export default function useRoutes() {
     return createBrowserRouter([
@@ -28,6 +29,7 @@ export default function useRoutes() {
       path: "",
       element: <Home/>,
       children: [
+        { index: true, element: <Introduction/> },
         { path: 'product/:id', element: <Article/> },
         { path: 'recent', element: <Catalog param='recent'/> },
         { path: 'promos', element: <Catalog param='promos'/> },

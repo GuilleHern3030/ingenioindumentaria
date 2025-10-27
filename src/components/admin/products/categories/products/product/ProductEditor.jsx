@@ -5,7 +5,10 @@ import styles from './Product.module.css'
 import Dialog from '../../../../../dialog/Dialog'
 import Loading from '../../../../../loading/FullLoading'
 
-import Article, { createArticle, editArticle, deleteArticle, genders } from '../../../../../../api'
+import Article, { createArticle, editArticle, deleteArticle } from '../../../../../../api/articles.ts'
+
+import useIndexedDB from '../../../../../../hooks/useIndexedDB.jsx'
+import useArticleFilter from '../../../../../../hooks/useArticleFilter.jsx'
 
 const indexOf = (images, src) => {
     for (let index = 0; index < images.length; index++) {
@@ -15,7 +18,10 @@ const indexOf = (images, src) => {
     }
 }
 
-export default ({article, id, gender, category}) => {
+export default ({ article, id, gender, category }) => {
+
+    const { setGenderSelected, setCategorySelected } = useArticleFilter()
+    const { database } = useIndexedDB()
 
     const [ name, setName ] = useState(article ? article.name() : "")
     const [ description, setDescription ] = useState(article ? article.description() : "")
@@ -136,11 +142,15 @@ export default ({article, id, gender, category}) => {
         } else setDialog(undefined)
 
         deleteArticle(article)
-        .then(() => {
+        .then(article => database.pull())
+        .then(article => {
             alert("Archivo borrado")
+            setCategorySelected(undefined)
+            setGenderSelected(undefined)
             setIsSaving(undefined)
         })
         .catch(e => { 
+            setWarning(e)
             console.error(e) 
             setIsSaving(undefined)
         })
@@ -149,74 +159,98 @@ export default ({article, id, gender, category}) => {
     
     const handleSave = (confirmed) => {
 
-        if (!confirmed) {
-            setDialog(<Dialog
-                title={"¿Deseas guardar el artículo?"}
-                onAccept={() => handleSave(true)}
-                onReject={() => setDialog(undefined)}
-            />)
-            return;
-        } else setDialog(undefined)
+        try {
+            
+            if (!confirmed) {
+                setWarning()
+                if (name.length > 0) {
+                    if (price == 0) {
+                        setDialog(<Dialog title={"¿Deseas guardar el artículo?"} onAccept={() => handleSave(true)} onReject={() => setDialog(undefined)} />)
+                    } else setWarning("El precio no puede ser cero")
+                } else setWarning("El nombre no puede estar vacío")
+                return;
+            } else setDialog(undefined)
 
-        const getDate = () => { // "YYYY-MM-DDThh:mm:ss.mmmZ"
-            return `${year}-${month.length == 0 ? "01" : month.length == 1 ? `0${month}` : month}-${day.length == 0 ? "01" : day.length == 1 ? `0${day}` : day}T00:00:00.000Z`
+            const getDate = () => { // "YYYY-MM-DDThh:mm:ss.mmmZ"
+                return `${year}-${month.length == 0 ? "01" : month.length == 1 ? `0${month}` : month}-${day.length == 0 ? "01" : day.length == 1 ? `0${day}` : day}T00:00:00.000Z`
+            }
+
+            const sizesToDiscard = []
+            sizes.forEach((size, index) => {
+                if (size.length === 0)
+                    sizesToDiscard.push(index)
+            })
+
+            setSizes(sizes => sizes.filter((_, index) => sizesToDiscard.includes(index) === false))
+            setInStock(inStock => inStock.filter((_, index) => sizesToDiscard.includes(index) === false))
+
+            const articleEdited = new Article({
+                ID: parseInt(id, 10),
+                Name: name,
+                Category: category,
+                Description: description,
+                Price: price,
+                Discount: discount,
+                Sizes: sizes.join(","),
+                Sex: sex.join(","),
+                Recent: isRecent === true ? 'T' : '',
+                InStock: inStock.join(","),
+                ImageSrc: article ? article.stringifyImages() : "",
+                Date: getDate()
+            })
+
+            console.log(articleEdited)
+
+            setIsSaving(<Loading/>)
+
+            if (!article)
+                createArticleRequest(articleEdited, addedImages)
+            else 
+                editArticleRequest(articleEdited, addedImages, removedImages)
+                
+        } catch(e) {
+            console.log(e) 
+            setWarning("Debes completar todos los campos")
         }
+    }
 
-        const sizesToDiscard = []
-        sizes.forEach((size, index) => {
-            if (size.length === 0)
-                sizesToDiscard.push(index)
+    const createArticleRequest = (newArticle, addedImages) => {
+        createArticle(newArticle, addedImages)
+        .then(article => database.pull())
+        .then(() => {
+            alert("Archivo guardado")
+            setCategorySelected(undefined)
+            setGenderSelected(undefined)
+            setIsSaving(undefined)
         })
-
-        setSizes(sizes => sizes.filter((_, index) => sizesToDiscard.includes(index) === false))
-        setInStock(inStock => inStock.filter((_, index) => sizesToDiscard.includes(index) === false))
-
-        const articleEdited = new Article({
-            ID: id,
-            Name: name,
-            Category: category,
-            Description: description,
-            Price: price,
-            Discount: discount,
-            Sizes: sizes.join(","),
-            Sex: sex.join(","),
-            Recent: isRecent === true ? 'T' : '',
-            InStock: inStock.join(","),
-            ImageSrc: article ? article.stringifyImages() : "",
-            Date: getDate()
+        .catch(e => { 
+            setWarning(e)
+            console.error(e)
+            setIsSaving(undefined) 
         })
+    }
 
-        console.log(articleEdited)
-
-        setIsSaving(<Loading/>)
-
-        if (!article)
-            createArticle(articleEdited, addedImages)
-            .then(() => {
-                alert("Archivo guardado")
-                setIsSaving(undefined)
-            })
-            .catch(e => { 
-                console.error(e)
-                setIsSaving(undefined) 
-            })
-        else 
-            editArticle(articleEdited, addedImages, removedImages)
-            .then(() => {
-                alert("Archivo guardado")
-                setIsSaving(undefined)
-            })
-            .catch(e => { 
-                console.error(e) 
-                setIsSaving(undefined) 
-            })
+    const editArticleRequest = (articleEdited, addedImages, removedImages) => {
+        editArticle(articleEdited, addedImages, removedImages)
+        .then(article => database.pull())
+        .then(article => {
+            alert("Archivo guardado")
+            setIsSaving(undefined)
+            setCategorySelected(undefined)
+            setGenderSelected(undefined)
+        })
+        .catch(e => { 
+            setWarning(e)
+            console.error(e) 
+            setIsSaving(undefined) 
+        })
     }
 
     try {
 
         const images = article ? article.images() : []
 
-        return <div id={article.id()} className={`${styles.product} ${styles.producteditor}`}>
+        return <div id={id} className={`${styles.product} ${styles.producteditor}`}>
 
             { dialog ? dialog : <></> }
             { isSaving ? isSaving : <></> }
