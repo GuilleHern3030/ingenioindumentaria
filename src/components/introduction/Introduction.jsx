@@ -15,7 +15,19 @@ export default () => {
     const promos = useSelector(hasPromos())
     const most = useSelector(getMost())
 
-    return <main className={styles.main}>
+    console.log(most)
+
+    return most && most.length == 0 ? <div className={`${styles.nocontent} flex-center-column unselectable`}>
+            <p>¡Gracias por visitarnos!</p>
+            <br/>
+            <p>De momento no tenemos productos para mostrar</p>
+            <br/>
+            <p>Pero pronto actualizaremos nuestro catálogo</p>
+            <br/>
+            <p>Por favor, vuelva más tarde</p>
+        </div>
+    :
+    <main className={styles.main}>
         <section className={styles.title}>
             <p>{title}</p>
         </section>

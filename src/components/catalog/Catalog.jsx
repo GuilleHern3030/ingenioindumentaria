@@ -8,7 +8,6 @@ import catalog from "./Catalog.json"
 import styles from "./Catalog.module.css"
 
 import Articles from "./articles/Articles"
-import NoArticles from "./articles/NoArticles"
 import Loading from "../loading/Loading"
 
 

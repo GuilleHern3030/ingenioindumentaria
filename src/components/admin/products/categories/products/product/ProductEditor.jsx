@@ -164,7 +164,7 @@ export default ({ article, id, gender, category }) => {
             if (!confirmed) {
                 setWarning()
                 if (name.length > 0) {
-                    if (price == 0) {
+                    if (Number(price) > 0) {
                         setDialog(<Dialog title={"¿Deseas guardar el artículo?"} onAccept={() => handleSave(true)} onReject={() => setDialog(undefined)} />)
                     } else setWarning("El precio no puede ser cero")
                 } else setWarning("El nombre no puede estar vacío")
