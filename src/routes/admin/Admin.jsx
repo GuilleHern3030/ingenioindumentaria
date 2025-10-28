@@ -1,23 +1,21 @@
 import { useContext, useEffect, useState } from 'react'
-//import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { AdminContext } from '../../context/AdminContext'
 import logo from '../../assets/icons/logo.webp'
+import back from '../../assets/icons/leftarrow_black.webp'
 
 import styles from './Admin.module.css'
 
 import { removeLocalToken, removeLocalUser } from '../../api'
 
 import Login from './login/Login.jsx'
-import Messages from './messages/Messages.jsx'
-import Products from './products/Products.jsx'
 
 export default function() {
 
-    //const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const { isLogged } = useContext(AdminContext)
     const [ isLoggedIn, setIsLoggedIn ] = useState(isLogged())
-    const [ panel, setPanel ] = useState()
 
     const handleLogIn = (logIn) => {
         setIsLoggedIn(logIn)
@@ -32,22 +30,16 @@ export default function() {
     return <> { isLoggedIn === false ? 
         <Login logIn={handleLogIn}/>
         : isLoggedIn && (
-            !panel ?
-            <div className={styles.list}>
-                <button className={styles.button} onClick={() => setPanel(<Products/>)}>Articulos</button>
-                <button className={styles.button} onClick={() => setPanel(<Messages/>)}>Mensajes</button>
-            </div>
-            : 
             <div className={styles.panel}>
                 <header className={styles.panelHeader}>
-                    <img src={logo} />
+                    <img className={`${styles.back} cursor`} onClick={() => navigate("/admin")} src={back}/>
+                    <div className='flex-center cursor'>
+                        <img src={logo} onClick={() => navigate("/")}/>
+                    </div>
                 </header>
                 <main className={styles.panelContent}>
-                    {panel}
+                    <Outlet/>
                 </main>
-                <footer className={styles.panelFooter}>
-                    <button className={styles.button}  onClick={() => setPanel(undefined)}>Volver al inicio</button>
-                </footer>
             </div>
         )
     } </>

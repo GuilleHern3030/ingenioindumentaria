@@ -43,3 +43,7 @@ export const isValidCache = () => {
     } catch (e) { }
     return false
 }
+
+export const reload = () => {
+    window.location.href = window.location.href.split('?')[0] + '?t=' + new Date().getTime();
+}

@@ -13,3 +13,12 @@
     padding-left: .5em;
     color: rgb(133, 133, 133);
 }
+
+.empty {
+    display: block;
+    text-align: center;
+    user-select: none;
+    font-size: 1.2em;
+    margin-top: 3em;
+    margin-bottom: 8em;
+}

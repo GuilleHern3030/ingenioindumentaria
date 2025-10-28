@@ -20,8 +20,11 @@ export default () => {
             database.putCategoryOfGender(genderSelected, categoryName)
             .then(() => database.selectCategoriesOfGender(genderSelected))
             .then(categories => {
-                if (categories)
+                if (categories) {
+                    setIsCreating(false)
                     setCategoriesToShow([...categories])
+                    setCategorySelected(categoryName)
+                }
             })
         } else setWarning("La categoría no puede estar vacía")
     }

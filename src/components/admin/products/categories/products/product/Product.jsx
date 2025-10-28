@@ -25,7 +25,7 @@ export default ({article, onEditRequest}) => {
                 <p>Descripcion: {article.description()}</p>
                 <p>Descuento: {article.discount()}%</p>
                 { article.discount() > 0 ? 
-                    <p>Precio: <strike>${article.price()}</strike> <i>${article.price() * article.discount() / 100}</i></p> :
+                    <p>Precio: <strike>${article.price()}</strike> <i>${article.price() - article.price() * article.discount() / 100}</i></p> :
                     <p>Precio: ${article.price()}</p>
                 }
                 <p>Sexo: {article.sexName()}</p>

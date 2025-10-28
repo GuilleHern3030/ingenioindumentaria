@@ -6,6 +6,7 @@ import Dialog from '../../../../../dialog/Dialog'
 import Loading from '../../../../../loading/FullLoading'
 
 import Article, { createArticle, editArticle, deleteArticle } from '../../../../../../api/articles.ts'
+import { reload } from '../../../../../../api'
 
 import useIndexedDB from '../../../../../../hooks/useIndexedDB.jsx'
 import useArticleFilter from '../../../../../../hooks/useArticleFilter.jsx'
@@ -130,32 +131,6 @@ export default ({ article, id, gender, category }) => {
             return newImages
         })
     }
-
-    const handleDelete = confirmed => {
-        if (!confirmed) {
-            setDialog(<Dialog
-                title={"¿Deseas borrar el artículo?"}
-                onAccept={() => handleDelete(true)}
-                onReject={() => setDialog(undefined)}
-            />)
-            return;
-        } else setDialog(undefined)
-
-        deleteArticle(article)
-        .then(article => database.pull())
-        .then(article => {
-            alert("Archivo borrado")
-            setCategorySelected(undefined)
-            setGenderSelected(undefined)
-            setIsSaving(undefined)
-        })
-        .catch(e => { 
-            setWarning(e)
-            console.error(e) 
-            setIsSaving(undefined)
-        })
-
-    }
     
     const handleSave = (confirmed) => {
 
@@ -214,11 +189,39 @@ export default ({ article, id, gender, category }) => {
         }
     }
 
+    const handleDelete = confirmed => {
+        if (!confirmed) {
+            setDialog(<Dialog
+                title={"¿Deseas borrar el artículo?"}
+                onAccept={() => handleDelete(true)}
+                onReject={() => setDialog(undefined)}
+            />)
+            return;
+        } else setDialog(undefined)
+
+        deleteArticle(article)
+        .then(article => database.pull())
+        .then(article => {
+            alert("Archivo borrado")
+            reload()
+            setCategorySelected(undefined)
+            setGenderSelected(undefined)
+            setIsSaving(undefined)
+        })
+        .catch(e => { 
+            setWarning(e)
+            console.error(e) 
+            setIsSaving(undefined)
+        })
+
+    }
+
     const createArticleRequest = (newArticle, addedImages) => {
         createArticle(newArticle, addedImages)
         .then(article => database.pull())
         .then(() => {
             alert("Archivo guardado")
+            reload()
             setCategorySelected(undefined)
             setGenderSelected(undefined)
             setIsSaving(undefined)
@@ -235,6 +238,7 @@ export default ({ article, id, gender, category }) => {
         .then(article => database.pull())
         .then(article => {
             alert("Archivo guardado")
+            reload()
             setIsSaving(undefined)
             setCategorySelected(undefined)
             setGenderSelected(undefined)

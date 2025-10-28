@@ -23,11 +23,14 @@ export default ({param}) => {
             const articles = await articlesPromise(...params)
             if (articles.length > 0)
                 setArticles(articles)
-            else throw new Error("No hay artículos en esa categoría")
+            else throw new Error(`No hay artículos en esta categoría (${param}): ${params ? params.join() : ""}`)
         } catch(e) {
             console.warn(e)
-            database.selectAll()
+            //navigate("/empty")
+            setArticles([])
+            /*database.selectAll()
             .then(articles => setArticles(articles))
+            */
         }
     }
 
@@ -54,10 +57,9 @@ export default ({param}) => {
     { articles && isLoading === false ? 
         (
             articles.length > 0 ?
-                <Articles articles={articles} onArticleSelect={showArticle}/> :
-                <NoArticles>
-                    <p>Aún no hay artículos</p>
-                </NoArticles>
+                <Articles articles={articles} onArticleSelect={showArticle}/>
+                :
+                <p className={styles.empty}>Aún no hay nada por acá</p>
         )
         :
         <Loading/>

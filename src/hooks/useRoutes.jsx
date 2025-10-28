@@ -17,6 +17,10 @@ import Admin from '../routes/admin/Admin'
 import Products from '../routes/admin/products/Products'
 import Messages from '../routes/admin/messages/Messages'
 import Article from '../components/catalog/article/Article'
+import AdminIndex from '../components/admin/Admin'
+import Help from '../routes/help/Help'
+import Politics from '../routes/politics/Politics'
+import Terms from '../routes/terms/Terms'
 
 export default function useRoutes() {
     return createBrowserRouter([
@@ -46,9 +50,22 @@ export default function useRoutes() {
       element: <Contact/>
     },
     {
+      path: "/politics",
+      element: <Politics/>
+    },
+    {
+      path: "/terms",
+      element: <Terms/>
+    },
+    {
+      path: "/help",
+      element: <Help/>
+    },
+    {
       path: "/admin",
       element: <AdminContextProvider><Admin/></AdminContextProvider>,
       children: [
+        { index: true, element: <AdminIndex/> },
         {
           path: 'products',
           element: <Products/>

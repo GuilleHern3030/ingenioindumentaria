@@ -39,7 +39,7 @@ export default () => {
         </div>
 
         <div className={styles.privacy}>
-            <Link to="/privacy" onClick={()=>goTop()}>Aviso legal</Link>
+            <Link to="/politics" onClick={()=>goTop()}>Aviso legal</Link>
             <a target="_BLANK" href={credits}>Webpage created by GuilleNH</a>
         </div>
 

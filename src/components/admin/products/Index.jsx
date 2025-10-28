@@ -39,7 +39,7 @@ export default () => {
         .then(() => database.selectGenders()
         .then(genders => {
                 setGendersToShow(genders)
-                console.log("Genders: ", genders)
+                setGenderSelected(gender)
         })
     )}
     
