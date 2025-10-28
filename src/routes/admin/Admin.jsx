@@ -6,9 +6,13 @@ import back from '../../assets/icons/leftarrow_black.webp'
 
 import styles from './Admin.module.css'
 
-import { removeLocalToken, removeLocalUser } from '../../api'
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+import { removeLocalToken, removeLocalUser, setLocalToken, setLocalUser } from '../../api'
 
 import Login from './login/Login.jsx'
+
+const CLIENT_ID  = "164682043545-n2p5pgj7u4rf53iiajr8tu37t8jqkh0j.apps.googleusercontent.com"
 
 export default function() {
 
@@ -17,8 +21,14 @@ export default function() {
     const { isLogged } = useContext(AdminContext)
     const [ isLoggedIn, setIsLoggedIn ] = useState(isLogged())
 
-    const handleLogIn = (logIn) => {
-        setIsLoggedIn(logIn)
+    const handleLoginSuccess = (token, user) => {
+        setIsLoggedIn(true)
+        setLocalToken(token)
+        setLocalUser(user)
+    }
+
+    const handleLoginError = () => {
+        window.open(window.location.origin, "_self")
     }
 
     useEffect(() => {
@@ -27,8 +37,9 @@ export default function() {
     }, [])
 
 
-    return <> { isLoggedIn === false ? 
-        <Login logIn={handleLogIn}/>
+    return <GoogleOAuthProvider clientId={CLIENT_ID}> { isLoggedIn === false ? 
+        <Login onSuccess={handleLoginSuccess} onError={handleLoginError}/>
+        //<GoogleLogin onSuccess={handleLoginSuccess} onError={handleLoginError} />
         : isLoggedIn && (
             <div className={styles.panel}>
                 <header className={styles.panelHeader}>
@@ -42,7 +53,7 @@ export default function() {
                 </main>
             </div>
         )
-    } </>
+    } </GoogleOAuthProvider>
 
     /*
     return <> { isLoggedIn === false ? 

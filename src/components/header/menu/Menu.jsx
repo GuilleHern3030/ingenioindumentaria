@@ -36,7 +36,7 @@ export default () => {
             <ul className='menu__useful menu__ul'>
                 <li><Link to='/about' onClick={hideFunction}>Dónde estamos</Link></li>
                 <li><Link to='/contact' onClick={hideFunction}>Contacto</Link></li>
-                <li><Link to='/help' onClick={hideFunction}>Ayuda</Link></li>
+                {/*<li><Link to='/help' onClick={hideFunction}>Ayuda</Link></li>*/}
             </ul>
         </div>
     </div>
