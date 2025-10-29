@@ -3,52 +3,22 @@
     flex-direction: column;
     align-items: center;
     align-content: center;
-    justify-content: space-evenly;
     min-height: 100%;
+    padding-bottom: 1em;
 }
 
 .button {
-    padding: .5em .7em;
-    border-radius: 6px;
-    background-color: rgb(24, 23, 23);
-    color: beige;
-    outline: 1px solid blue;
-    transition: transform .15s;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 0px;
+    background-color: #fff;
+    padding: .5em 1.5em;
+    margin-top: 2em;
+    box-shadow: 6px 4px 3px 0 #000;
+    outline: 1px solid rgb(23, 23, 23);
 }
 
 .button:hover {
-    outline: 1px solid rgb(108, 108, 208);
     cursor: pointer;
-    transform: scale(1.08);
-}
-
-.panel {
-    display: grid;
-    grid-template-rows: max-content 1fr min-content;
-    min-height: 100vh;
-}
-
-.panelHeader {
-    display: flex;
-    padding: .3em 0;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(227, 220, 220);
-}
-
-.panelHeader img {
-    height: 3em;
-}
-
-.panelContent {
-    background-color: rgb(197, 188, 188);
-    height: 100%;
-}
-
-.panelFooter {
-    display: flex;
-    padding: 1em 0;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(227, 220, 220);
+    outline: 1px solid rgb(66, 79, 200);
 }

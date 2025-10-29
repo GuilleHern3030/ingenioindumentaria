@@ -1,5 +1,6 @@
 .main {
     margin: 0 1rem;
+    user-select: none;
 }
 
 .top {

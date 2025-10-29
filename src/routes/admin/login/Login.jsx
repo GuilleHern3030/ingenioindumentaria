@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import styles from './Login.module.css'
 
 import logo from '../../../assets/icons/logo.webp'
+import key from '../../../assets/icons/key.webp'
 
 import { get as getToken, validateGoogleToken } from '../../../api/authenticate.ts'
 
@@ -11,6 +12,7 @@ import { GoogleLogin } from "@react-oauth/google";
 
 export default function({onSuccess, onError}) {
 
+    const [ isFormShowed, setIsFormShowed ] = useState(false)
     const [ isLoading, setIsLoading ] = useState(false)
     const [ tries, setTries ] = useState(0)
     const [ warning, setWarning ] = useState("")
@@ -64,13 +66,23 @@ export default function({onSuccess, onError}) {
                 <img className={styles.logo} src={logo}/>
             </div>
             <fieldset className={styles.fieldset}>
-                <p>Nombre de usuario</p>
-                <input ref={userName} className={styles.input} id="username" />
-                <p>Contraseña</p>
-                <input ref={userPassword} className={styles.input} type='password' id="password" />
-                { isLoading === false ? <button id="submit" className={styles.submit}>Ingresar</button> : <Loading/> }
-                { warning ? <p className={styles.warning}>{warning}</p> : null }
+                { isFormShowed === true ? 
+                    <>
+                        <p>Nombre de usuario</p>
+                        <input ref={userName} className={styles.input} id="username" />
+                        <p>Contraseña</p>
+                        <input ref={userPassword} className={styles.input} type='password' id="password" />
+                        { isLoading === false ? <button id="submit" className={styles.submit}>Ingresar</button> : <Loading/> }
+                        <p className={styles.o}>o</p>
+                    </>
+                    :
+                    <div className={styles.credentials} onClick={() => setIsFormShowed(true)}>
+                        <img className={styles.key} src={key}/>
+                        <p className={styles.keytext}>Acceder con Contraseña</p>
+                    </div>
+                }
                 <GoogleLogin className={styles.google} onSuccess={handleGoogleSession} onError={onError}/>
+                { warning ? <p className={styles.warning}>{warning}</p> : null }
             </fieldset>
         </form>
     </main>

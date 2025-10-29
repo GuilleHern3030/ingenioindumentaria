@@ -3,14 +3,14 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import { AdminContext } from '../../context/AdminContext'
 import logo from '../../assets/icons/logo.webp'
 import back from '../../assets/icons/leftarrow_black.webp'
+import exit from '../../assets/icons/session-out.webp'
 
 import styles from './Admin.module.css'
 
-import { GoogleOAuthProvider } from "@react-oauth/google";
-
-import { removeLocalToken, removeLocalUser, setLocalToken, setLocalUser } from '../../api'
-
+import { setLocalToken, setAdminUser, setWasAdminSignedIn, setAdminSignedIn, removeAdminUser, reload, removeLocalToken } from '../../api'
 import Login from './login/Login.jsx'
+
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const CLIENT_ID  = "164682043545-n2p5pgj7u4rf53iiajr8tu37t8jqkh0j.apps.googleusercontent.com"
 
@@ -23,19 +23,34 @@ export default function() {
 
     const handleLoginSuccess = (token, user) => {
         setIsLoggedIn(true)
+        setAdminSignedIn(true)
+        setWasAdminSignedIn()
         setLocalToken(token)
-        setLocalUser(user)
+        setAdminUser(user)
     }
 
     const handleLoginError = () => {
         window.open(window.location.origin, "_self")
     }
 
+    const handleBack = () => {
+        const path = location.pathname.split('/')
+        path.pop()
+        const newPath = path.length > 1 ? path.join('/') : '/'
+        navigate(newPath)
+    }
+
+    const handleCloseSession = () => {
+        setAdminSignedIn(false)
+        removeLocalToken()
+        removeAdminUser()
+        reload()
+    }
+
     useEffect(() => {
         /*removeLocalToken()
-        removeLocalUser()*/
+        removeAdminUser()*/
     }, [])
-
 
     return <GoogleOAuthProvider clientId={CLIENT_ID}> { isLoggedIn === false ? 
         <Login onSuccess={handleLoginSuccess} onError={handleLoginError}/>
@@ -43,9 +58,12 @@ export default function() {
         : isLoggedIn && (
             <div className={styles.panel}>
                 <header className={styles.panelHeader}>
-                    <img className={`${styles.back} cursor`} onClick={() => navigate("/admin")} src={back}/>
+                    <img className={`${styles.back} cursor`} onClick={handleBack} src={back}/>
                     <div className='flex-center cursor'>
                         <img src={logo} onClick={() => navigate("/")}/>
+                    </div>
+                    <div className={styles.exit}>
+                        <img src={exit} className={styles.exit} onClick={handleCloseSession}/>
                     </div>
                 </header>
                 <main className={styles.panelContent}>
@@ -54,15 +72,4 @@ export default function() {
             </div>
         )
     } </GoogleOAuthProvider>
-
-    /*
-    return <> { isLoggedIn === false ? 
-                <Login logIn={handleLogIn}/>
-                : isLoggedIn ?
-                <div className='admin-body'>
-                    <Outlet/>
-                </div>
-                : <></>
-        } </>
-         */
 }

@@ -1,5 +1,5 @@
 import { createContext, useRef, useEffect, useState } from 'react';
-import { loadDataBase, loadIndex, setCache, isValidCache } from '../api';
+import { loadDataBase, loadIndex, setCache, isValidCache, devMode } from '../api';
 import { useDispatch } from 'react-redux';
 
 import { setIndex } from '../redux/reducers/index/indexSlice'
@@ -40,6 +40,9 @@ export function DataBaseContextProvider(props) {
                 setIsLoading(null)
             })
         }
+
+        if (devMode() === true)
+            console.warn("Development mode", "No database access")
 
     }, [])
 

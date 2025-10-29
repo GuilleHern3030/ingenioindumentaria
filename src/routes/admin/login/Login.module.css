@@ -1,9 +1,16 @@
 .main {
-    display: flex;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     height: 100vh;
+}
+
+@media only screen and (min-width: 768px) {
+  .main {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .form {
@@ -16,15 +23,17 @@
 .fieldset {
     display: flex;
     flex-direction: column;
+    user-select: none;
 }
 
 .input {
     margin-bottom: 1em;
     margin-top: .2em;
+    padding: .15em;
 }
 
 .submit {
-    margin: 1em;
+    margin-bottom: 1em;
     background-color: azure;
 }
 
@@ -41,10 +50,44 @@
 }
 
 .warning {
+    padding: .5em;
+    margin-top: .7em;
     color: brown;
+}
+
+.o {
+    display: block;
+    text-align: center;
+    margin-bottom: 1em;
 }
 
 .google {
     border-radius: 12px;
     border: 1px solid black;
+}
+
+.key {
+    height: 2em;
+    padding-left: 6px;
+}
+
+.keytext {
+    padding: 0 1em;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.credentials {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: white;
+    font-size: 14px;
+    border-radius: 3px;
+    margin: 1px;
+    margin-bottom: .5em;
+    height: 38px;
+}
+
+.credentials:hover {
+    cursor: pointer;
 }

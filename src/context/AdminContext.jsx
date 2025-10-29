@@ -1,12 +1,12 @@
-import { createContext, useState, useEffect } from "react";
-import { getLocalUser } from "../api";
+import { createContext } from "react";
+import { isAdminSignedIn } from "../api";
 
 export const AdminContext = createContext()
 
 export function AdminContextProvider(props) {
 
     const isLogged = () => {
-        return getLocalUser() != null
+        return isAdminSignedIn()
     }
 
     return (<>

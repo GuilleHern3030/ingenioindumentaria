@@ -1,5 +1,5 @@
 import axios from '../axios.ts'
-import { getLocalToken, getLocalUser } from '../../../api'
+import { getLocalToken, getAdminUser } from '../../../api'
 
 const endpoint = "/images";
 
@@ -21,7 +21,7 @@ export const postImage = async(image:FormData) => {
             headers: { 
                 "Content-Type": "multipart/form-data",
                 token: getLocalToken(), 
-                user: getLocalUser() 
+                user: getAdminUser() 
             } 
         }
     )

@@ -1,8 +1,12 @@
 export default (err:any) => {
     console.error(err)
+    let message;
     try {
-        return err.response.data.message ? err.response.data.message : err.message
+        message = err.response.data.message ? err.response.data.message : err.message
     } catch (e) { // no message received (server shutdown?)
-        return err.message ? err.message : err
+        message = err.message ? err.message : err
+    } finally {
+        if (message === "Network Error") message = "Error de conexión"
+        return message
     }
 }

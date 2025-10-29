@@ -1,5 +1,6 @@
 import request from '../../controllers/messages/deleteMessageController.ts'
 import handleError from '../errorHandler.ts'
+import { isAdminSignedIn } from '../../index.ts'
 
 /**
  * Delete a message from DataBase
@@ -7,7 +8,7 @@ import handleError from '../errorHandler.ts'
  */
 export const deleteMessage = async(id:number):Promise<any> => new Promise(async(resolve, reject) => {
 
-    try {
+    if (isAdminSignedIn() === true) try {
 
         if (id != undefined && !isNaN(id) && id >= 0) {
 
@@ -17,6 +18,7 @@ export const deleteMessage = async(id:number):Promise<any> => new Promise(async(
         } else reject("El mensaje no existe")
 
     } catch(err:any) { reject(handleError(err)) }
+    else reject("La sesión caducó. Vuelve a iniciar sesión para continuar.")
 })
 
 export default deleteMessage

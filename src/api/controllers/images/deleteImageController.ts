@@ -1,5 +1,5 @@
 import axios from '../axios.ts'
-import { getLocalToken, getLocalUser } from '../../../api'
+import { getLocalToken, getAdminUser } from '../../../api'
 
 const endpoint = "/images";
 
@@ -14,7 +14,7 @@ export const deleteImage = async(src:string) => {
         { 
             headers: { 
                 token: getLocalToken(), 
-                user: getLocalUser() 
+                user: getAdminUser() 
             } 
         }
     )

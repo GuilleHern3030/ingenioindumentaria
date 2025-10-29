@@ -1,6 +1,7 @@
 import request from '../../controllers/images/deleteImageController.ts'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
+import { isAdminSignedIn } from '../../index.ts'
 
 /**
  * Upload an image to DataBase
@@ -10,7 +11,7 @@ import handleError from '../errorHandler.ts'
  */
 export const deleteImage = async(img:Record<string, any>, article:Article|undefined):Promise<any> => new Promise(async(resolve, reject) => {
 
-    try {
+    if (isAdminSignedIn() === true) try {
 
         // Solicitar la petición al Backend
         const response = await request(img.src)
@@ -25,6 +26,7 @@ export const deleteImage = async(img:Record<string, any>, article:Article|undefi
 
 
     } catch(err:any) { reject(handleError(err)) }
+    else reject("La sesión caducó. Vuelve a iniciar sesión para continuar.")
 })
 
 export default deleteImage

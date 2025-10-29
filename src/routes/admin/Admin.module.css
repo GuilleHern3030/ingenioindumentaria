@@ -33,3 +33,10 @@
 .back {
     height: 2em !important;
 }
+
+.exit {
+    display: flex;
+    flex-direction: row-reverse;
+    cursor: pointer;
+    height: 2em !important;
+}

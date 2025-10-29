@@ -2,6 +2,7 @@ import request from '../../controllers/images/postImageController.ts'
 import { maxImageSize, imagesType } from '../../config.json'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
+import { isAdminSignedIn } from '../../index.ts'
 
 /**
  * Upload an image to DataBase
@@ -10,7 +11,7 @@ import handleError from '../errorHandler.ts'
  */
 export const postImage = async(img:Record<string, any>, article:Article|undefined):Promise<any> => new Promise(async(resolve, reject) => {
 
-    try {
+    if (isAdminSignedIn() === true) try {
 
         if (!img.size || img.size && Number(img.size) < maxImageSize) {
 
@@ -44,6 +45,7 @@ export const postImage = async(img:Record<string, any>, article:Article|undefine
         } else reject(`La imagen supera el límite máximo de ${maxImageSize/1000} KB`)
 
     } catch(err:any) { reject(handleError(err)) }
+    else reject("La sesión caducó. Vuelve a iniciar sesión para continuar.")
 })
 
 export default postImage

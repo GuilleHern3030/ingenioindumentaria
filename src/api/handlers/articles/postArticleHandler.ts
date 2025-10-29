@@ -1,10 +1,11 @@
 import request from '../../controllers/articles/postArticleController.ts'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
+import { isAdminSignedIn } from '../../index.ts'
 
 export const postArticle = async(article:Article):Promise<any> => new Promise(async(resolve, reject) => {
 
-    try {
+    if (isAdminSignedIn() === true) try {
 
         // Parsear el Article a JSON
         const jsonArticle = article.json()
@@ -18,6 +19,7 @@ export const postArticle = async(article:Article):Promise<any> => new Promise(as
 
 
     } catch(err:any) { reject(handleError(err)) }
+    else reject("La sesión caducó. Vuelve a iniciar sesión para continuar.")
 })
 
 export default postArticle

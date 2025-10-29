@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import styles from './Header.module.css'
 
@@ -13,6 +14,8 @@ import useArticleFilter from '../../hooks/useArticleFilter'
 export const goTop = () => window.scrollTo({top:0})
 
 export default () => {
+
+    const navigate = useNavigate()
 
     const [ isMenuShowed, setIsMenuShowed ] = useState(false)
     const { hideFunction, setHideFunction } = useArticleFilter()
@@ -37,7 +40,7 @@ export default () => {
                         <p className={styles.hidableText}>Buscar</p>
                     </div>
                 </div>
-                <div className={`${styles.logo} flex-center cursor`}>
+                <div onClick={() => navigate("/")} className={`${styles.logo} flex-center cursor`}>
                     <img src={logo}/>
                 </div>
                 <div className={`flex-center disabled`} style={{justifyContent:'flex-end'}}>

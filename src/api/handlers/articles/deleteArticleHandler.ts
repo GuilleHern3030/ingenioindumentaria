@@ -1,10 +1,11 @@
 import request from '../../controllers/articles/deleteArticleController.ts'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
+import { isAdminSignedIn } from '../../../api'
 
 export const deleteArticle = async(article:Article):Promise<any> => new Promise(async(resolve, reject) => {
 
-    try {
+    if (isAdminSignedIn() === true) try {
 
         // Obtener el ID del artículo
         const id = article.id()
@@ -16,8 +17,8 @@ export const deleteArticle = async(article:Article):Promise<any> => new Promise(
         console.log("Deleting", article, "\nResponse:", response)
         resolve(response)
 
-
     } catch(err:any) { reject(handleError(err)) }
+    else reject("La sesión caducó. Vuelve a iniciar sesión para continuar.")
 })
 
 export default deleteArticle

@@ -15,8 +15,6 @@ export default () => {
     const promos = useSelector(hasPromos())
     const most = useSelector(getMost())
 
-    console.log(most)
-
     return most && most.length == 0 ? <div className={`${styles.nocontent} flex-center-column unselectable`}>
             <p>¡Gracias por visitarnos!</p>
             <br/>
@@ -56,7 +54,7 @@ export default () => {
         { most && most.length > 0 &&
             <section className={`${styles.section} ${styles.most} flex-center-column`}>
                 <p className={styles.info}>También podés elegir entre nuestros artículos más solicitados</p>
-                {most.map(category => <button className={styles.button} onClick={() => navigate(`/products/${category}`)}>{category}</button>)}
+                {most.map((category, index) => <button key={index} className={styles.button} onClick={() => navigate(`/products/${category}`)}>{category}</button>)}
             </section>
         }
 

@@ -17,11 +17,15 @@ import Header from "../../components/header/Header"
 import Footer from "../../components/footer/Footer"
 import Loading from "../../components/loading/Loading"
 
+const SENDED_SESSION_ITEM = "message-sended"
+const setMessageSended = () => sessionStorage.setItem(SENDED_SESSION_ITEM, true)
+const isMessageSended = () => sessionStorage.getItem(SENDED_SESSION_ITEM) != null
 
 export default () => {
 
     const [ warning, setWarning ] = useState()
     const [ isSending, setIsSending ] = useState(false)
+    const [ isSended, setIsSended ] = useState(isMessageSended())
 
     const handleSubmit = formEvent => {
         formEvent.preventDefault()
@@ -30,7 +34,8 @@ export default () => {
         .then(() => {
             setWarning("") 
             setIsSending(false)
-            alert("El mensaje fue enviado exitosamente")
+            setIsSended(true)
+            setMessageSended()
         })
         .catch(e => { 
             console.warn(e)
@@ -75,16 +80,18 @@ export default () => {
                     <p>También podés dejarnos un mensaje acá mismo</p>
                     <form className={styles.form} onSubmit={handleSubmit}>
                         <p className={styles.label}>Nombre</p>
-                        <input className={styles.input} name="sender" placeholder="Tu nombre" required=""/>
+                        <input className={styles.input} disabled={isSended === true ? true : ""} name="sender" placeholder="Tu nombre" required=""/>
                         <p className={styles.label}>Email</p>
-                        <input className={styles.input} name="email" placeholder="Un correo de contacto"/>
+                        <input className={styles.input} disabled={isSended === true ? true : ""} name="email" placeholder="Un correo de contacto"/>
                         <p className={styles.label}>Teléfono</p>
-                        <input className={styles.input} name="phone" placeholder="Un número de contacto"/>
+                        <input className={styles.input} disabled={isSended === true ? true : ""} name="phone" placeholder="Un número de contacto"/>
                         <p className={styles.label}>Mensaje</p>
-                        <textarea className={`${styles.input} ${styles.textarea}`} name="message" placeholder="Tu consulta"/>
+                        <textarea className={`${styles.input} ${styles.textarea}`} disabled={isSended === true ? true : ""} name="message" placeholder="Tu consulta"/>
                         <p className={styles.warning}>{warning}</p>
                         <div className={styles.submitcontainer}>
-                            { isSending === true ? <Loading/> :
+                            { 
+                                isSending === true ? <Loading/> :
+                                isSended === true ? <p>Mensaje enviado ✅</p> :
                                 <button className={styles.submit}>Enviar consulta</button>
                             }
                         </div>

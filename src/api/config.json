@@ -3,6 +3,7 @@
     "loadFromLocalStorage": false,
     "useIndexedDB": true,
     "cacheTime": 120,
+    "adminSignTime": 120,
     "googleSheetsApiKey": "AIzaSyD9yEoRR17TihSnABVC-_VcIVT2dcCydUg",
     "googleSheetsId": "1xWQS0qy-6yvwlRjHCWvrU_hviXO1no0UuHcX-DFsTCc",
     "googleSheetsName": "sheet",
