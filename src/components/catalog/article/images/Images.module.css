@@ -1,0 +1,25 @@
+.imagecontainer {
+    width: 50vw;
+    height: 50vw;
+}
+
+.image {
+    width: 50vw;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.button {
+    position: absolute;
+    border: 0;
+    color: rgb(22, 22, 22);
+    height: 2.5em;
+    width: 2.5em;
+    border-radius: 100%;
+    padding: .3em .8em;
+    background: hsla(0, 0%, 100%, .2);
+    opacity: 1 !important;
+    margin: 0 .3em !important;
+    transition: all .5s;
+    padding: .1em;
+}

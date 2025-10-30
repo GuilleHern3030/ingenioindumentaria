@@ -9,7 +9,7 @@ const endpoint = "/articles";
  * @returns Promise with a JSON of articles
  */
 export default async function():Promise<any> {
-  return loadFromBackend === true || devMode() === true ? getArticles() : 
+  return loadFromBackend === true || devMode() === true && loadFromLocalStorage === false ? getArticles() : 
     loadFromLocalStorage === true ? 
       fetch(api.localData).then(res => res.json())
       .catch(() => fetchGoogleSheetsV4())

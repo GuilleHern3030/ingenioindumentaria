@@ -4,6 +4,7 @@ import genders from './models/genders.json'
 const DATA_BASE = "IngenioIndumentaria"
 const ARTICLES = "Articles" // Todos los articulos disponibles
 const CATEGORIES = "Categories" // Nombre de las categorias
+const SHOPPING_CART = "Cart" // Artículos en el carrito
 
 /**
  * Convierte todos los Set que se encuentren en un objeto en Array
@@ -92,6 +93,7 @@ const open = async() => new Promise((resolve, reject) => {
         const db = IDBrequest.result
         db.createObjectStore(ARTICLES, { keyPath: "ID" } /*{ autoIncrement: true }*/)
         db.createObjectStore(CATEGORIES, { keyPath: "key" })
+        db.createObjectStore(SHOPPING_CART, { keyPath: "ID" })
     }
     IDBrequest.onerror = e => reject(e)
     IDBrequest.onsuccess = event => {
@@ -512,5 +514,9 @@ export default {
         selectDiscounts,
         selectById,
         putGender,
-        putCategoryOfGender
+        putCategoryOfGender,
+        /*addArticleToCart,
+        removeArticleFromCart,
+        selectArticlesFromCart,
+        selectArticleFromCart,*/
 }

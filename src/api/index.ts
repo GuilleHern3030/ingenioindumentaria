@@ -8,14 +8,17 @@ export { default as backendDB } from './backend.js'
 
 import { pull, getIndex } from './indexedDB.js'
 
-export const loadDataBase = async() => {
+// returns { articles, index, }
+export const loadDataBase = async(onlyIndex?:boolean) => {
+    let result:Record<string, any> = { }
     if (useIndexedDB) 
-        return pull()
+        result = onlyIndex === true ? { index: await getIndex() } : await pull()
+    result.shoppingCart = await loadShoppingCart()
+    return result
 }
 
-export const loadIndex = async() => {
-    if (useIndexedDB) 
-        return getIndex()
+export const loadShoppingCart = async() => {
+
 }
 
 const KEY = 'tmp-token'

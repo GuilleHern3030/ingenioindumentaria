@@ -1,8 +1,8 @@
+import { useEffect, useLayoutEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
+import useDataBase from '../../../hooks/useDataBase'
 
 import styles from './Article.module.css'
-import useIndexedDB from '../../../hooks/useIndexedDB'
-import { useEffect, useState } from 'react'
 import Loading from '../../loading/Loading'
 
 import logo from '../../../assets/icons/logo2.webp'
@@ -11,17 +11,28 @@ import useClientInfo from '../../../hooks/useClientInfo'
 export default function Article()  {
 
         const { id } = useParams()
-        const { isLoading, database } = useIndexedDB()
+        const { isLoading, database } = useDataBase()
         const { data } = useClientInfo()
+        const imageRef = useRef()
 
         const [ article, setArticle ] = useState()
-        const [ iImage, setIImage ] = useState(0)
+        const [ image, setImage ] = useState()
+        const [ imageHeight, setImageHeight ] = useState(0)
+        const [ showedImage, setShowedImage ] = useState()
+
+        useLayoutEffect(() => { 
+            if (id) database.selectById(id).then(article => {
+                setArticle(article) 
+                setImage(0)
+            })
+        }, [id])
 
         useEffect(() => {
-            console.log(id)
-            if (id)
-                database.selectById(id).then(article => setArticle(article) )
-        }, [id])
+            if (article) {
+                setImageHeight(imageRef.current.clientHeight)
+                setShowedImage(prev => prev != undefined ? image : undefined)
+            }
+        }, [image])
 
         const handleAddToCart = () => {
 
@@ -33,19 +44,49 @@ export default function Article()  {
             window.open(data.contactlink + "?text=Hola, quiero consultar por este producto: \n\r" + link, "_blank")
         }
 
+        const handleShowImage = e => {
+            e.stopPropagation()
+            setShowedImage(prevImage => prevImage === undefined ? image : undefined)
+        }
+
+        const handleChangeImage = (event, up) => {
+            event.stopPropagation()
+            if (up === true) setImage(i => i+1 < article.images().length ? i+1 : 0)
+            else setImage(i => i - 1 < 0 ? article.images().length-1 : i-1)
+        }
+
         return !article || isLoading == true ? <Loading/> :
             <div id={article.id()} className={`${styles.article} unselectable`}>
+
+                { showedImage !== undefined ? 
+                    <div 
+                        className={styles.bigimagecontainer} 
+                        onClick={handleShowImage}>
+                            <div onClick={handleShowImage} className={styles.buttonscontainer} style={{height:'100vh'}}>
+                                <div>{article.images().length > 1 && <button className={styles.button} onClick={e => handleChangeImage(e,false)}>{'<'}</button> }</div>
+                                <div>{article.images().length > 1 && <button className={styles.button} onClick={e => handleChangeImage(e, true)}>{'>'}</button> }</div>
+                            </div>
+                            <img className={styles.bigimage} src={article.getImage(showedImage).src}/>
+                    </div> : <></>
+                }
+
                 <p className={styles.category}>{` ${article.category()} ${'/'} ${article.sexName()}`}</p>
+                <p className={styles.name}>{article.name()}</p>
 
-                <div className='flex-center-column'>
-                    <p className={styles.name}>{article.name()}</p>
-                    <p>{article.description()}</p>
-                </div>
+                <div className={styles.description}>
 
-                <div className={styles.imagecontainer} style={{gridTemplateColumns: article.images().length > 1 ? '2em 1fr 2em' : '1fr'}}>
-                    {article.images().length > 1 && <button onClick={i => article.images().length > i ? i+1 : 0}>{'<'}</button> }
-                    <img src={ article.images().length > 0 ? article.getImage(iImage).src : logo} className={styles.image}/>
-                    {article.images().length > 1 && <button onClick={i => i - 1 < 0 ? article.images().length-1 : i-1}>{'>'}</button> }
+                    <div className={styles.imagecontainer}>
+                        <div onClick={handleShowImage} className={styles.buttonscontainer} style={{height:imageHeight}}>
+                            <div>{article.images().length > 1 && <button className={styles.button} onClick={e => handleChangeImage(e,false)}>{'<'}</button> }</div>
+                            <div>{article.images().length > 1 && <button className={styles.button} onClick={e => handleChangeImage(e, true)}>{'>'}</button> }</div>
+                        </div>
+                        <img ref={imageRef} className={styles.image} src={ article.images().length > 0 ? article.images()[image].src : logo}/>
+                    </div>
+
+                    <div className='flex-center-column'>
+                        <p className={styles.description_text}>{article.description()}</p>
+
+                    </div>
                 </div>
 
                 <div className='flex-center-column'>
@@ -71,5 +112,4 @@ export default function Article()  {
                 </div>
 
             </div>
-
 }
