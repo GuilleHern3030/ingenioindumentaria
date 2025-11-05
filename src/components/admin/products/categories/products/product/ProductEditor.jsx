@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom"
 import remove from '../../../../../../assets/icons/delete.webp'
 import styles from './Product.module.css'
 
@@ -10,6 +11,7 @@ import { reload } from '../../../../../../api'
 
 import useIndexedDB from '../../../../../../hooks/useIndexedDB.jsx'
 import useArticleFilter from '../../../../../../hooks/useArticleFilter.jsx'
+import useUser from '../../../../../../hooks/useUser.jsx'
 
 const indexOf = (images, src) => {
     for (let index = 0; index < images.length; index++) {
@@ -23,6 +25,8 @@ export default ({ article, id, gender, category }) => {
 
     const { setGenderSelected, setCategorySelected } = useArticleFilter()
     const { database } = useIndexedDB()
+    const { update } = useUser()
+    const navigate = useNavigate()
 
     const [ name, setName ] = useState(article ? article.name() : "")
     const [ description, setDescription ] = useState(article ? article.description() : "")
@@ -31,7 +35,7 @@ export default ({ article, id, gender, category }) => {
     const [ sex, setSex ] = useState(article ? article.sex() : [gender])
     const [ sizes, setSizes ] = useState(article ? article.sizes() : [])
     const [ isRecent, setIsRecent ] = useState(article ? article.recent() : true)
-    const [ inStock, setInStock ] = useState(article ? article.inStock() : ['Inf'])
+    const [ inStock, setInStock ] = useState(article ? article.inStock() : [])
     const [ day, setDay ] = useState(article ? article.date().day : new Date().getDate())
     const [ month, setMonth ] = useState(article ? article.date().month : new Date().getMonth())
     const [ year, setYear ] = useState(article ? article.date().year : new Date().getFullYear())
@@ -208,10 +212,11 @@ export default ({ article, id, gender, category }) => {
             setGenderSelected(undefined)
             setIsSaving(undefined)
         })
-        .catch(e => { 
-            setWarning(e)
+        .catch(e => {
+            setWarning(typeof(e) === 'string' ? e : e.message)
             console.error(e) 
             setIsSaving(undefined)
+            handleSessionExpired(e.message)
         })
 
     }
@@ -226,10 +231,11 @@ export default ({ article, id, gender, category }) => {
             setGenderSelected(undefined)
             setIsSaving(undefined)
         })
-        .catch(e => { 
-            setWarning(e)
+        .catch(e => {
+            setWarning(typeof(e) === 'string' ? e : e.message)
             console.error(e)
-            setIsSaving(undefined) 
+            setIsSaving(undefined)
+            handleSessionExpired(e.message)
         })
     }
 
@@ -244,10 +250,18 @@ export default ({ article, id, gender, category }) => {
             setGenderSelected(undefined)
         })
         .catch(e => { 
-            setWarning(e)
+            setWarning(typeof(e) === 'string' ? e : e.message)
             console.error(e) 
             setIsSaving(undefined) 
+            handleSessionExpired(e.message)
         })
+    }
+
+    const handleSessionExpired = (e) => {
+        const { isAdmin } = update()
+        console.log(isAdmin)
+        if (isAdmin == false)
+            navigate(`/admin?message=${e}`)
     }
 
     try {
@@ -445,7 +459,7 @@ export default ({ article, id, gender, category }) => {
 
             <div className={styles.productdataeditable} style={{justifyContent:'space-evenly'}}>
                 <button className='create-button' onClick={()=>handleSave()}>Guardar</button>
-                <button className='delete-button' onClick={()=>handleDelete()}>Borrar</button>
+                { article && <button className='delete-button' onClick={()=>handleDelete()}>Borrar</button> }
             </div>
         </div>
     } catch(e) {

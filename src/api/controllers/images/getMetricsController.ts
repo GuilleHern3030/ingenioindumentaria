@@ -1,5 +1,6 @@
 import axios from '../axios.ts'
-import { getLocalToken, getLocalUser } from '../../../api'
+//import { getLocalToken, getLocalUser } from '../../../api'
+import { email } from '../../../api'
 
 const endpoint = "/cloudflare";
 
@@ -13,8 +14,8 @@ export const getMetrics = async(): Promise<any> => {
         endpoint,
         {
             headers: { 
-                token: getLocalToken(), 
-                user: getLocalUser() 
+                //token: getLocalToken(), 
+                user: email() 
             } 
         }
     )

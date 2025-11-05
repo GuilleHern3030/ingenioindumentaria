@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
+
+import useUser from "../../../hooks/useUser"
+
 import { getMessages, deleteMessage } from "../../../api/messages"
 import Loading from "../../../components/loading/Loading"
 import Dialog from "../../../components/dialog/Dialog"
 
 import styles from './Messages.module.css'
 import deleteIcon from '../../../assets/icons/delete.webp'
+import Revalidate from "../../../components/admin/revalidate/Revalidate"
 
 const listMessages = (messages, remove) => 
     messages.map((message, index) => 
@@ -51,7 +55,11 @@ export default () => {
 
     const [ isLoading, setIsLoading ] = useState()
     const [ messages, setMessages ] = useState([])
+    const [ error, setError ] = useState()
     const [ isDialog, setIsDialog ] = useState()
+    const [ isAdminSessionExpired, setIsAdminSessionExpired ] = useState(false)
+
+    const { isAdminSessionActive } = useUser()
 
     const removeMessage = id => {
         setIsDialog(undefined)
@@ -61,16 +69,26 @@ export default () => {
     }
 
     const loadMessages = () => {
-        setIsLoading(true)
-        getMessages()
-        .then(messages => {
-            setMessages(messages)
-            setIsLoading(false)
-        })
-        .catch(e => {
+        if (isAdminSessionActive() == true) {
+            setIsLoading(true)
+            getMessages()
+            .then(messages => {
+                setMessages(messages)
+                setError(undefined)
+                setIsLoading(false)
+            })
+            .catch(e => {
+                if (e.adminSessionExpired())
+                    setIsAdminSessionExpired(true)
+                setError(e.toString())
+                setMessages(undefined)
+                setIsLoading(false)
+            })
+        } else {
+            setIsAdminSessionExpired(true)
+            setError("Es necesario revalidar la sesión")
             setMessages(undefined)
-            setIsLoading(false)
-        })
+        }
     }
 
     useEffect(() => { loadMessages() }, [])
@@ -78,8 +96,15 @@ export default () => {
     return <>
 
         <div className="flex-center">
-            <p className={styles.info}>Acá podés visualizar los mensajes que dejan los clientes</p>
+            { !error && <p className={styles.info}>Acá podés visualizar los mensajes que dejan los clientes</p> }
         </div>
+
+        {
+            isAdminSessionExpired && <Revalidate 
+                onFinish={() => { setIsAdminSessionExpired(false) }}
+                message="Es necesario revalidar la sesión"
+            />
+        }
 
         {
             !isDialog ? <></> : <Dialog 
@@ -92,12 +117,16 @@ export default () => {
 
         {
             isLoading == true ? <Loading/> :
-            messages && messages.length > 0 ?
-                <div>
-                    {listMessages(messages, setIsDialog)}
-                </div>
-            :
-                <p className={styles.info}>Aún no hay mensajes</p>
+            messages ?
+                messages.length > 0 ?
+                    <div>
+                        {listMessages(messages, setIsDialog)}
+                    </div>
+                : <p className={styles.info}>Aún no hay mensajes</p>
+            : <div className={styles.error_container}>
+                <p className={styles.error}>{error}</p>
+                <button className={styles.button} onClick={loadMessages}>Reintentar</button>
+            </div>
         }
 
     </>

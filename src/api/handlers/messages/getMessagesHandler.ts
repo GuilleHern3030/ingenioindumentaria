@@ -1,6 +1,6 @@
 import request from '../../controllers/messages/getMessagesController.ts'
 import handleError from '../errorHandler.ts'
-import { isAdminSignedIn } from '../../index.ts'
+import { isAdmin } from '../../index.ts'
 
 /**
  * Download messages from DataBase
@@ -8,7 +8,7 @@ import { isAdminSignedIn } from '../../index.ts'
  */
 export const getMessages = async():Promise<any> => new Promise(async(resolve, reject) => {
 
-    if (isAdminSignedIn() === true) try {
+    if (isAdmin() === true) try {
 
         // Solicitar la petición al Backend
         const messages = await request()
@@ -18,7 +18,7 @@ export const getMessages = async():Promise<any> => new Promise(async(resolve, re
         resolve(messages)
 
     } catch(err:any) { reject(handleError(err)) }
-    else reject("La sesión caducó. Vuelve a iniciar sesión para continuar.")
+    else reject(handleError("La sesión caducó. Vuelve a iniciar sesión para continuar."))
 })
 
 export default getMessages

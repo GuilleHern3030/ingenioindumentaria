@@ -1,6 +1,5 @@
 import axios from '../axios.ts'
 import api from '../../config.json'
-import { loadFromBackend, loadFromLocalStorage } from '../../config.json'
 import { devMode } from '../../../api'
 const endpoint = "/articles";
 
@@ -9,9 +8,9 @@ const endpoint = "/articles";
  * @returns Promise with a JSON of articles
  */
 export default async function():Promise<any> {
-  return loadFromBackend === true || devMode() === true && loadFromLocalStorage === false ? getArticles() : 
-    loadFromLocalStorage === true ? 
-      fetch(api.localData).then(res => res.json())
+  return api.loadFromBackend === true || devMode() === true && api.loadFromLocalStorage === false ? getArticles() : 
+    api.loadFromLocalStorage === true ? 
+      fetch(api.localStorage).then(res => res.json())
       .catch(() => fetchGoogleSheetsV4())
       .catch(() => getArticles()) 
       : fetchGoogleSheetsV4().catch(() => getArticles())

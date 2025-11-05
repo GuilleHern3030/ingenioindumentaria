@@ -34,15 +34,15 @@
     height: 1.5em
 }
 
-.shoppingcart:hover {
-    cursor: pointer;
+.user {
+    margin-left: 1.5em;
 }
 
 .shoppingcart {
     margin-left: .8em;
 }
 
-.shoppingcart > img {
+.shoppingcart > img, .user > img {
     user-select: none;
     height: 1.8em
 }
@@ -50,6 +50,10 @@
 .logo > img {
     user-select: none;
     height: 3em;
+}
+
+.hidableText {
+    user-select: none;
 }
 
 @media only screen and (max-width: 768px) {

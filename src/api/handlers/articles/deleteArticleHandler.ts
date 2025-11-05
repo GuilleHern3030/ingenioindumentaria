@@ -1,11 +1,11 @@
 import request from '../../controllers/articles/deleteArticleController.ts'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
-import { isAdminSignedIn } from '../../../api'
+import { isAdmin } from '../../../api'
 
 export const deleteArticle = async(article:Article):Promise<any> => new Promise(async(resolve, reject) => {
 
-    if (isAdminSignedIn() === true) try {
+    if (isAdmin() === true) try {
 
         // Obtener el ID del artículo
         const id = article.id()

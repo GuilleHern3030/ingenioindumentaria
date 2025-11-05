@@ -12,15 +12,18 @@ import { Provider } from "react-redux";
 import { ClientInfoContextProvider } from './context/ClientInfoContext.jsx'
 import { DataBaseContextProvider } from './context/DataBaseContext.jsx'
 import { ArticlesFilterContextProvider } from './context/ArticlesFilterContext.jsx'
+import { UserContextProvider } from './context/UserContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <DataBaseContextProvider>
         <ClientInfoContextProvider>
-          <ArticlesFilterContextProvider>
-            <App />
-          </ArticlesFilterContextProvider>
+          <UserContextProvider>
+            <ArticlesFilterContextProvider>
+              <App />
+            </ArticlesFilterContextProvider>
+          </UserContextProvider>
         </ClientInfoContextProvider>
       </DataBaseContextProvider>
     </Provider>

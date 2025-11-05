@@ -1,6 +1,15 @@
+.header__background {
+    position: fixed;
+    height: var(--header-height);
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 999;
+}
+
 .menu__background {
     position: fixed;
-    top: 3.5em;
+    top: var(--header-height);
     height: calc(100vh - 3.5em);
     width: 100%;
     background-color: rgba(0, 0, 0, 0.849);

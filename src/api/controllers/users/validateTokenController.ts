@@ -1,6 +1,6 @@
 import axios from "../axios.ts";
 
-const endpoint = "/authenticate";
+const endpoint = "/users";
 
 export const validateToken = async(token:string) => {
     

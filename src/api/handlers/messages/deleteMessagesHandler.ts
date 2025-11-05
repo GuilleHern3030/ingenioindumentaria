@@ -1,6 +1,6 @@
 import request from '../../controllers/messages/deleteMessagesController.ts'
 import handleError from '../errorHandler.ts'
-import { isAdminSignedIn } from '../../index.ts'
+import { isAdmin } from '../../index.ts'
 
 /**
  * Delete all messages from DataBase
@@ -8,7 +8,7 @@ import { isAdminSignedIn } from '../../index.ts'
  */
 export const deleteMessage = async():Promise<any> => new Promise(async(resolve, reject) => {
 
-    if (isAdminSignedIn() === true) try {
+    if (isAdmin() === true) try {
 
         const result = await request()
         resolve(result)

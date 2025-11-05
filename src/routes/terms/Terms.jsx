@@ -69,8 +69,8 @@ export default () => {
                     <p>Para los casos de devolución vía depósito bancario, la cuenta bancaria deberá estar a nombre del titular de la cuenta de usuario desde donde se haya realizado la operación. En caso de que no coincidan las titularidades, se requerirá la expresa autorización del titular de la cuenta de usuario como condición indispensable previa al depósito.</p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>10) Validez de las promociones.</h2>
                     <p>En el caso de que se realicen ofertas y promociones de productos, éstas tendrán validez para las compras efectuadas desde la fecha de comienzo de las mismas, hasta la de finalización de la oferta. Los términos y condiciones de las mismas serán comunicados en el website, y estarán siempre sujetas a la existencia en stock de los productos ofrecidos.</p>
-                    <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>11) Impuesto al valor agregado (iva).</h2>
-                    <p>Todos los precios expresados en el website incluyen iva, salvo que se indique lo contrario.</p>
+                    <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>11) Impuesto al valor agregado (IVA).</h2>
+                    <p>Todos los precios expresados en el website incluyen IVA, salvo que se indique lo contrario.</p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>12) Garantía de los productos.</h2>
                     <p>La venta de los productos se realiza por cuenta y orden de la empresa {pageName}. La garantía de los productos que se adquieren a través de la empresa es la que ofrecen los fabricantes y/o proveedores de los mismos, que son los únicos responsables directos.</p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>13) Derecho de arrepentimiento o revocación. Devolución de los productos.</h2>

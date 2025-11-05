@@ -1,5 +1,6 @@
 import axios from '../axios.ts'
-import { getLocalToken, getAdminUser } from '../../../api'
+//import { getLocalToken, getAdminUser } from '../../../api'
+import { email } from '../../../api'
 
 const endpoint = "/images";
 
@@ -13,8 +14,8 @@ export const deleteImage = async(src:string) => {
         endpoint + "/" + encodeURIComponent(src), 
         { 
             headers: { 
-                token: getLocalToken(), 
-                user: getAdminUser() 
+                //token: getLocalToken(), 
+                user: email() 
             } 
         }
     )

@@ -10,6 +10,7 @@
     padding: .3em 0;
     align-items: center;
     background-color: aliceblue;
+    height: var(--header-height);
 }
 
 .panelHeader img {
@@ -31,12 +32,12 @@
 }
 
 .back {
-    height: 2em !important;
+    height: 1.8em !important;
 }
 
-.exit {
+.reload {
     display: flex;
     flex-direction: row-reverse;
     cursor: pointer;
-    height: 2em !important;
+    height: 1.6em !important;
 }

@@ -1,0 +1,20 @@
+.data {
+    padding: .5em;
+}
+
+.name {
+    padding: .5rem 1rem;
+    text-align: center;
+}
+
+.email {
+    padding: .5rem .3rem;
+    font-size: .6em;
+    text-align: center;
+}
+
+.ul {
+    list-style: none;
+    user-select: none;
+    font-size: 1.3em;
+}

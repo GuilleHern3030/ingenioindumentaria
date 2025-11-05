@@ -2,7 +2,7 @@ import request from '../../controllers/images/postImageController.ts'
 import { maxImageSize, imagesType } from '../../config.json'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
-import { isAdminSignedIn } from '../../index.ts'
+import { isAdmin } from '../../index.ts'
 
 /**
  * Upload an image to DataBase
@@ -11,7 +11,7 @@ import { isAdminSignedIn } from '../../index.ts'
  */
 export const postImage = async(img:Record<string, any>, article:Article|undefined):Promise<any> => new Promise(async(resolve, reject) => {
 
-    if (isAdminSignedIn() === true) try {
+    if (isAdmin() === true) try {
 
         if (!img.size || img.size && Number(img.size) < maxImageSize) {
 

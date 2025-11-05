@@ -5,7 +5,8 @@ const baseURL = location.hostname.includes("localhost") ?
   "http://localhost:5431" : api
 
 const instance = axios.create({
-  baseURL: baseURL
+  baseURL: baseURL,
+  withCredentials: true
 });
 
 export const apiUrl = api;

@@ -1,7 +1,7 @@
 import request from '../../controllers/images/deleteImageController.ts'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
-import { isAdminSignedIn } from '../../index.ts'
+import { isAdmin } from '../../index.ts'
 
 /**
  * Upload an image to DataBase
@@ -11,7 +11,7 @@ import { isAdminSignedIn } from '../../index.ts'
  */
 export const deleteImage = async(img:Record<string, any>, article:Article|undefined):Promise<any> => new Promise(async(resolve, reject) => {
 
-    if (isAdminSignedIn() === true) try {
+    if (isAdmin() === true) try {
 
         // Solicitar la petición al Backend
         const response = await request(img.src)

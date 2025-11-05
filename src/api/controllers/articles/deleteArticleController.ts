@@ -1,5 +1,5 @@
 import axios from '../axios.ts'
-import { getLocalToken, getAdminUser } from '../../../api'
+import { email } from '../../../api'
 
 const endpoint = "/articles";
 
@@ -14,8 +14,8 @@ export const deleteArticle = async(id:number) => {
         endpoint + "/" + id, 
         { 
             headers: { 
-                token: getLocalToken(), 
-                user: getAdminUser() 
+                //token: getLocalToken(), 
+                user: email() 
             } 
         }
     )

@@ -63,7 +63,7 @@ export default function useRoutes() {
     },
     {
       path: "/admin",
-      element: <AdminContextProvider><Admin/></AdminContextProvider>,
+      element: <Admin/>,
       children: [
         { index: true, element: <AdminIndex/> },
         {

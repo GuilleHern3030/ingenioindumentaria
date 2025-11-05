@@ -1,5 +1,6 @@
 import axios from '../axios.ts'
-import { getLocalToken, getAdminUser } from '../../../api'
+//import { getLocalToken, getAdminUser } from '../../../api'
+import { email } from '../../../api'
 
 const endpoint = "/messages";
 
@@ -13,8 +14,8 @@ export const deleteMessages = async() => {
         endpoint, 
         { 
             headers: { 
-                token: getLocalToken(), 
-                user: getAdminUser() 
+                //token: getLocalToken(), 
+                user: email() 
             } 
         }
     )

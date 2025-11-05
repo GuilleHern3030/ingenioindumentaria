@@ -6,7 +6,7 @@ export const ClientInfoContext = createContext();
 
 export function ClientInfoContextProvider(props) {
 
-    const [ data, setData ] = useState()
+    const [ data, setData ] = useState({})
 
     useEffect( () => {
       fetch(LINKS_URI)

@@ -1,5 +1,5 @@
-import requestToken from '../../controllers/authenticate/getTokenController.ts'
-import requestGoogleToken from '../../controllers/authenticate/getGoogleTokenController.ts'
+import requestToken from '../../controllers/users/getTokenController.ts'
+import requestGoogleToken from '../../controllers/users/getGoogleTokenController.ts'
 import handleError from '../errorHandler.ts'
 
 /**

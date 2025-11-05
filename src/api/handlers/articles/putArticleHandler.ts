@@ -1,11 +1,11 @@
 import request from '../../controllers/articles/putArticleController.ts'
 import Article from '../../objects/Article.ts'
 import handleError from '../errorHandler.ts'
-import { isAdminSignedIn } from '../../index.ts'
+import { isAdmin } from '../../index.ts'
 
 export const putArticle = async(article:Article):Promise<any> => new Promise(async(resolve, reject) => {
 
-    if (isAdminSignedIn() === true) try {
+    if (isAdmin() === true) try {
 
         // Parsear el Article a JSON
         const jsonArticle = article.json()

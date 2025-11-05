@@ -1,16 +1,18 @@
-import { useRef, useState } from 'react'
 import styles from './Login.module.css'
+
+import { useRef, useState } from 'react'
+
+import useParams from '../../../hooks/useParams'
+import useUser from '../../../hooks/useUser'
 
 import logo from '../../../assets/icons/logo.webp'
 import key from '../../../assets/icons/key.webp'
 
-import { get as getToken, validateGoogleToken } from '../../../api/authenticate.ts'
-
 import Loading from '../../../components/loading/Loading'
 
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google"
 
-export default function({onSuccess, onError}) {
+export default ({ onSuccess, onError, maxTries=3, message }) => {
 
     const [ isFormShowed, setIsFormShowed ] = useState(false)
     const [ isLoading, setIsLoading ] = useState(false)
@@ -20,51 +22,52 @@ export default function({onSuccess, onError}) {
     const userName = useRef()
     const userPassword = useRef()
 
+    const params = useParams()
+    const { signIn } = useUser()
+
     const handleSubmit = e => {
         e.preventDefault()
-        setTries(tries => tries+1)
         setIsLoading(true)
 
-        const user = userName.current.value
+        const username = userName.current.value
         const password = userPassword.current.value
+
+        authenticateRequest({ username, password })
+    }
+
+    const handleGoogleSession = (response) => {
+        setTries(maxTries + 1)
+        setIsLoading(true)
+        const credential = response.credential
+        authenticateRequest({ google: credential })
+    }
+
+    const authenticateRequest = async(json) => {
         
-        getToken(user, password)
-        .then(token => {
+        try {
+            const response = await signIn(json)
             setWarning("")
             setIsLoading(false)
-            onSuccess(token, user)
-        })
-        .catch(e => {
-            setIsLoading(false) 
+            onSuccess(response)
+        } catch (e) {
+            console.error(e)
             setWarning(e.toString())
-            if (tries >= 3)
-                onError()
-        })
+            if (tries >= maxTries) 
+                onError(e)
+        } finally {
+            setTries(tries => tries+1)
+            setIsLoading(false)
+        }
+
     }
 
-    const handleGoogleSession = (token) => {
-        setIsLoading(true)
-
-        validateGoogleToken(token)
-        .then(result => {
-            console.log(result)
-            setWarning("")
-            setIsLoading(false) 
-            const { token, user } = result
-            onSuccess(token, user)
-        })
-        .catch(e => {
-            setIsLoading(false) 
-            alert(e.toString())
-            onError()
-        })
-    }
-
-    return <main className={styles.main}>
-        <form id="form" className={styles.form} onSubmit={handleSubmit}>
+    return <section className={styles.login_section}>
+        <form id="form" className={styles.form} onSubmit={handleSubmit} onClick={e => e.stopPropagation()}>
             <div className={styles.logo}>
                 <img className={styles.logo} src={logo}/>
             </div>
+            { message && <p className={styles.message}>{message}</p> }
+            {/* params.message && <p className={styles.ad}>{params.message}</p> */}
             <fieldset className={styles.fieldset}>
                 { isFormShowed === true ? 
                     <>
@@ -85,5 +88,5 @@ export default function({onSuccess, onError}) {
                 { warning ? <p className={styles.warning}>{warning}</p> : null }
             </fieldset>
         </form>
-    </main>
+    </section>
 }

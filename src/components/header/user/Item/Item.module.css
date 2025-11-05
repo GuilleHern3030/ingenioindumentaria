@@ -1,0 +1,23 @@
+.icon {
+    height: 1.3em;
+    padding-left: 6px;
+}
+
+.text {
+    padding: 0 1em;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 3px;
+    margin: .3em .8em;
+    height: 40px;
+    border-radius: 4px;
+}
+
+.container:hover {
+    cursor: pointer;
+}

@@ -17,7 +17,7 @@ export default () => {
 
     const { data } = useClientInfo()
 
-    return data == undefined ? null : <footer className={styles.footer}>
+    return /*data == undefined ? null :*/ <footer className={styles.footer}>
 
         <div className={styles.pagename_container}>
             <Link className={styles.pagename} to="/" onClick={()=>goTop()}>

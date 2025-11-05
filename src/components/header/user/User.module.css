@@ -1,0 +1,8 @@
+.usermenu {
+    position: absolute;
+    right: 0;
+    padding: 0 .8em;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+}

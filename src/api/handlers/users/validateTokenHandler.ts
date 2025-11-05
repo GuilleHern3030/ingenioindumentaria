@@ -1,4 +1,4 @@
-import request from '../../controllers/authenticate/validateTokenController.ts'
+import request from '../../controllers/users/validateTokenController.ts'
 import handleError from '../errorHandler.ts'
 
 /**

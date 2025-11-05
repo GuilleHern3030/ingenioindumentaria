@@ -1,6 +1,6 @@
 import axios from "../axios.ts";
 
-const endpoint = "/authenticate";
+const endpoint = "/users";
 
 export const getGoogleToken = async(credentials:any) => {
     
