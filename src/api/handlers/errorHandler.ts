@@ -12,6 +12,8 @@ class handledError {
     constructor(error:Record<string, any>) { this.#error = error }
     toString = () => this.#error.response.data.message
     response = () => this.#error.response.data
+    status = () => this.#error.response.status
+    statusText = () => this.#error.response.statusText
     sessionExpired = () => this.response().sessionExpired === true
     adminSessionExpired = () => this.response().adminSessionExpired === true
 }

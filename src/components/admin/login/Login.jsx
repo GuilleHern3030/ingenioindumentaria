@@ -46,9 +46,12 @@ export default ({ onSuccess, onError, maxTries=3, message }) => {
         
         try {
             const response = await signIn(json)
+            console.log(response)
             setWarning("")
             setIsLoading(false)
-            onSuccess(response)
+            if (response.is_admin)
+                onSuccess(response)
+            else onError()
         } catch (e) {
             console.error(e)
             setWarning(e.toString())

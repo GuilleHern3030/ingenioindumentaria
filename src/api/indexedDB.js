@@ -144,7 +144,7 @@ export const size = async() => open().then(IDBrequest =>
     })
 )
 
-export const pull = async(articles) => new Promise(async resolve => {
+export const pull = async(articles) => new Promise(async (resolve, reject) => {
     try {
         const objectStore = (articles != undefined) ? articles :
             await getArticles()
@@ -157,8 +157,7 @@ export const pull = async(articles) => new Promise(async resolve => {
         resolve({ articles: objectStore, index: indexs })
 
     } catch(e) {
-        console.error(e)
-        resolve(null)
+        reject(e)
     }
 })
 

@@ -13,11 +13,15 @@ export const getGenders = () =>
   createSelector(
     (state) => state.index.index,
     (index) => {
-        const genderCategories = getValue(index, 'genders')
-        const genders = []
-        for (const gender in genderCategories)
-            genders.push(gender)
-        return genders
+        try {
+            const genderCategories = getValue(index, 'genders')
+            const genders = []
+            for (const gender in genderCategories)
+                genders.push(gender)
+            return genders
+        } catch(e) {
+            return []
+        }
     }
 )
 
@@ -26,10 +30,14 @@ export const getCategories = (genderCategory) =>
   createSelector(
     (state) => state.index.index,
     (index) => {
-        const genderCategories = getValue(index, 'gendercategories')
-        const genders = getValue(index, 'genders')
-        const gender = genders[genderCategory]
-        return genderCategories[gender]
+        try {
+            const genderCategories = getValue(index, 'gendercategories')
+            const genders = getValue(index, 'genders')
+            const gender = genders[genderCategory]
+            return genderCategories[gender]
+        } catch(e) {
+            return []
+        }
     }
 )
 
@@ -38,13 +46,17 @@ export const getMost = (length=4) =>
   createSelector(
     (state) => state.index.index,
     (index) => {
-        const categories = getValue(index, 'category')
-        const categoriesList = Object.entries(categories).map(([key, value]) => [key, value.length])
-        categoriesList.sort((a, b) => b[1] - a[1])
-        
-        const categoriesName = categoriesList.map(([key, _]) => key)
+        try {
+            const categories = getValue(index, 'category')
+            const categoriesList = Object.entries(categories).map(([key, value]) => [key, value.length])
+            categoriesList.sort((a, b) => b[1] - a[1])
+            
+            const categoriesName = categoriesList.map(([key, _]) => key)
 
-        return categoriesName.splice(0, length)
+            return categoriesName.splice(0, length)
+        } catch(e) {
+            return []
+        }
     }
 )
 
@@ -53,7 +65,7 @@ export const hasRecent = () =>
     (state) => state.index.index,
     (index) => {
         const ids = getValue(index, 'recent')
-        return ids.length > 0
+        return ids ? ids.length > 0 : false
     }
 )
 
@@ -62,6 +74,6 @@ export const hasPromos = () =>
     (state) => state.index.index,
     (index) => {
         const ids = getValue(index, 'promotion')
-        return ids.length > 0
+        return ids ? ids.length > 0 : false
     }
 )

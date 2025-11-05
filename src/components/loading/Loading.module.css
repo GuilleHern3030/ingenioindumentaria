@@ -25,7 +25,7 @@
 .fullloading {
   width: 100vw;
   height: 100vh;
-  background-color: #393737c4;
+  background-color: #d1c6c6c4;
   position: fixed;
   top: 0;
   left: 0;
@@ -33,4 +33,22 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.icon {
+  height: 7em;
+}
+
+.animation_size {
+    animation: alternate-size .5s alternate infinite;
+}
+
+@keyframes alternate-size {
+    from { transform: scale(1) }
+    to { transform: scale(1.09) }
+}
+
+.text {
+  user-select: none;
+  font-size: 1.5em;
 }

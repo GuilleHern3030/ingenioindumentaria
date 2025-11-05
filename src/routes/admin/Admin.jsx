@@ -40,11 +40,11 @@ export default function() {
             </header>
             <main className={styles.panelContent}>{
                 isSignedIn() === false ?
-                    <Login/> :
+                    <Login/> : isAdmin == true ?
                 <>
                     { isReloading && <Revalidate onFinish={() => setIsReloading(false)}/> }
                     <Outlet/>
-                </>
+                </> : <Navigate to="/"/>
             }</main>
                 
         </div>
