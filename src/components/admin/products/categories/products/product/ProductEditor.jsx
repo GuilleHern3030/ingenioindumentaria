@@ -25,7 +25,6 @@ export default ({ article, id, gender, category }) => {
 
     const { setGenderSelected, setCategorySelected } = useArticleFilter()
     const { database } = useIndexedDB()
-    const { update } = useUser()
     const navigate = useNavigate()
 
     const [ name, setName ] = useState(article ? article.name() : "")
@@ -213,10 +212,10 @@ export default ({ article, id, gender, category }) => {
             setIsSaving(undefined)
         })
         .catch(e => {
-            setWarning(typeof(e) === 'string' ? e : e.message)
+            setWarning(e.toString())
             console.error(e) 
             setIsSaving(undefined)
-            handleSessionExpired(e.message)
+            handleSessionExpired(e)
         })
 
     }
@@ -232,10 +231,10 @@ export default ({ article, id, gender, category }) => {
             setIsSaving(undefined)
         })
         .catch(e => {
-            setWarning(typeof(e) === 'string' ? e : e.message)
+            setWarning(e.toString())
             console.error(e)
             setIsSaving(undefined)
-            handleSessionExpired(e.message)
+            handleSessionExpired(e)
         })
     }
 
@@ -250,18 +249,16 @@ export default ({ article, id, gender, category }) => {
             setGenderSelected(undefined)
         })
         .catch(e => { 
-            setWarning(typeof(e) === 'string' ? e : e.message)
+            setWarning(e.toString())
             console.error(e) 
             setIsSaving(undefined) 
-            handleSessionExpired(e.message)
+            handleSessionExpired(e)
         })
     }
 
     const handleSessionExpired = (e) => {
-        const { isAdmin } = update()
-        console.log(isAdmin)
-        if (isAdmin == false)
-            navigate(`/admin?message=${e}`)
+        if (e.adminSessionExpired() === true)
+            alert("Necesitas revalidar tu sesión")
     }
 
     try {

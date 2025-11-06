@@ -3,7 +3,7 @@
     "loadFromGoogleSheets": true,
     "loadFromBackend": false,
     "useIndexedDB": true,
-    "cacheTime": 120,
+    "cacheTime": 1,
     "adminSignTime": 120,
     "localStorage": "/assets/articles.json",
     "usersCanSignIn": false,
