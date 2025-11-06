@@ -31,7 +31,7 @@ export default function Article({ article, className, onClick }) {
             { article.recent() && <p className={styles.new}>Nuevo!</p> }
             <p className={styles.name}>{article.name()}</p>
             <p className={styles.price}>
-                { article.discount() > 0 ? <><strike className={styles.strike}>{article.priceText()}</strike> <span className={styles.newPrice}>${article.price()-article.price()*article.discount()/100}</span> </>
+                { article.discount() > 0 ? <><strike className={styles.strike}>{article.priceText()}</strike> <span className={styles.discount}>{article.discount()}% off</span><span className={styles.newPrice}>${article.priceDiscounted()}</span> </>
                 : article.priceText()
                 }
 

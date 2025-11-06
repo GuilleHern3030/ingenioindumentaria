@@ -15,8 +15,28 @@
     text-align: center;
 }
 
+.price {
+    font-size: 1.3em;
+    margin: 1em;
+    text-align: center;
+}
+
+.discount {
+    font-size: .9em;
+    color: rgb(95, 148, 42);
+    font-weight: bold;
+}
+
+.discounted {
+    font-size: 1.4em;
+}
+
 .description_text {
     padding: .5em;
+}
+
+.attributes {
+    margin: 1em;
 }
 
 .button {

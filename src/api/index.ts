@@ -27,7 +27,7 @@ export const loadShoppingCart = async() => {
 
 const CACHE = 'cache-timeStamp'
 
-export const devMode = () => location.hostname.includes("localhost")
+export const devMode = () => location.hostname.includes("localhost") || location.hostname.includes("192.168.1")
 
 export const setCache = () => window.localStorage.setItem(CACHE, new Date().toISOString())
 

@@ -44,6 +44,13 @@
     font-size: .75em;
 }
 
+.discount {
+    font-size: .9em;
+    color: rgb(95, 148, 42);
+    font-weight: bold;
+    margin-right: 1.3em;
+}
+
 .new {
     color: brown;
 }
@@ -65,5 +72,5 @@
 
 .strike {
     color: rgb(133, 133, 133);
-    margin-right: .7em;
+    margin-right: .3em;
 }

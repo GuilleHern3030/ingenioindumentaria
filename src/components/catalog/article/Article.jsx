@@ -89,20 +89,27 @@ export default function Article()  {
                     </div>
                 </div>
 
-                <div className='flex-center-column'>
-                    <p className={styles.name}>
+                <div className={styles.attributes}>
+                    <p>Talles disponibles</p>
+                    <p style={{paddingLeft:'1em'}}>{article.sizes().map((size, index) => <span key={index}>{size}{index < article.sizes().length - 1 && ', '}</span>)}</p>
+                </div>
 
-                        { article.discount() > 0 ? 
-                            <>
+                <div className={styles.price}>
+
+                    { article.discount() > 0 ? 
+                        <>
+                            <p> 
                                 <strike className={styles.strike}>{article.priceText()}</strike> 
-                                <span className={styles.newPrice}>${article.price()-article.price()*article.discount()/100}</span> 
-                            </>
-                        : article.priceText()
-                        }
-                    </p>
-                    
+                                <span className={styles.discount}>{article.discount()}% OFF</span> 
+                            </p>
+                            <br/>
+                            <p><span className={styles.discounted}>${article.priceDiscounted()}</span></p>
+                        </> : 
+                        <p style={{paddingTop:'1em'}}><span className={styles.discounted}>{article.priceText()}</span></p>
+                    }
+
                     {
-                     //   <button className={styles.button} onClick={handleAddToCart}>Agregar al carrito</button>
+                        //<button className={styles.white_button} onClick={handleAddToCart}>Agregar al carrito</button>
                     }
                     
                     {

@@ -1,5 +1,5 @@
 import { createContext, useRef, useEffect, useState } from 'react';
-import { loadDataBase, loadShoppingCart, setCache, isValidCache, devMode } from '../api';
+import { loadDataBase, setCache, isValidCache, devMode } from '../api';
 import { useDispatch } from 'react-redux';
 
 import { setIndex } from '../redux/reducers/index/indexSlice'

@@ -1,6 +1,7 @@
 {
-    "loadFromBackend": false,
     "loadFromLocalStorage": false,
+    "loadFromGoogleSheets": true,
+    "loadFromBackend": false,
     "useIndexedDB": true,
     "cacheTime": 120,
     "adminSignTime": 120,
