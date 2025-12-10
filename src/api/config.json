@@ -1,7 +1,7 @@
 {
     "loadFromLocalStorage": false,
-    "loadFromGoogleSheets": false,
-    "loadFromBackend": false,
+    "loadFromGoogleSheets": true,
+    "loadFromBackend": true,
     "lazyLoading": false,
     "lazyLoadLimit": 18,
     "useIndexedDB": true,
