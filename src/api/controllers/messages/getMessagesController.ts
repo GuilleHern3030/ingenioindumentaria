@@ -1,6 +1,4 @@
-import axios from "../axios.ts";
-//import { getLocalToken, getAdminUser } from '../../../api'
-import { email } from '../../../api'
+import { email, language, axios } from '@/api'
 
 const endpoint = "/messages";
 
@@ -11,7 +9,8 @@ export const getMessages = async() => {
         { 
             headers: { 
                 //token: getLocalToken(), 
-                user: email() 
+                user: email(),
+                lang: language 
             } 
         }
     )

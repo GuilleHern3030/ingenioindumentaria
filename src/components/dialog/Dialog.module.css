@@ -5,6 +5,7 @@
     position: fixed;
     top: 0;
     left: 0;
+    user-select: none;
 }
 
 .confirmation {
@@ -13,6 +14,7 @@
     position: fixed;
     background-color: rgb(180, 174, 186);
     border: 1px solid black;
+    color: black;
     width: 80%;
     padding: 1em;
     top: 30%;
@@ -23,11 +25,13 @@
 .title {
     font-size: 1.1em;
     font-weight: bold;
+    color: black;
     margin-bottom: .3em;
 }
 
 .message {
     text-align: center;
+    color: black;
 }
 
 .buttons {

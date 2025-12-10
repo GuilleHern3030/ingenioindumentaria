@@ -1,0 +1,63 @@
+.loading {
+  animation: alternate-size .6s alternate infinite;
+}
+
+.logo {
+  width: 80% !important;
+}
+
+.image {
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.alt {
+  display: grid;
+  position: relative;
+  text-align: center;
+  padding: 1em;
+  background: rgba(255, 255, 255, 0.117);
+  filter: blur(24);
+  border-radius: 3px;
+  margin: .5em;
+  min-height: 12em;
+  width: 90%;
+}
+
+.topText {
+  position: absolute;
+  top: 0;   /* superior */
+  left: 50;     /* centro */
+  padding: .3em .8em; /* opcional, para separarlo del borde */
+  margin-left: .2em;
+  color: rgb(224, 203, 203);
+  font-weight: bold;
+  font-size: .75em;
+  background: rgba(129, 66, 66, 0.85); /* opcional, para contraste */
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.bottomText {
+  position: absolute;
+  bottom: 0;   /* inferior */
+  left: 50;     /* centro */
+  padding: .3em .8em; /* opcional, para separarlo del borde */
+  margin-left: .2em;
+  color: white;
+  font-size: .75em;
+  background: rgb(29, 28, 28); /* opcional, para contraste */
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+@keyframes alternate-size {
+  from {
+    transform: scale(1)
+  }
+
+  to {
+    transform: scale(1.04)
+  }
+}

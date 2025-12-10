@@ -1,0 +1,13 @@
+.name {
+    font-size: 1.25em;
+    margin: 1rem 0rem .15rem 2rem;
+    text-transform: uppercase;
+}
+
+.count {
+    font-size: .9em;
+    margin: 0rem 0rem 1rem 2.5rem;
+    color: rgb(131, 131, 122);
+    text-transform: lowercase;
+    font-family: Courier New, Courier, monospace;
+}

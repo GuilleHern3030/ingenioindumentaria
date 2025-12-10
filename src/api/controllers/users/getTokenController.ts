@@ -1,4 +1,4 @@
-import axios from "../axios.ts";
+import { email, language, axios } from '@/api'
 
 const endpoint = "/users";
 

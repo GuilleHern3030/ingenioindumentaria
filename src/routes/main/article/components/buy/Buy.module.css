@@ -1,0 +1,14 @@
+.button {
+    font-size: 1.1em;
+    background-color: var(--article-buy-background-color);
+    color: var(--color-article-buy);
+    border-radius: 2em;
+    margin: 1em 0;
+    text-align: center;
+    padding: .8em 0;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: var(--article-buy-background-color-hover);
+}

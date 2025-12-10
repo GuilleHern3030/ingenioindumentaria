@@ -1,0 +1,61 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    min-height: 100%;
+    padding-bottom: 1em;
+}
+
+.button {
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 0px;
+    background-color: #fff;
+    padding: .5em 1.5em;
+    margin-top: 2em;
+    box-shadow: 6px 4px 3px 0 #000;
+    outline: 1px solid rgb(23, 23, 23);
+    user-select: none;
+}
+
+.button:hover {
+    cursor: pointer;
+    outline: 1px solid rgb(66, 79, 200);
+}
+
+
+/* Flags */
+
+.flags {
+    display: flex;
+    flex-direction: row-reverse;
+    text-align: end;
+    margin: 1rem 1rem 0;
+}
+
+.flags > div {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.flags img {
+    width: 1.8em;
+    height: 1.2em;
+    border-radius: 4px;
+    margin: 0 4px 0;
+    cursor: pointer;
+}
+
+.flag {
+    filter: grayscale(100%);
+    border: .75px solid #717070;
+}
+
+.flags .flag:hover {
+    filter:grayscale(0%) !important;
+}
+
+.flags .flag_active {
+    filter:grayscale(0%) !important
+}

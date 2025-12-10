@@ -1,0 +1,55 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+    background-color: #393737c4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    user-select: none;
+    z-index: 900;
+}
+
+.confirmation {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background-color: rgb(180, 174, 186);
+    border: 1px solid black;
+    color: black;
+    width: 80%;
+    padding: 1em;
+    top: 30%;
+    left: 10%;
+    border-radius: 6px;
+}
+
+.title {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: black;
+    margin-bottom: .3em;
+}
+
+.message {
+    text-align: center;
+    color: black;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 1em;
+}
+
+.button {
+    height: 2em;
+    width: 2em;
+    user-select: none;
+    transition: transform 0.2s;
+}
+
+.button:hover {
+    cursor: pointer;
+    transform: scale(1.2)
+}

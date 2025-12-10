@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react"
 
-import useUser from "../../../hooks/useUser"
+import useUser from "@/hooks/useUser"
+import { useRouteI18n } from '@/hooks/useRouteI18N'
 
-import { getMessages, deleteMessage } from "../../../api/messages"
-import Loading from "../../../components/loading/Loading"
-import Dialog from "../../../components/dialog/Dialog"
+import { getMessages, deleteMessage } from "@/api/messages"
+import Loading from "@/components/loading/Loading"
+import Dialog from "@/components/dialog/Dialog"
 
 import styles from './Messages.module.css'
-import deleteIcon from '../../../assets/icons/delete.webp'
-import Revalidate from "../../../components/admin/revalidate/Revalidate"
+import deleteIcon from '@/assets/icons/delete.webp'
+import Revalidate from "@/routes/admin/components/revalidate/Revalidate"
 
 const listMessages = (messages, remove) => 
     messages.map((message, index) => 
         <div key={index} className={styles.messagebox}>
 
-            { message.name &&
+            { message.name && 
                 <div className={styles.box}>
                     <p className={styles.box_title}>Nombre</p>
                     <p className={styles.box_content}>{message.name}</p>
@@ -51,15 +52,16 @@ const listMessages = (messages, remove) =>
         </div> 
 )
 
-export default () => {
+export default () => {    
+    
+    const { t, ready } = useRouteI18n("admin")
 
     const [ isLoading, setIsLoading ] = useState()
     const [ messages, setMessages ] = useState([])
     const [ error, setError ] = useState()
     const [ isDialog, setIsDialog ] = useState()
-    const [ isAdminSessionExpired, setIsAdminSessionExpired ] = useState(false)
 
-    const { isAdminSessionActive } = useUser()
+    const { isAdminSessionActive, setIsAdminSessionActive } = useUser()
 
     const removeMessage = id => {
         setIsDialog(undefined)
@@ -69,7 +71,7 @@ export default () => {
     }
 
     const loadMessages = () => {
-        if (isAdminSessionActive() == true) {
+        if (isAdminSessionActive === true) {
             setIsLoading(true)
             getMessages()
             .then(messages => {
@@ -79,41 +81,25 @@ export default () => {
             })
             .catch(e => {
                 if (e.adminSessionExpired())
-                    setIsAdminSessionExpired(true)
+                    setIsAdminSessionActive(false)
                 setError(e.toString())
                 setMessages(undefined)
                 setIsLoading(false)
             })
         } else {
-            setIsAdminSessionExpired(true)
-            setError("Es necesario revalidar la sesión")
+            setError(t('revalidate_session_required'))
             setMessages(undefined)
         }
     }
 
-    useEffect(() => { loadMessages() }, [])
+    useEffect(() => { loadMessages() }, [isAdminSessionActive])
 
     return <>
+        <p className={styles.title}>{t('messages')}</p>
 
         <div className="flex-center">
-            { !error && <p className={styles.info}>Acá podés visualizar los mensajes que dejan los clientes</p> }
+            { !error && <p className={styles.info}>{t('messages_subtitle')}</p> }
         </div>
-
-        {
-            isAdminSessionExpired && <Revalidate 
-                onFinish={() => { setIsAdminSessionExpired(false) }}
-                message="Es necesario revalidar la sesión"
-            />
-        }
-
-        {
-            !isDialog ? <></> : <Dialog 
-                title={"¿Querés borrar este mensaje?"} 
-                message={"El mensaje no se podrá recuperar"} 
-                onAccept={() => removeMessage(isDialog)} 
-                onReject={() => setIsDialog(undefined)}
-            />
-        }
 
         {
             isLoading == true ? <Loading/> :
@@ -122,11 +108,20 @@ export default () => {
                     <div>
                         {listMessages(messages, setIsDialog)}
                     </div>
-                : <p className={styles.info}>Aún no hay mensajes</p>
+                : <p className={styles.info}>{t('no_messages')}</p>
             : <div className={styles.error_container}>
                 <p className={styles.error}>{error}</p>
-                <button className={styles.button} onClick={loadMessages}>Reintentar</button>
+                <button className={styles.button} onClick={loadMessages}>{t('retry')}</button>
             </div>
+        }
+
+        {
+            !isDialog ? <></> : <Dialog 
+                title={t('question_delete')} 
+                message={t('message_is_not_recuperable')} 
+                onAccept={() => removeMessage(isDialog)} 
+                onReject={() => setIsDialog(undefined)}
+            />
         }
 
     </>

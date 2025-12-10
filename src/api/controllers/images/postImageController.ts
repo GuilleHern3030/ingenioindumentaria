@@ -1,15 +1,13 @@
-import axios from '../axios.ts'
-//import { getLocalToken, getAdminUser } from '../../../api'
-import { email } from '../../../api'
+import { email, language, axios } from '@/api'
 
 const endpoint = "/images";
 
 /**
  * Creates an image and put it into DataBase
  * @param {FormData} image FormData of an image
- * @returns result of the request
+ * @returns {Promise} { id, src, size } result of the request 
  */
-export const postImage = async(image:FormData) => {
+export const postImage = async(image:FormData): Promise<Record<string, any>> => {
 
 //    for (const pair of image.entries()) {
 //  console.log(pair[0], pair[1]);
@@ -22,7 +20,8 @@ export const postImage = async(image:FormData) => {
             headers: { 
                 "Content-Type": "multipart/form-data",
                 //token: getLocalToken(), 
-                user: email() 
+                user: email(),
+                lang: language 
             } 
         }
     )

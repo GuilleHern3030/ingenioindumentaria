@@ -1,0 +1,6 @@
+{
+    "handle_error_body": "Invalid request.",
+    "session_expired": "The session has expired. Please log in again to continue.",
+    "no_articles_filter": "There are no products with the selected filters",
+    "no_articles": "We're sorry, but we don't have any items to show yet"
+}

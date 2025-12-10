@@ -1,0 +1,52 @@
+.toggle_switch {
+  --light: #e8e8e8;
+  --dark: #252525;
+}
+
+.toggle_switch {
+  font-size: .27em;
+  position: relative;
+  width: 12.5em;
+}
+
+.toggle_switch label {
+  position: absolute;
+  width: 100%;
+  height: 6.25em;
+  background-color: var(--dark);
+  border-radius: 3.125em;
+  cursor: pointer;
+}
+
+.toggle_switch input {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 3.125em;
+  transition: 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: .9em;
+  left: 1em;
+  width: 4.6875em;
+  height: 4.6875em;
+  border-radius: 50%;
+  box-shadow: inset 1.75em -.25em 0 0 var(--light);
+  background-color: var(--dark);
+  transition: 0.3s;
+}
+
+.input:checked ~ .slider::before {
+  transform: translateX(5.9375em);
+  background-color: var(--dark);
+  background-color: rgb(237, 230, 21);
+  box-shadow: none;
+}

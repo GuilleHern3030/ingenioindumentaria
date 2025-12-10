@@ -1,6 +1,6 @@
 .header {
     height: var(--header-height);
-    z-index: 50;
+    z-index: 140;
 }
 
 .fixedHeader {
@@ -8,12 +8,12 @@
     grid-template-columns: repeat(3, 1fr);
     justify-content:space-between;
     align-items: center;
-    background-color: aliceblue;
+    background-color: var(--header-background-color);
     height: 3.5em;
     width: 100%;
     padding: 0 1em;
     position: fixed;
-    z-index: 50;
+    z-index: 140;
 }
 
 .cursor:hover {

@@ -1,0 +1,49 @@
+.title {
+    font-size: 1.7em;
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    color: aliceblue;
+    background-color: rgb(38, 41, 47);
+    user-select: none;
+}
+
+.subtitle {
+    font-size: .8em;
+    display: block;
+    text-align: center;
+    user-select: none;
+    color: black;
+}
+
+.category {
+    display: block;
+    text-align: center;
+    font-size: 2em;
+    padding: 1rem;
+    user-select: none;
+    background-color: darkgray;
+    color: black;
+}
+
+.error {
+    display: block;
+    text-align: center;
+    user-select: none;
+    font-size: 2rem;
+    color: brown;
+    padding-bottom: 1em;
+}
+
+.instructions {
+    padding: 1em;
+    font-size: 1.15em;
+}
+
+.instruction {
+    display: block;
+    user-select: none;
+    text-align: center;
+    padding: .25em 0;
+    color: black;
+}

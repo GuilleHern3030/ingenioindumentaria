@@ -1,77 +1,45 @@
 import { createSelector } from 'reselect';
-import Article from "./article";
+import { hasPromos } from '../index/IndexSelector';
 
-// Obtiene un array de las categorías existentes de la lista de artículos
-export const getCategories = () =>
+// Obtiene un array de los artículos con descuento
+export const hasDiscounts = () =>
   createSelector(
-    (state) => state.articles.articles,
+    (state) => state.articles,
     (articles) => {
-      const categories = [];
-      if (articles) Object.values(articles).forEach(article => {
-          if (!categories.includes(article["category"])) 
-            categories.push(article["category"]);
-      });
-      return categories;
+      return (articles?.hasDiscounts)
     }
-  );
+  )
 
-// Obtiene un artículo específico por id
-export const getArticle = (id) =>
+// Obtiene el nombre de una categoría
+export const getCategory = (route) =>
   createSelector(
-    (state) => state.articles.articles,
-    (items) => {
-      try {
-        const article = items.find((item) => item.id == id);
-        return article != undefined ? new Article(article) : article
-      } catch(e) { return undefined }
-    }
-  );
+    (state) => state.categories.slugs,
+    (slugs) => slugs[route],
+    (slug) => StringUtils.capitalize(slug)
+  )
 
-// Obtiene un array de los artículos seleccionados
-export const getSelectedArticles = () =>
+// Obtiene los atributos de una categoría
+export const getAttributes = (slug) =>
   createSelector(
-    (state) => state.articles.articles,
-    (articles) => {
-      const selectedArticles = [];
-      if (articles) {
-        if (articles.length > 0) {
-          Object.values(articles).forEach(article => {
-            if (article.amountSelected > 0)
-              selectedArticles.push(new Article(article));
-          })
-        }
-        return selectedArticles;
-      }
-    }
-  );
+    (state) => state.categories,
+    (categories) => {
 
-// Obtiene un int con la cantidad total de articulos seleccionados
-export const getSelectedArticlesAmount = () =>
-  createSelector(
-    (state) => state.articles.articles,
-    (articles) => {
-      let amount = 0;
-      if (articles) Object.values(articles).forEach(article => {
-        if (article.amountSelected > 0) 
-          amount += article.amountSelected;
-      });
-      return amount;
-    }
-  );
+      console.log(categories.slugs)
 
-// Obtiene un JSON con los artículos separados según su categoría
-export const getArticlesByCategory = (category=undefined) => 
-  createSelector(
-    (state) => state.articles.articles,
-    (articles) => {
-      let categoryList = {};
-      Object.values(articles).forEach(article => {
-        if (category == undefined || article["category"] == category) {
-          const key = categoryList[article["category"]];
-          if (key === undefined) categoryList[article["category"]] = [new Article(article)];
-          else categoryList[article["category"]].push(new Article(article));
-        }
-      });
-      return categoryList;
+      const attributesId = []
+      slug.split('/').forEach((name, deep) => {
+        const route = (slug.split('/').slice(0, (deep + 1))).join('/')
+        console.log(route)
+        const attributes = categories.slugs[route]
+        attributesId.push(...attributes)
+      })
+
+      const attributes = []
+      attributesId.forEach(id => {
+        if (categories.attributes[id].values?.length > 0)
+          attributes.push({ id, ...categories.attributes[id] })
+      })
+
+      return attributes
     }
-  );
+  )

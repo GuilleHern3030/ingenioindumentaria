@@ -1,0 +1,71 @@
+.title {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    user-select: none;
+    background-color: darkgray;
+}
+
+.title p {
+    text-align: center;
+    font-size: 2em;
+    padding: 1rem;
+    color:black;
+}
+
+.products {
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+.empty {
+    display: block;
+    text-align: center;
+    user-select: none;
+    font-size: 1.2em;
+    padding: 2em .5em;
+    background-color: rgb(214, 214, 214);
+    color:black;
+}
+
+.contract {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0 1em;
+}
+
+.contract img {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2em;
+    border-radius: 100%;
+    text-align: center;
+}
+
+.contract *:hover {
+    cursor: pointer;
+}
+
+.contracted {
+    display: grid;
+    place-content: center;
+    user-select: none;
+    background-color: rgb(214, 214, 214);
+    padding: 1.5em;
+}
+
+.contracted:hover {
+    color:blue;
+    cursor: pointer;
+}
+
+.subproducts {
+    text-align: center;
+    user-select: none;
+    padding: .3em;
+    color: rgb(76, 77, 77);
+    background-color: rgb(197, 196, 196);
+}

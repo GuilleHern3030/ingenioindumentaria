@@ -1,21 +1,16 @@
 import styles from './Loading.module.css'
 import icon from '../../assets/icons/logo.webp'
-/*export default function Loading({style, color, backgroundColor, className}) {
-    return <div className={styles.fullloading}>
-        <img className={styles.icon} src={icon}/>
-        <div 
-        className={`${styles.spinner} ${className ? className : ""}`} 
-        style={{
-            borderColor: color,
-            borderLeftColor: backgroundColor,
-            ...style
-        }}/>
-    </div>
-}*/
+import { useCommonI18n } from '@/hooks/useRouteI18N'
 
+/**
+ * 
+ * @param {*|undefined} props 
+ * @returns 
+ */
 export default function Loading({style, color, backgroundColor, className}) {
-    return <div className={`${styles.fullloading}`}>
+    const { t } = useCommonI18n()
+    return <div className={`${styles.fullloading}  ${className ? className : ""}`}>
         <img className={`${styles.icon} ${styles.animation_size}`} src={icon}/>
-        <p className={`${styles.text}`}>Cargando</p>
+        <p className={`${styles.text}`}>{t('common:loading')}</p>
     </div>
 }

@@ -1,0 +1,38 @@
+.container {
+    margin: 1em 0;
+    padding-bottom: 1em;
+}
+
+.div {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: .5em;
+}
+
+.discount {
+    color: var(--color-discount);
+    margin-left: .5em;
+    font-size: 1.25em;
+}
+
+.strike {
+    color: var(--color-striked);
+}
+
+.installments {
+    color: var(--color-gray);
+
+}
+
+.installments_price {
+    padding-left: .5em;
+}
+
+.price {
+    color: var(--color-price);
+    padding-bottom: .5em;
+}
+
+.price_no_iva {
+
+}

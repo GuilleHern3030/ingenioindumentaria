@@ -7,5 +7,8 @@
     "direction": "",
     "location": "",
     "country": "Argentina",
+    "coinSymbol": "$",
+    "decimals": 2,
+    "fees": 0,
     "googlemaps": "https://maps.app.goo.gl/xDdiWKQ7Jd2t49pH6"
 }

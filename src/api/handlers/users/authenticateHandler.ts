@@ -16,7 +16,6 @@ export const authenticate = async(username:string, password:string):Promise<Reco
             if (password && typeof(password) === 'string') {
 
                 const response = await authenticateRequest(username, password)
-                console.log(response)
                 resolve(response)
 
             } else reject(handleError("Contraseña inválida"))

@@ -1,13 +1,14 @@
-import deleteImage from './deleteImageHandler.ts'
-import Article from '../../objects/Article.ts'
-import handleError from '../errorHandler.ts'
+import deleteImage from './deleteImageHandler'
+import Article from '../../objects/Article'
+import handleError from '../errorHandler'
+import { image } from '@/api/objects/Image'
 
 /**
  * Deletes an image from DataBase
  * @param img Image in JSON object format { src:string, size:string } 
  * @returns Promise with JSON object with format { src:string, size:string } 
  */
-export const deleteImages = async(images:Array<any>, article:Article|undefined):Promise<any[]> => {
+export const deleteImages = async(images:Array<any>, article?:Article):Promise<any[]> => {
 
     if (images && images.length > 0 && Array.isArray(images)) {
 
@@ -16,7 +17,6 @@ export const deleteImages = async(images:Array<any>, article:Article|undefined):
         )
 
         // Devuelve las respuestas del Backend
-        console.log(results)
         return results
 
     } return []

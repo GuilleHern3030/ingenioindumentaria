@@ -1,0 +1,76 @@
+.images {
+    margin: 1em;
+    user-select: none;
+}
+
+.dialog {
+    max-height: 5em;
+}
+
+.button {
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 0px;
+    background-color: #fff;
+    padding: .5em 1.5em;
+    margin-top: 2em;
+    box-shadow: 6px 4px 3px 0 #000;
+    outline: 1px solid rgb(23, 23, 23);
+}
+
+.button:hover {
+    cursor: pointer;
+    outline: 1px solid rgb(66, 79, 200);
+}
+
+
+.remover {
+    height: 3;
+    width: 3em;
+    transition: transform 0.1s;
+}
+
+.remover:hover {
+    cursor: pointer;
+}
+
+.imagedetailedcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 2em;
+    justify-content: space-evenly;
+    width: 80%;
+}
+
+.imagedetailedcontainer p {
+    color:black
+}
+
+.imagesdetailed, .imagesadded {
+    display: flex;
+    flex-direction: column;
+    margin: 1.3em 0;
+    align-items: flex-start;
+}
+
+.imagedetailed {
+    height: 12.5em;
+    width: 10em;
+    margin-right: 1em;
+    margin-top: 2em;
+    border-radius: 5px;
+    border: 1px solid black;
+    transition: transform 0.1s;
+    object-fit: scale-down;
+    background-color: rgb(243, 241, 238);
+}
+
+.imagedetailedremoved {
+    filter: grayscale(100)
+}
+
+.imagedetailed:hover {
+    transform: scale(1.02);
+    cursor: pointer;
+}

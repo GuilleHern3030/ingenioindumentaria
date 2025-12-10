@@ -1,21 +1,42 @@
-import axios from '../axios.ts'
-//import { getLocalToken, getAdminUser } from '../../../api'
-import { email } from '../../../api'
+import { email, language, axios } from '@/api'
 
-const endpoint = "/images";
+const endpoint = "/images/delete";
 
 /**
  * Creates an image and put it into DataBase
- * @param {string} src src of the image
+ * @param {string|number} param src of the image or the id number
  * @returns result of the request
  */
-export const deleteImage = async(src:string) => {
+export const deleteImage = async(param:string|number) => 
+    (typeof(param) === 'string') ?
+        deleteBySrc(param) :
+        deleteById(param)
+
+const deleteById = async(id:number) => {
+
     const { data } = await axios.delete(
-        endpoint + "/" + encodeURIComponent(src), 
+        endpoint + `/${id}`, 
         { 
             headers: { 
                 //token: getLocalToken(), 
-                user: email() 
+                user: email(),
+                lang: language
+            } 
+        }
+    )
+    return data;
+}
+
+const deleteBySrc = async(src:string) => {
+
+    const { data } = await axios.put(
+        endpoint,
+        { src }, 
+        { 
+            headers: { 
+                //token: getLocalToken(), 
+                user: email(),
+                lang: language
             } 
         }
     )

@@ -20,12 +20,11 @@ export const postMessage = async(sender:string, message:string, email:string, ph
                 const result = await request({ sender, message, email, phone })
                 
                 // Devuelve la respuesta del Backend
-                console.log("Mensaje enviado:", result)
                 resolve(result)
 
-            } else reject(`El mensaje supera el máximo de ${maxMessageSize} caracteres`)
+            } else reject(handleError(`El mensaje supera el máximo de ${maxMessageSize} caracteres`))
 
-        } else reject("El mensaje no puede estar vacío")
+        } else reject(handleError("El mensaje no puede estar vacío"))
 
     } catch(err:any) { reject(handleError(err)) }
 })

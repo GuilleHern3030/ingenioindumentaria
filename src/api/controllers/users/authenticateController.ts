@@ -1,4 +1,4 @@
-import axios from "../axios.ts";
+import { language, axios } from '@/api'
 const endpoint = "/users";
 
 export const authenticate = async(username:string, password:string):Promise<Record<string,any>> => {
@@ -6,7 +6,10 @@ export const authenticate = async(username:string, password:string):Promise<Reco
     const { data } = await axios.post(
         endpoint,
         { username, password },
-        { headers: { "auth-method": "FORM" } }
+        { headers: { 
+            "auth-method": "FORM",
+            lang: language 
+        } }
     )
 
     return data

@@ -25,7 +25,6 @@ export const getToken = async(user:string, password:string) => new Promise(async
         //setLocalUser(user)
 
         // Devuelve la respuesta del Backend
-        console.log(token)
         resolve(token)
 
     } catch(err:any) { reject(handleError(err)) }

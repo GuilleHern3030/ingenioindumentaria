@@ -1,0 +1,30 @@
+.filters_box {
+  padding-inline: 2em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.filters_liststyle {
+  display: flex;
+  justify-content: center;
+}
+
+.filters_liststyle > * {
+  margin-inline: .35em;
+  cursor: pointer;
+  margin-top: 0;
+  margin-right: 1em;
+}
+
+.filters_symbol {
+  padding-left: .5em;
+}
+
+.filters { 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media only screen and (min-width: 1024px) {
+}

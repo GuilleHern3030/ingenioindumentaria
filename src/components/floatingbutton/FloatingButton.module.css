@@ -6,7 +6,7 @@
     border-radius: 100%;
     bottom: 7vh;
     right: 2.5vw;
-    z-index: 60;
+    z-index: 120;
     cursor: pointer;
     user-select: none;
 }

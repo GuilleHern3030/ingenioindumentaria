@@ -17,7 +17,6 @@ export const validateToken = async(token:string) => new Promise(async (resolve, 
         const response = await request(token)
 
         // Devuelve la respuesta del Backend
-        console.log(response)
         resolve(response)
 
     } catch(err:any) { reject(handleError(err)) }

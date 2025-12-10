@@ -1,0 +1,41 @@
+.main {
+    list-style: none;
+    user-select: none;
+}
+
+.section {
+    padding: .5em;
+    margin: .5em 0;
+}
+
+.welcomes {
+    margin: .5em;
+}
+
+.welcome {
+    font-size: 1.2em;
+    text-align: center;
+    margin: .2em;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.title {
+    text-align: center;
+    color: var(--color-title) !important;
+    text-align: center;
+    font-family: cursive;
+    font-style: italic;
+    text-decoration: dashed;
+    font-weight: bold;
+    margin: 1em 0;
+    font-size: 2em;
+    line-height: 16px;
+}
+
+.no_articles {
+    font-size: 1.1em;
+}
+
+.offer {
+    margin: .65em .35em;
+}

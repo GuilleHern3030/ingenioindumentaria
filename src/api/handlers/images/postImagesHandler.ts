@@ -1,14 +1,14 @@
-import postImage from './postImageHandler.ts'
+import postImage from './postImageHandler'
 import { maxImagesSize, maxImageSize } from '../../config.json'
-import Article from '../../objects/Article.ts'
 import { size as getImagesSize } from '../../../api/indexedDB.js'
+import { image } from '@/api/objects/Image'
 
 /**
  * Upload some images into DataBase
  * @param img Image in JSON object format { src:string, size:string } 
  * @returns Promise with JSON object with format { src:string, size:string } 
  */
-export const postImages = async(images:Array<any>, article:Article|undefined):Promise<any[]> => {
+export const postImages = async(images:Array<any>, product?:Record<string, any>):Promise<any[]> => {
 
     if (images && images.length > 0 && Array.isArray(images)) {
 
@@ -34,7 +34,7 @@ export const postImages = async(images:Array<any>, article:Article|undefined):Pr
             if (images.length > 0) {
 
                 const results = await Promise.all( // Fuerza a que se ejecuten todas las promesas antes de continuar
-                    images.map(async image => postImage(image, article))
+                    images.map(async image => postImage(image, product))
                 )
 
                 // Devuelve las respuestas del Backend

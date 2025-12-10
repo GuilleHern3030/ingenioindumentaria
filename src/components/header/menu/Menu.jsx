@@ -1,19 +1,14 @@
 import './Menu.css'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
-import { isAdmin } from '../../../api';
+import { isAdmin } from '@/api'
 
-import Genders from './genders/Genders';
-import Most from './most/Most';
-import useArticleFilter from '../../../hooks/useArticleFilter';
-import { getGenders, hasPromos, hasRecent } from '../../../redux/reducers/index/IndexSelector'
+import Genders from './genders/Genders'
+import Most from './most/Most'
 
 export default () => {
 
-    const { hideFunction } = useArticleFilter()
-    const genders = useSelector(getGenders())
-    const recent = useSelector(hasRecent())
     const promos = useSelector(hasPromos())
 
     return <div className='menu__background' onClick={hideFunction}>

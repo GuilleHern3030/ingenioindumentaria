@@ -1,0 +1,44 @@
+.title {
+    font-size: 1.7em;
+    display: block;
+    text-align: center;
+    padding: 1rem;
+    color: aliceblue;
+    background-color: rgb(38, 41, 47);
+    user-select: none;
+}
+
+.subtitle {
+    text-align: center;
+    place-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    user-select: none;
+    background-color: rgb(50, 52, 48);
+    padding: .5em;
+    color: aliceblue;
+}
+
+.error {
+    display: block;
+    text-align: center;
+    font-size: 1.3rem;
+    color: brown;
+    user-select: none;
+}
+
+.button {
+    font-size: 1.1em;
+    font-weight: bold;
+    border: 0px;
+    background-color: #fff;
+    padding: .5em 1.5em;
+    margin-top: 2em;
+    box-shadow: 6px 4px 3px 0 #000;
+    outline: 1px solid rgb(23, 23, 23);
+}
+
+.button:hover {
+    cursor: pointer;
+    outline: 1px solid rgb(66, 79, 200);
+}

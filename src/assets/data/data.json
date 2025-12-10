@@ -6,5 +6,7 @@
     "priceundefined": "Consultar",
     "credits": "https://guillenh.com",
     "coinSymbol": "$",
-    "copyright": "©2023 Guillermo Hernandez"
+    "decimals": 2,
+    "fees": 21,
+    "copyright": "©2025 Guillermo Hernandez"
 }

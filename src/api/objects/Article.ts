@@ -1,4 +1,4 @@
-import { isValidFormat } from '../models/Article.ts'
+import { isValidFormat } from '../models/Article'
 
 const parseImages = (images:Array<any>) => images.map(image => `${image.src}¬${image.size}`).join(",")
 

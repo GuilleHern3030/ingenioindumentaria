@@ -7,8 +7,19 @@
  * 
  */
 
+import { network_error as en_network_error } from '@/routes/locales/en.json'
+import { network_error as es_network_error } from '@/routes/locales/es.json'
+import { language } from '@/utils/i18n'
+import { clearAdmin } from '../users';
+const i18nNetworkError = () => {
+    switch(language) {
+        case 'es': return es_network_error;
+        default: return en_network_error;
+    }
+}
+
 class handledError {
-    #error;
+    #error:any;
     constructor(error:Record<string, any>) { this.#error = error }
     toString = () => this.#error.response.data.message
     response = () => this.#error.response.data
@@ -16,6 +27,7 @@ class handledError {
     statusText = () => this.#error.response.statusText
     sessionExpired = () => this.response().sessionExpired === true
     adminSessionExpired = () => this.response().adminSessionExpired === true
+    isNetworkError = () => this.status() === 503
 }
 
 export default (err:any) => {
@@ -29,11 +41,24 @@ export default (err:any) => {
 
         if (!err.response) { // El backend no respondió (se crea una respuesta)
             err.response = {
-                data: { message: "Error de conexión" }, // Network error
+                data: { message: i18nNetworkError() }, // Network error
                 status: 503,
                 statusText: "Service unavailable"
             }
         }
+
+        if (typeof(err.response.data) === 'string' && err.response.data.includes('DOCTYPE html')) { // El backend devolvió un HTML
+            const html = err.response.data
+            const match = html.match(/<pre>(.*?)<\/pre>/s); // la 's' permite que . capture saltos de línea
+            const message = match ? match[1] : "";
+            err.response.data = {
+                message: `${message} (${err.response.statusText})`,
+                error: html
+            }
+        }
+
+        if (err.response.status == 403) // forbidden (admin)
+            clearAdmin()
 
         return new handledError(err)
 

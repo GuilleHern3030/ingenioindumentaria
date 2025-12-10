@@ -1,0 +1,47 @@
+.routes {
+    display: flex;
+    padding: .5rem;
+    background-color: antiquewhite;
+    font-size: 1.2em;
+    width: 100%;
+    align-items: center;
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+    user-select: none;
+}
+
+.route {
+    padding: 0 .3em;
+    color: black;
+}
+
+.separator {
+    color: black !important
+}
+
+.route:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.input {
+    margin-left: .6em;
+    border-radius: 4px;
+    border: 1px solid rgba(175, 175, 175, 0.808);
+    resize: none;
+    padding: .4rem;
+    max-width: 30vw;
+    font-size: 1rem;
+}
+
+.button {
+    height: 1.3em;
+    margin-left: .75em;
+    transition: transform 0.2s;
+}
+
+.button:hover {
+    cursor: pointer;
+    transform: scale(1.2)
+}

@@ -1,0 +1,16 @@
+.reload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1em;
+    user-select: none;
+}
+
+.reload img {
+    transition: transform .25s;
+}
+
+.reload img:hover {
+    transform: scale(1.15);
+    cursor: pointer;
+}

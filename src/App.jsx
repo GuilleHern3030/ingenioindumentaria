@@ -1,22 +1,18 @@
-import { RouterProvider } from 'react-router-dom'
+import Routes from './routes'
 import { useContext } from 'react'
 import { DataBaseContext } from './context/DataBaseContext'
+
 import './App.css'
 
-import useRoutes from './hooks/useRoutes'
 import Loading from './components/loading/FullLoading'
 
 export default function App() {
 
-  const { isLoading } = useContext(DataBaseContext)
-
-  const routes = useRoutes()
+  const { isInitializing } = useContext(DataBaseContext)
 
   return <>{ 
-      (isLoading === true) ? 
-        <Loading/> 
-        : 
-        <RouterProvider router={routes}/> 
+      (isInitializing === true) ? 
+        <Loading/> : <Routes/> 
       }
     </>
 }

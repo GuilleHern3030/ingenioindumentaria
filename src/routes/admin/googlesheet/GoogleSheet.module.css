@@ -1,0 +1,35 @@
+.button {
+    margin: 1em;
+}
+
+.data {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(6, 108, 10);
+    background-color: rgb(118, 221, 98);
+    border-radius: 6px;
+    margin: .5em;
+    padding: .35em;
+}
+
+.updated {
+    color: rgb(3, 76, 3);
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-bottom: .75em;
+    margin-top: .25em;
+}
+
+.size {
+    text-align: center;
+    color: black;
+    user-select: none;
+}
+
+.link {
+    text-align: center;
+    color: rgb(31, 91, 156);
+    margin: .75em 0;
+}

@@ -1,0 +1,22 @@
+{
+    "category": "",
+    "collection": "Collection",
+    "articles": "Articles",
+    "recent": "News",
+    "promos": "Promotions",
+    "filters": "Filters",
+    "filters_apply": "Apply changes",
+    "order": "Order",
+    "orderby": "Order by",
+    "last": "Last",
+    "next": "Next",
+    "new": "New",
+    "price": "Price",
+    "discount": "Discount",
+    "desc": "highest to lowest",
+    "asc": "lowest to highest",
+    "by_default": "By default",
+    "back": "Back",
+    "no_articles_filter": "There are no products with the selected filters",
+    "no_articles": "There are no products in this category, but we'll show you other products that might interest you"
+}

@@ -1,14 +1,17 @@
 import { createContext, useState, useEffect } from "react";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import user, { authenticate } from "../api/users.ts";
-import { adminSignTime } from "../api/config.json"
+import user, { authenticate } from "@/api/users.ts";
+import { adminSignTime } from "@/api/config.json"
 
 export const UserContext = createContext();
 
 export function UserContextProvider(props) {
-    
+
     const [ email, setEmail ] = useState(user.email())
-    useEffect( () => { user.setEmail(email) }, [email])
+    useEffect( () => { 
+        user.setEmail(email)
+        setIsSignedIn(email != undefined)
+    }, [email])
 
     const [ picture, setPicture ] = useState(user.picture())
     useEffect( () => { user.setPicture(picture) }, [picture])
@@ -22,18 +25,18 @@ export function UserContextProvider(props) {
     const [ isAdmin, setIsAdmin ] = useState(user.isAdmin())
     useEffect( () => { user.setAdmin(isAdmin) }, [isAdmin])
 
-    const [ isAuthenticating, setIsAuthenticating ] = useState(false)
-
     const signOut = () => {
         setEmail(undefined)
         setPicture(undefined)
         setName(undefined)
         setLastSession(undefined)
-        setIsAdmin(undefined)
+        setIsSignedIn(false)
+        setIsAdmin(false)
     }
 
+    const [ isSigningIn, setIsSigningIn ] = useState(false)
     const signIn = async(data) => new Promise((resolve, reject) => {
-        setIsAuthenticating(true)
+        setIsSigningIn(true)
         authenticate(data)
         .then(result => {
             setName(result.name)
@@ -41,18 +44,23 @@ export function UserContextProvider(props) {
             setEmail(result.username) // email
             setLastSession(result.last_session)
             setIsAdmin(result.is_admin)
-            setIsAuthenticating(false)
+            setIsSigningIn(false)
             resolve(result)
         })
         .catch(e => {
-            setIsAuthenticating(false)
+            setIsSigningIn(false)
             reject(e)
         })
     })
 
-    const isSignedIn = () => email != undefined
+    const [ isAdminSessionActive, setIsAdminSessionActive ] = useState(isAdmin === true && lessThan(lastSession))
+    const verifyIsAdminSessionActive = () => {
+        const isActive = isAdmin === true && isAdminSessionActive === true && lessThan(lastSession)
+        setIsAdminSessionActive(isActive)
+        return isActive
+    }
 
-    const isAdminSessionActive = () => isAdmin === true && lessThan(lastSession)
+    const [ isSignedIn, setIsSignedIn ] = useState(user.email() != null)
 
     const CLIENT_ID = "164682043545-n2p5pgj7u4rf53iiajr8tu37t8jqkh0j.apps.googleusercontent.com"
 
@@ -63,9 +71,10 @@ export function UserContextProvider(props) {
                 picture, setPicture,
                 name, setName,
                 isAdmin, setIsAdmin,
-                isAdminSessionActive,
+                verifyIsAdminSessionActive, 
+                isAdminSessionActive, setIsAdminSessionActive,
+                isSigningIn, setIsSigningIn,
                 lastSession, setLastSession,
-                isAuthenticating, setIsAuthenticating,
                 isSignedIn,
                 signOut, signIn
             }}>

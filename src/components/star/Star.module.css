@@ -1,0 +1,43 @@
+.star {
+  --off: #aaaaaa;
+  --on: #ffcc00;
+  --on2: #e6b800;
+
+  width: var(--size);
+  height: var(--size);
+  display: inline-block;
+  background: var(--off);
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  outline: none;
+  border-radius: 6%;
+  
+  /* forma de estrella */
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+/* hover */
+.star:hover {
+  background: linear-gradient(var(--on), var(--on2));
+  transform: scale(1.07);
+}
+
+/* activa */
+.star.active {
+  background: linear-gradient(var(--on), var(--on2));
+  transform: scale(1);
+}

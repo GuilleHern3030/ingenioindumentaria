@@ -1,91 +1,10 @@
 import Article, { get as getArticles } from "./articles.ts"
 import genders from './models/genders.json'
 
-const DATA_BASE = "IngenioIndumentaria"
+const DATA_BASE = "IngenioIndumentariaOld"
 const ARTICLES = "Articles" // Todos los articulos disponibles
 const CATEGORIES = "Categories" // Nombre de las categorias
 const SHOPPING_CART = "Cart" // Artículos en el carrito
-
-/**
- * Convierte todos los Set que se encuentren en un objeto en Array
- * @param {*} value Objeto al que se le quiere quitar los Set
- * @returns Devuelve el objeto con todos sus Set convertidos en Array
- */
-function replaceSetsWithArrays(value) {
-  if (value instanceof Set) {
-    // Convierte Set → Array
-    return Array.from(value);
-  }
-
-  // Si es un array, recorremos sus elementos
-  if (Array.isArray(value)) {
-    return value.map(replaceSetsWithArrays);
-  }
-
-  // Si es un objeto (y no null), recorremos sus propiedades
-  if (value && typeof value === "object") {
-    const result = {};
-    for (const key in value) {
-      result[key] = replaceSetsWithArrays(value[key]);
-    }
-    return result;
-  }
-
-  // Si es un valor primitivo, lo devolvemos igual
-  return value;
-}
-
-function obtainGenders(gendercategories) {
-    const gendersObject = { }
-    try {
-        for (const gender in gendercategories) {
-            const genderName = genders[gender] != undefined ? 
-                genders[gender] : "Unisex"
-            gendersObject[genderName] = gender
-        }
-    } catch(e) { }
-    return gendersObject
-}
-
-// Convierte el nombre de un género en la letra que lo identifica
-function parseGender(genderName) {
-    if (genderName && genderName.length > 1) {
-        for (const gender in genders) {
-            if (genders[gender] === genderName)
-                return gender
-        }
-    } else return genderName
-}
-
-function getStoreObject(store, key) {
-    return new Promise((resolve, reject) => {
-        const req = store.get(key)
-        req.onsuccess = () => { resolve (req.result) }
-        req.onerror = e => { reject(e) }
-    })
-}
-
-function updateStoreObject(store, storeObject) {
-    return new Promise((resolve, reject) => {
-        const req = store.put(storeObject)
-        req.onsuccess = () => { resolve() }
-        req.onerror = e => { reject(e) }
-    })
-}
-
-function cursorStoreObject(store, key) {
-    return new Promise((resolve, reject) => {
-        
-        const cursor = store.get(Number(id))
-        cursor.onsuccess = () => {
-            const article = cursor.result;
-            console.log(article)
-            db.close()
-            resolve (new Article(article))
-        }
-        cursor.onerror = e => { reject(e) }
-    })
-}
 
 const open = async() => new Promise((resolve, reject) => {
     const IDBrequest = window.indexedDB.open(DATA_BASE, 1)

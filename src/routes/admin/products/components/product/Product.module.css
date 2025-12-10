@@ -1,0 +1,57 @@
+.recent {
+    color:brown;
+    font-weight: bold;
+}
+
+.product {
+    user-select: none;
+    transition: transform 0.1s;
+    background-color: rgb(214, 214, 214);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-top: 1px solid rgba(74, 73, 73, 0.85);
+    overflow-y: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.disabled {
+    display: grid;
+    background-color: rgba(165, 42, 42, 0.402);
+    width: 100%;
+    position: absolute;
+    place-content: center;
+}
+
+.disabled p {
+    color:rgb(105, 4, 4);
+    font-size: 1.5em;
+    font-weight: bold;
+    rotate: 347deg;
+}
+
+.productdata {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    padding: .5em 1em;
+}
+
+.object {
+    display: flex;
+    align-items: flex-end;
+    padding: .5em 0;
+}
+
+.key {
+    padding-right: .7em;
+    font-size: 1.1em;
+    font-weight: bold;
+    color:black;
+}
+
+.value {
+    color:black;
+
+}

@@ -10,12 +10,14 @@ import logo from "../../assets/icons/logo.webp"
 import facebook from "../../assets/icons/facebook-icon.webp";
 import instagram from "../../assets/icons/instagram-icon.webp";
 import twitter from "../../assets/icons/twitter-icon.webp";
+import { useCommonI18n } from "@/hooks/useRouteI18N"
 
 const goTop = () => window.scrollTo({top:0});
 
 export default () => {
 
     const { data } = useClientInfo()
+    const { t } = useCommonI18n()
 
     return /*data == undefined ? null :*/ <footer className={styles.footer}>
 
@@ -39,8 +41,8 @@ export default () => {
         </div>
 
         <div className={styles.privacy}>
-            <Link to="/politics" onClick={()=>goTop()}>Aviso legal</Link>
-            <a target="_BLANK" href={credits}>Webpage created by GuilleNH</a>
+            <Link to="/politics" onClick={()=>goTop()}>{t('common:politics')}</Link>
+            <a target="_BLANK" href={credits}>{`${t('common:credits')} GuilleNH`}</a>
         </div>
 
     </footer>

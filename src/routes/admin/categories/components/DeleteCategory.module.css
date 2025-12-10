@@ -1,0 +1,65 @@
+.button {
+    font-size: 1.2em;
+    padding: .5em 1.7em;
+    border-radius: 24px;
+    border: 0;
+    background-color: rgb(75, 6, 6);
+    color: rgb(229, 223, 212);
+    margin: 1em;
+}
+
+.button:hover {
+    outline: 2px rgb(125, 5, 5) solid;
+    background-color: rgb(234, 12, 12);
+    cursor: pointer;
+}
+
+.cancel {
+    background-color: rgb(14, 87, 6);
+}
+
+.cancel:hover {
+    outline: 2px rgb(201, 202, 203) solid;
+    background-color: rgb(8, 143, 17);
+}
+
+.deletes {
+  width: 100vw;
+  height: 100vh;
+  background-color: #1f0101ef;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3rem;
+  user-select: none;
+}
+
+.deletes p {
+  color:aliceblue;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #151515;
+  padding: 3rem;
+  border-radius: 12px;
+  outline: 1px blanchedalmond solid;
+}
+
+.title {
+    font-size: 1.5rem;
+}
+
+.subtitle {
+  padding-bottom: 2em;
+}
+
+.warning {
+  padding: 1em 0;
+  color:chocolate !important;
+}

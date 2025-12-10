@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  articles: undefined // array
+  articles: undefined, // map (object)
+  hasDiscounts: false, // boolean
 }
 
 export const articlesSlice = createSlice({
@@ -9,19 +10,23 @@ export const articlesSlice = createSlice({
   initialState, // valor inicial del "estado global"
   reducers: { // funciones/métodos que el "estado global" puede usar
     setArticles: (state, action) => {
-      state.articles = action.payload.articles
-    },
-    setSelection: (state, action) => { // params: id, amount
-      const article = state.articles.find(article => article.id == action.payload.id);
-      article["amountSelected"] = action.payload.amount;
+      const articles = action.payload
+      const articlesMap = { }
+      let hasDiscount = false
+      articles.forEach(article => { 
+        articlesMap[article.id] = article
+        if (!hasDiscount && article.discount > 0)
+          hasDiscount = true
+      })
+      state.articles = articlesMap;
+      state.hasDiscounts = hasDiscount;
     }
   }
 })
 
 // Create Actions
 export const { 
-  setArticles, 
-  setSelection
+  setArticles
 } = articlesSlice.actions
 
 export default articlesSlice.reducer

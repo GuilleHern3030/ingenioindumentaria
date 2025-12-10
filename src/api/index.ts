@@ -1,39 +1,50 @@
-import { useIndexedDB, cacheTime, adminSignTime } from './config.json'
-import backend from './backend.js'
-import indexedDB from './indexedDB'
-export default (forceIndexedDB?:boolean) => (useIndexedDB == true || forceIndexedDB && forceIndexedDB === true) ? indexedDB : backend
+import { cacheTime } from './config.json'
+import { pull } from './articles'
 
-export { default as indexedDB } from './indexedDB.js'
-export { default as backendDB } from './backend.js'
+import { pull as cachePull } from '@/redux/database/indexedDB'
 
-export { email, isAdmin } from './users.ts'
+export { default as axios } from './controllers/axios'
+export { email, isAdmin } from './users'
+export { language } from '@/utils/i18n'
 
-import { pull, getIndex } from './indexedDB.js'
+export const devMode = () => location.hostname.includes("localhost") || location.hostname.includes("192.168.1")
 
-import { isAdmin } from './users.ts'
-
-// returns { articles, index, }
-export const loadDataBase = async(onlyIndex?:boolean) => {
-    let result:Record<string, any> = { }
-    if (useIndexedDB) 
-        result = onlyIndex === true ? { index: await getIndex() } : await pull()
-    result.shoppingCart = await loadShoppingCart()
-    return result
+export const devConsole = (...params:any[]) => {
+    if (devMode())
+        return console.log(...params)
 }
 
-export const loadShoppingCart = async() => {
+export const request = async(setIsLoading:Function, setError:Function, fetchFunction:Function, ...params:any) => new Promise((resolve, reject) => {
+    setIsLoading(true)
+    setError(undefined)
+    fetchFunction(...params)
+    .then((response:any) => {
+        setIsLoading(false)
+        setError(undefined)
+        resolve(response)
+    })
+    .catch((e:any) => {
+        setError(e.toString())
+        setIsLoading(false)
+        reject(e)
+    })
+})
 
+export const reload = (params?:string) => {
+    window.location.href = (typeof(params) !== 'string' || params == 'undefined') ? 
+        window.location.href.split('?')[0] :
+        window.location.href.split('?')[0] + `?${params}`;
 }
 
 const CACHE = 'cache-timeStamp'
 
-export const devMode = () => location.hostname.includes("localhost") || location.hostname.includes("192.168.1")
-
 export const setCache = () => window.localStorage.setItem(CACHE, new Date().toISOString())
+
+export const clearCache = () => window.localStorage.removeItem(CACHE)
 
 export const isValidCache = () => {
     const timeStamp = window.localStorage.getItem(CACHE)
-    if (timeStamp != null && !isAdmin() && useIndexedDB == true) try {
+    if (timeStamp != null) try {
         const now:any = new Date()
         const saved:any = new Date(timeStamp)
         const diffMinutes = Math.floor((now - saved) / 60000);
@@ -42,6 +53,22 @@ export const isValidCache = () => {
     return false
 }
 
-export const reload = () => {
-    window.location.href = window.location.href.split('?')[0] + '?t=' + new Date().getTime();
+export const loadDataBase = async() => {
+    if (!isValidCache()) {
+        console.time("Data loaded")
+        const data = await pull()
+        console.timeEnd("Data loaded")
+        if(!devMode()) 
+            setCache()
+
+
+        console.log("Loaded:\n", data)
+        return data
+    } else {
+        console.time("Cache loaded")
+        const data = await cachePull()
+        console.timeEnd("Cache loaded")
+        console.warn("Cache loaded:\n", data)
+        return data
+    }
 }

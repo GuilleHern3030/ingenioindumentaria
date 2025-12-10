@@ -24,6 +24,7 @@
     overflow-x: hidden;
     white-space: nowrap;
     height: calc(100vh - 3.5em);
+    animation: slideInLeft 0.35s ease forwards
 }
 
 .menu__ul {
@@ -53,4 +54,15 @@
     font-size: .85em;
     padding-left: .9em;
     margin: .6em .3em !important;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

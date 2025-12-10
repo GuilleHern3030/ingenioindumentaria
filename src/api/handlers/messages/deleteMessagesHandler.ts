@@ -14,7 +14,7 @@ export const deleteMessage = async():Promise<any> => new Promise(async(resolve, 
         resolve(result)
 
     } catch(err:any) { reject(handleError(err)) }
-    else reject("La sesión caducó. Vuelve a iniciar sesión para continuar.")
+        else reject(handleError("La sesión caducó. Vuelve a iniciar sesión para continuar."))
 })
 
 export default deleteMessage

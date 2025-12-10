@@ -17,8 +17,8 @@ export default function FloatingButton() {
             window.open(data.contactlink, "_blank")
     }
 
-    return <div className={styles.floatingbutton} onClick={handleFloatingButton}>
+    return <nav className={styles.floatingbutton} onClick={handleFloatingButton}>
         <img src={img}/>
-    </div>
+    </nav>
 
 }

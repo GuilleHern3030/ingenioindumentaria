@@ -1,0 +1,58 @@
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    place-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    user-select: none;
+    background-color: rgb(50, 52, 48);
+}
+
+.title {
+    display: block;
+    text-align: center;
+    padding: .5em;
+    color: aliceblue;
+}
+
+.icon {
+    align-items: center;
+    justify-content: center;
+    padding-right: .65em;
+}
+
+.icon img:hover {
+    cursor: pointer;
+}
+
+.icon > * {
+    height: 1.75em;
+    width: 1.75em;
+}
+
+.footer {
+    display: flex;
+    text-align: center;
+    place-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    user-select: none;
+    margin: 1em 0;
+}
+
+.footer * {
+    flex-grow: 1;
+}
+
+.input {
+    margin: .8em 1em;
+}
+
+.warning {
+    display: block;
+    text-align: center;
+    font-size: 1.3rem;
+    color: brown;
+    user-select: none;
+}
