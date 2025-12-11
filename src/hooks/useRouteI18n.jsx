@@ -77,7 +77,7 @@ export const useCommonI18n = () => {
 
   /**
    * Devuelve un texto traducido si es que existe
-   * @param {string} str código de traduccion
+   * @param {string} str código de traduccion (ejemplo: 'common:welcome')
    * @returns {string} texto traducido si existe o código de traducción
    */
   const t = (str) => {

@@ -15,25 +15,6 @@ i18n
 
         const cacheKey = `${language}::${namespace}`
       
-        // Buscar todos los JSON bajo src/
-        //const modules = import.meta.glob( "/src/routes/**/locales/*.json" );
-
-        // Construir el path esperado
-        /*const expectedPath = `/src/routes/${namespace}/locales/${language}.json`.replaceAll("//", "/");
-        console.log(expectedPath)
-
-        if (!modules[expectedPath]) {
-          return callback(new Error("Translation not found"))
-        }
-
-        // Cargar dinámicamente
-        modules[expectedPath]()
-          .then((mod) => {
-            console.log(mod)
-            callback(null, mod.default)
-          }).catch((err) => callback(err));*/
-
-
         // Verificar cache
         if (translationCache[cacheKey]) 
           return callback(null, translationCache[cacheKey])

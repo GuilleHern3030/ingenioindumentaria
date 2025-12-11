@@ -17,7 +17,6 @@ import MenuUser from './icon-user/IconUser'
 import SearchBar from './icon-search/IconSearch'
 import ShoppingCart from './icon-cart/IconCart'
 
-import useArticleFilter from '../../hooks/useArticleFilter'
 import useUser from '../../hooks/useUser'
 import User from './user/User'
 import { useCommonI18n } from '@/hooks/useRouteI18N'
@@ -32,16 +31,6 @@ export default () => {
     const { picture } = useUser()
 
     const [ menuShowed, setMenuShowed ] = useState(null)
-
-    const { hideFunction, setHideFunction } = useArticleFilter()
-
-    useEffect(() => {
-        setHideFunction(() => () => {
-            goTop()
-            setLeftMenuShowed(null)
-            setRightMenuShowed(null)
-        })
-    }, [])
 
     const handleShowMenu = (menu) => {
         setMenuShowed(menu)

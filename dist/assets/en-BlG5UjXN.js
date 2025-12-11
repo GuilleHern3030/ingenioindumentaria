@@ -1,0 +1,1 @@
+const e="Update GoogleSheet",t="Update JSON",s="Updated successfully",a="Data base size",o={update_googlesheet:e,update_json:t,updated:s,size:a};export{o as default,a as size,e as update_googlesheet,t as update_json,s as updated};

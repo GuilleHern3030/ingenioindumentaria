@@ -73,14 +73,24 @@
 }
 
 .title a:hover {
-    color: blue !important;
+    color: var(--color-link) !important;
 }
 
 .back {
     display: flex;
     align-items: center;
+    justify-content: center;
     margin-right: 2em;
     cursor: pointer;
+    padding: .75em;
+}
+
+.back:hover > * {
+    color: var(--color-link)
+}
+
+.back_symbol {
+    padding-right: .5em;
 }
 
 .img {

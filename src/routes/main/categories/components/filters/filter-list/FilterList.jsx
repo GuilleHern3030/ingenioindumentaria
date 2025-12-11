@@ -19,7 +19,7 @@ export default ({attributes, order, filters, setFilters, t}) => {
     const [ list, setList ] = useState(false)
     const [ subList, setSubList ] = useState(false)
     const [ listStyle, setListStyle ] = useState()
-    const [ filtersSelected, setFiltersSelected ] = useState({...filters} ?? {})
+    const [ filtersSelected, setFiltersSelected ] = useState(filters ? {...filters} : {})
     const [ orderSelected, setOrderSelected ] = useState({...order})
     const listRef = useRef()
     const headerRef = useRef()
@@ -39,7 +39,7 @@ export default ({attributes, order, filters, setFilters, t}) => {
 
     useEffect(() => {
         if (list) {
-            setFiltersSelected({...filters} ?? {})
+            setFiltersSelected(filters ? {...filters} : {})
             setOrderSelected({...order})
         }
     }, [ list ])

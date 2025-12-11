@@ -131,7 +131,7 @@ const Menu = ({onHide, onShowSubmenu, onBack, hasPromos, slug='', t}) => {
               : 
               <>
                 <div className={styles.back} onClick={() => onBack(slug)}>
-                  <img className={styles.img} src={backIcon}/>
+                  <p className={styles.back_symbol}>&#10094;</p>
                   <p>{t('back')}</p>
                 </div>
               </>
