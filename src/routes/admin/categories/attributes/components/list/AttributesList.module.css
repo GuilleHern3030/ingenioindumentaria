@@ -1,0 +1,26 @@
+.attribute {
+    display: flex;
+    user-select: none;
+    align-items: center;
+    padding: .2em .8em;
+    margin: .5em 0;
+}
+
+.attribute p {
+    color: black
+}
+
+.attribute_name {
+    padding-right: 1em;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.attribute_name:hover {
+    color: blue;
+}
+
+.value_name {
+    padding-right: 1em;
+    font-size: .85em;
+}

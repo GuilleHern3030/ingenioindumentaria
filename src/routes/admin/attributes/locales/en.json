@@ -3,7 +3,7 @@
     "instruction_1": "In this section you can manage the attributes of the categories",
     "instruction_2": "Attributes are characteristics that the published items/products possess, for example, size, color, weight, etc.",
     "instruction_3": "Each category has its own characteristics, and all subcategories within a category will share those characteristics.",
-    "product_without_category": "Uncategorized attributes",
+    "all_categories": "All categories",
     "categories_assigned": "Assigned categories",
     "no_categories_assigned": "There are no assigned categories",
     "editor_cancel_title": "Do you want to cancel the edition?",

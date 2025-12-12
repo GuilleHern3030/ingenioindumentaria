@@ -34,17 +34,16 @@ export function DataBaseContextProvider(props) {
 
         if (tries < MAX_TRIES) try {
 
-            const { articles, categories } = await loadDataBase()
-            const { slugs, attributes } = reduceCategories(categories)
+            const { articles, categories, attributes } = await loadDataBase()
             const { hasDiscounts, hasNewests } = reduceArticles(articles)
             //dispatch(setCategories(categories))
-            setCategories(slugs)
+            setCategories(categories)
             setAttributes(attributes)
             setHasPromos(hasDiscounts)
             setHasNewest(hasNewests)
             setArticles(articles)
             //dispatch(setArticles(articles))
-            await initIndexedDB(categories, articles)
+            await initIndexedDB(categories, attributes, articles)
             setIsInitalizing(false)
             //dispatch(setShoppingCart(articles.shoppingCart))
 
@@ -74,28 +73,6 @@ export function DataBaseContextProvider(props) {
             {props.children}
         </DataBaseContext.Provider>
     </>)
-}
-
-const reduceCategories = (categories) => {
-    
-      const categoriesMap = { }
-      const attributesMap = { }
-      categories.forEach(category => {
-        const attributesId = []
-        category.Attributes.forEach(attribute => {
-          attributesId.push(attribute.id)
-          attributesMap[attribute.id] = {
-            name: attribute.name,
-            values: attribute.AttributeValues
-          }
-        })
-        categoriesMap[category.slug] = attributesId
-      })
-
-      return {
-        slugs: categoriesMap,
-        attributes: attributesMap
-      }
 }
 
 const reduceArticles = (articles) => {

@@ -33,7 +33,7 @@ export default () => {
     const [ error, setError ] = useState()
 
     useEffect(() => {
-        request(setIsLoading, setError, get, id)
+        request(setIsLoading, setError, get, id, true)
         .then(attribute => {
             setAttribute(attribute)
             if (location.state) {

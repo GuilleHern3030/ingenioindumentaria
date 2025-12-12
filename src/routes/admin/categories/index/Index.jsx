@@ -98,13 +98,14 @@ export default () => {
                 <hr />
                 {categorySelected && <p className={styles.subtitle}>{t('subcategories')}</p>}
                 <Categories parent={categorySelected} options={listedCategories} onClick={handleCategoryClick} t={t} />
+                { !networkError && !categorySelectedToMove && <CreateCategory parent={categorySelected} onCreate={handleOnCategoriesEdited} t={t} />}
                 <hr />
-                { !networkError ? <>
-                        {!categorySelectedToMove && <CreateCategory parent={categorySelected} onCreate={handleOnCategoriesEdited} t={t} />}
+                { !networkError ? 
+                    <>
+                        {categories && !categorySelectedToMove && categorySelected && <Attributes category={categorySelected} t={t} />}
                         {categorySelected && !categorySelectedToMove && categorySelected.isActive() == false && <EnableCategory category={categorySelected} t={t} />}
                         {categorySelected && !categorySelectedToMove && <DeleteCategory category={categorySelected} t={t} />}
                         {categories && <MoveCategory categorySelected={categorySelectedToMove} category={categorySelected} onSelect={handleOnSelectToMove} t={t} />}
-                        {categories && !categorySelectedToMove && categorySelected && <Attributes category={categorySelected} t={t} />}
                     </> : <Reload/>
                 }
 

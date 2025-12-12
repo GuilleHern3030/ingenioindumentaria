@@ -3,7 +3,7 @@
     "instruction_1": "En esta sección podés gestionar los atributos de las categorías",
     "instruction_2": "Los atributos son características que los artículos/productos publicados poseen, por ejemplo, talle, color, peso, etc",
     "instruction_3": "Cada categoría tiene sus propias características, y todas las subcategorías de una categoría compartirán las características",
-    "product_without_category": "Atributos sin categoría",
+    "all_categories": "Todos los atributos",
     "categories_assigned": "Categorías asignadas",
     "no_categories_assigned": "No hay categorías asignadas",
     "editor_cancel_title": "¿Quieres cancelar la edición?",

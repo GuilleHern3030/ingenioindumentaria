@@ -83,7 +83,7 @@
     text-align: center;
     padding: .5em;
     margin-top: .7em;
-    color: brown;
+    color: brown !important;
     user-select: none;
 }
 

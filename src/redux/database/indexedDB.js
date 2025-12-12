@@ -5,7 +5,8 @@ const DATA_BASE = "IngenioIndumentaria"
 
 // Stores
 const CATEGORIES = "Categories" // Categorías
-const ARTICLES = "Articles" // Todos los articulos disponibles
+const ATTRIBUTES = "Attributes" // Atributos
+const ARTICLES = "Articles" // Articulos precargados
 const SHOPPING_CART = "Cart" // Artículos en el carrito
 
 // --- Auxiliary functions --- //
@@ -14,6 +15,7 @@ const open = async() => new Promise((resolve, reject) => {
     IDBrequest.onupgradeneeded = () => {
         const db = IDBrequest.result
         db.createObjectStore(ARTICLES, { keyPath: "id" } /*{ autoIncrement: true }*/)
+        db.createObjectStore(ATTRIBUTES, { keyPath: "id" })
         db.createObjectStore(CATEGORIES, { keyPath: "slug" })
         db.createObjectStore(SHOPPING_CART, { keyPath: "id" })
     }
@@ -94,7 +96,7 @@ const dbSetAll = (IDBrequest, objectStore, objects) => new Promise((resolve, rej
             store.add(object)
         })
         transaction.addEventListener("complete", () => resolve())
-    }
+    } else resolve()
 })
 
 const dbGetAll = (IDBrequest, objectStore) => new Promise((resolve, reject) => {
@@ -128,10 +130,11 @@ const getAttributes = async(slug) => {
 }
 
 // --- Initialization --- //
-export const init = async(categories, articles=[]) => {
+export const init = async(categories, attributes, articles=[]) => {
     await clear()
     const db = await open()
     await db.set(CATEGORIES, categories)
+    await db.set(ATTRIBUTES, attributes)
     await db.set(ARTICLES, articles)
     db.close()
     return;
@@ -141,12 +144,14 @@ export const pull = async() => {
     const db = await open()
 
     const categories = await db.get(CATEGORIES)
+    const attributes = await db.get(ATTRIBUTES)
     const articles = await db.get(ARTICLES)
 
     db.close()
 
     return {
         articles,
+        attributes,
         categories
     }
 }
@@ -178,7 +183,6 @@ export default {
      */
     getArticles: (route, include_children, filters={}, order=null, start=0, limit=lazyLoadLimit) => new Promise(async(resolve, reject) => {
         
-        const categories = await getAttributes()
         const db = await open()
         const articles = await db.select(ARTICLES, (article) => {
             if (!route || article.Categories.find(category => hasSlug(category.slug, route, include_children))) {

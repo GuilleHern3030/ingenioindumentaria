@@ -16,6 +16,7 @@ import Loading from '@/components/loading/Loading.jsx'
 import Reload from '../../components/reload/Reload.jsx'
 import Input from '../../components/input/Input';
 import Attributes from './components/attributes/Attributes';
+import AttributesList from './components/list/AttributesList';
 import Dialog from '@/components/dialog/Dialog';
 import Alert from '@/components/alert/Alert';
 
@@ -25,12 +26,14 @@ export default () => {
     const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState(true)
+    const [isAdding, setIsAdding] = useState(false)
     const [error, setError] = useState()
     const [networkError, setNetworkError] = useState(false)
     const [dialog, setDialog] = useState()
     const [categories, setCategories] = useState()
     const [category, setCategory] = useState()
     const [attributes, setAttributes] = useState([])
+    const [values, setValues] = useState([])
 
     const { t } = useOutletContext()
 
@@ -56,59 +59,17 @@ export default () => {
 
     // --- Attributes editor --- //
 
-    const handleCreate = (name) => {
-        if (name.length > 0) {
-            if (!attributes?.has(name)) {
-                setAttributes(attributes.add(name))
+    const handleAdd = (attribute) => {
+        setIsAdding(false)
+        if (attribute) {
+            if (!attributes?.has(attribute)) {
+                setAttributes(attributes.add(attribute))
             } else setError(t('attribute_no_repeated'))
         } else setError(t('attribute_no_name_error'))
     }
-
-    const handleEdit = (attribute, name) => {
-        if (name.length > 0) {
-            if (!attributes?.has(name)) {
-                setAttributes(attributes.rename(attribute, name))
-            } else setError(t('attribute_no_repeated'))
-        } else setError(t('attribute_no_name_error'))
-    }
-
-    const handleDisable = (attribute) => 
-        setAttributes(attributes.disable(attribute))
-
-    const handleEnable = (attribute) => 
-        setAttributes(attributes.enable(attribute))
 
     const handleRemove = (attribute) => 
         setAttributes(attributes.remove(attribute))
-
-
-    // --- Attribute values editor --- //
-
-    const handleAddValue = (attribute, value) => {
-        if (value?.length > 0) {
-            if (!attributes.hasValue(attribute, value)) {
-                setAttributes(attributes.addValue(attribute, value))
-            } else setError(t('attribute_value_no_repeated'))
-        } else setError(t('attribute_no_name_error'))
-    }
-
-    const handleEditValue = (attribute, prevValue, newValue) => {
-        if (newValue?.length > 0) {
-            if (!attributes.hasValue(attribute, newValue, false)) {
-                attributes.renameValue(attribute, prevValue, newValue)
-                setAttributes(attributes.slice())
-            } else setError(t('attribute_value_no_repeated'))
-        } else setError(t('attribute_no_name_error'))
-    }
-
-    const handleRemoveValue = (attribute, value) => 
-        setAttributes(attributes.removeValue(attribute, value))
-
-    const handleDisableValue = (attribute, value) => 
-        setAttributes(attributes.disableValue(attribute, value))
-
-    const handleEnableValue = (attribute, value) => 
-        setAttributes(attributes.enableValue(attribute, value))
 
     // --- Save changes --- //
 
@@ -170,26 +131,28 @@ export default () => {
         { isLoading == true ? <Loading/> :
           !networkError ? 
             <>
-                <Attributes 
-                    attributes={attributes} 
-                    onSelect={handleSelect}
+                { !isAdding ?
+                    <Attributes 
+                        attributes={attributes} 
+                        onSelect={handleSelect}
+                        onRemove={handleRemove}
+                        t={t}
+                    /> 
+                    : 
+                    <AttributesList
+                        prevAttributes={attributes} 
+                        onAdd={handleAdd}
+                        t={t}
+                    />
+                }
 
-                    onCreate={handleCreate} 
-                    onEdit={handleEdit}
-                    onRemove={handleRemove}
-                    onDisable={handleDisable}
-                    onEnable={handleEnable}
-
-                    onAddValue={handleAddValue}
-                    onEditValue={handleEditValue}
-                    onRemoveValue={handleRemoveValue}
-                    onDisableValue={handleDisableValue}
-                    onEnableValue={handleEnableValue}
-
-                    t={t}
-                /> 
                 <hr/>
+                
                 <div className='flex-center-column'>
+                    { !isAdding ?
+                        <button className={styles.add} onClick={() => setIsAdding(true)}>{t('add')}</button> :
+                        <button className={styles.add} onClick={() => setIsAdding(false)}>{t('close')}</button>
+                    }
                     <button className={styles.save} onClick={handleSave}>{t('save')}</button>
                     <button className={styles.cancel} onClick={handleCancel}>{t('cancel')}</button>
                 </div>

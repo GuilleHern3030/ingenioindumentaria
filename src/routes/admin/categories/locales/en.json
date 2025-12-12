@@ -30,8 +30,8 @@
     "attribute_no_name_error": "The name cannot be empty.",
     "attribute_value_no_repeated": "That name already exists for a value in that attribute.",
     "attribute_remove_title": "Do you want to delete that attribute?",
-    "attribute_remove_message": "Once deleted, it cannot be recovered and any records related to this product will be lost.",
-    "attribute_disable_message": "This will disable the attribute and it will not be visible to the public, but it will be saved in the database.",
+    "attribute_remove_message": "This will remove the assignment of this attribute in the category, but the attribute will still be available for other categories and may even be reassigned here later",
+    "attribute_disable_message": "This will disable the attribute and it will not be visible to the public, but it will be saved in the database",
     "attribute_enable_message": "Users will be able to view it again",
     "attribute_enable_title": "Do you want to restore that attribute?",
     "attribute_value_enable_title": "Do you want to restore that attribute value?",
@@ -40,5 +40,8 @@
     "cancel_edition_title": "Cancel edition",
     "cancel_edition_message": "The changes made will not be saved",
     "save_edition_title": "Save changes",
-    "save_edition_message": "All changes made will be applied. If you removed any attributes (or one of their values), this will apply to all your existing products. This is irreversible, so proceed with caution."
+    "save_edition_message": "All changes made will be applied. If you removed any attributes (or one of their values), this will apply to all your existing products. This is irreversible, so proceed with caution.",
+    "no_attributes_to_add": "No attributes to add",
+    "close": "Close",
+    "add": "Add"
 }

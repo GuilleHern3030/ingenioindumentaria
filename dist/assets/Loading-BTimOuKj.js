@@ -1,1 +1,0 @@
-import{o as t,U as n}from"./index-DhIwGnSn.js";function a({style:r,color:s,backgroundColor:e,className:o}){return t.jsx("div",{className:`${n.spinner} ${o||""}`,style:{borderColor:s,borderLeftColor:e,...r}})}export{a as L};

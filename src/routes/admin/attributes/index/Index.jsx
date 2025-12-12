@@ -4,7 +4,6 @@ import { useOutletContext } from "react-router-dom";
 
 import styles from './Index.module.css'
 
-import { selectAll } from "@/api/attributes"
 import { getParams } from "@/hooks/useParams"
 
 // Icons
@@ -20,7 +19,7 @@ import Reload from "../../components/reload/Reload"
 
 import Attributes from "../components/attributes/Attributes";
 
-import { selectByCategoryCascade } from '@/api/attributes'
+import { selectByCategory, selectAll } from '@/api/attributes'
 import { request } from "@/api";
 
 
@@ -43,25 +42,18 @@ export default function() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if (initialized.current) return;
-        initialized.current = true
-
-        selectAll(true).then(allProducts => {
-            console.log("List of all attributes:", allProducts)
-        }).catch(e => { console.error(e) })
-    }, [])
-
     useEffect(() => { loadAttributesFromCategory(slug) }, [slug])
 
     const loadAttributesFromCategory = (slug) => {
-        request(setIsLoading, setError, selectByCategoryCascade, slug, true)
-        .then(attributes => {
+        const selected = slug?.length > 0 ? 
+            request(setIsLoading, setError, selectByCategory, slug, true) :
+            request(setIsLoading, setError, selectAll, true)
+        selected.then(attributes => {
             setAttributes(slug?.length > 0 || attributes.length > 0 ? attributes : undefined)
         }).catch(e => {
             console.error(e)
-                if (e?.status() === 503)
-                    setNetworkError(true)
+            if (e?.status() === 503)
+                setNetworkError(true)
         })
     }
 
@@ -111,7 +103,7 @@ export default function() {
                     //hide={productSelected !== undefined}
                     defaultContracted={!(slug?.length > 0)}
                     attributes={attributes} 
-                    title={slug === '' ? t('product_without_category') : slug}
+                    title={slug === '' ? t('all_categories') : slug}
                     onAttributeSelected={handleAttributeSelected}
                     t={t}
                 />

@@ -44,7 +44,7 @@ export class Attribute {
         const attributeValues = this.#json.AttributeValues ?? this.#json.values
         const values = onlyActives !== true ? attributeValues :
             attributeValues.filter(value => value.disabled !== true)
-        return Object.assign(new AttributeValues, values)
+        return Object.assign(new AttributeValues(), values)
     }
 
     isActive = (value?:string) => {

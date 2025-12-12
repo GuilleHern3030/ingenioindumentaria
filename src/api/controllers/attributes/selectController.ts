@@ -1,4 +1,5 @@
 import { email, language, axios, devConsole } from '@/api'
+import query from '@/utils/QueryUtils';
 
 const endpoint = "/attributes";
 
@@ -7,10 +8,14 @@ const endpoint = "/attributes";
  * @param {number} id Attribute id
  * @returns result of the request
  */
-export default async function selectController(id:number) {
+export default async function selectController(id:number, includeDisabled:boolean) {
+
+    const queryParams = query.set({
+        disabled: includeDisabled === true,
+    })
 
     const { data } = await axios.get(
-        endpoint + "/" + id, 
+        endpoint + "/" + id + queryParams, 
         { 
             headers: { 
                 user: email(),
@@ -19,7 +24,7 @@ export default async function selectController(id:number) {
         }
     )
 
-    devConsole(`attributes.select(${id})`, data)
+    devConsole(`attributes.select(${id}, ${includeDisabled})`, data)
     
     return data;
 }
