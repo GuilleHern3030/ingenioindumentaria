@@ -48,8 +48,17 @@
 
 .reload {
     display: flex;
-    flex-direction: row-reverse;
-    height: 1.6em !important;
+    justify-content: center;
+    padding: .5em 0;
+}
+
+.reload img {
+    height: 3.3em !important;
+    transition: transform .25s
+}
+
+.reload img:hover {
+    transform: scale(1.2);
 }
 
 .revalidate {

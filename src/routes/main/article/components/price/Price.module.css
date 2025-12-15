@@ -31,6 +31,8 @@
 .price {
     color: var(--color-price);
     padding-bottom: .5em;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.1em;
 }
 
 .price_no_iva {

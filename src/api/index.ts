@@ -2,6 +2,7 @@ import { cacheTime } from './config.json'
 import { pull } from './articles'
 
 import { pull as cachePull } from '@/redux/database/indexedDB'
+import { isAdmin } from './users'
 
 export { default as axios } from './controllers/axios'
 export { email, isAdmin } from './users'
@@ -58,10 +59,8 @@ export const loadDataBase = async() => {
         console.time("Data loaded")
         const data = await pull()
         console.timeEnd("Data loaded")
-        if(!devMode()) 
+        if(!devMode() && !isAdmin()) 
             setCache()
-
-
         console.log("Loaded:\n", data)
         return data
     } else {

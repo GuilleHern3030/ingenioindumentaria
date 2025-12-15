@@ -1,0 +1,63 @@
+.header {
+    height: var(--header-height);
+    z-index: 140;
+}
+
+.fixedHeader {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content:space-between;
+    align-items: center;
+    background-color: var(--header-background-color);
+    height: 3.5em;
+    width: 100%;
+    padding: 0 1em;
+    position: fixed;
+    z-index: 140;
+}
+
+.cursor:hover {
+    cursor: pointer;
+}
+
+.header__div > p {
+    user-select: none;
+    padding-left: .4em;
+}
+
+.search {
+    margin-left: 1.3em;
+}
+
+.search > img {
+    user-select: none;
+    height: 1.5em
+}
+
+.user {
+    margin-left: 1.5em;
+}
+
+.shoppingcart {
+    margin-left: .8em;
+}
+
+.shoppingcart > img, .user > img {
+    user-select: none;
+    height: 1.8em
+}
+
+.logo > img {
+    user-select: none;
+    height: 3em;
+}
+
+.hidableText {
+    user-select: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .hidableText {
+        display: none;
+    }
+}

@@ -44,17 +44,18 @@ export default () => {
     },[])
 
     const goBack = (result) => {
-        if (!devMode() || !result) {
-            navigate(`${from}?slug=${slug}`, { replace: true })
+
+        const back = () => {
+            const param =  slug ? `${from}?slug=${slug}` : ''
+            navigate(from ? `${from}${param}` : -1, { replace: true })
             window.location.reload()
         }
+
+        if (!devMode() || !result) back()
         else setDialog(<Alert
             title={"Changes saved"}
             message={"To view them, you must reload the page"}
-            onAccept={() => {
-                navigate(`${from}?slug=${slug}`, { replace: true })
-                window.location.reload()   
-            }}
+            onAccept={back}
         />)
     }
 

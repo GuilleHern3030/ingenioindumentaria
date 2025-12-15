@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import styles from './FilterList.module.css'
+import Icon from '../icon/Icon';
 
 function recordsAreEqual(a, b) {
   const keysA = Object.keys(a)
@@ -75,6 +76,7 @@ export default ({attributes, order, filters, setFilters, t}) => {
     return <>
 
         <div className={styles.filters} onClick={() => setList(true)}> 
+            <Icon/>
             <p>{t('filters')}</p>
             { Object.keys(filters).length > 0 && <p className={styles.amount}>{`(${Object.keys(filters).length})`}</p> }
         </div>

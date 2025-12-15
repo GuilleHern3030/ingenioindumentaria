@@ -37,6 +37,10 @@
     margin: .9em .3em;
 }
 
+.menu li *, .menu li {
+    text-transform:capitalize;
+}
+
 .menu li *:hover, .menu li:hover {
     color: var(--color-link)
 }

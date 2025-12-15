@@ -11,8 +11,15 @@
     text-align: center;
     padding: .8em 0;
     cursor: pointer;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .button:hover {
     background-color: var(--article-buy-background-color-hover);
+}
+
+@media only screen and (min-width: 768px) {
+  .button { 
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
 }

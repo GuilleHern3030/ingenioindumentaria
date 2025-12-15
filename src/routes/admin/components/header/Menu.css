@@ -12,12 +12,12 @@
     top: var(--header-height);
     height: calc(100vh - 3.5em);
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.849);
+    background-color: rgba(0, 0, 0, 0.9);
     z-index: 999;
 }
 
 .menu {
-    background-color: rgb(236, 243, 243);
+    background-color: var(--header-background-color);
     padding: 2em;
     max-width: fit-content;
     overflow-y: auto;
@@ -37,12 +37,12 @@
     margin: .9em .3em;
 }
 
-.menu li * {
-    color: black
+.menu li *:hover, .menu li:hover {
+    color: var(--color-link)
 }
 
-.menu li *:hover, .menu li:hover {
-    color: blue
+.menu li *, .menu li {
+    text-transform:capitalize;
 }
 
 .menu li:hover {
@@ -56,9 +56,9 @@
     margin: .6em .3em !important;
 }
 
-@keyframes slideInLeft {
+@keyframes slideInRight {
   from {
-    transform: translateX(-100%);
+    transform: translateX(100%);
     opacity: 0;
   }
   to {

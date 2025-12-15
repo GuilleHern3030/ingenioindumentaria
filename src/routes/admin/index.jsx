@@ -12,7 +12,7 @@ import { reload } from '@/api'
 
 import logo from '@/assets/icons/logo.webp'
 import back from '@/assets/icons/leftarrow_black.webp'
-import restartSessionIcon from '@/assets/icons/restart.webp'
+import restartSessionIcon from '@/assets/icons/sync.webp'
 import creditsLogo from '@/assets/images/guillenh.webp'
 
 import styles from './Index.module.css'
@@ -22,6 +22,7 @@ import { getParams } from '@/hooks/useParams.jsx'
 import { useCommonI18n } from '@/hooks/useRouteI18N'
 
 import Login from '@/routes/admin/components/login/Login.jsx'
+import Header from './components/header/Header'
 
 export default function() {
 
@@ -60,23 +61,7 @@ export default function() {
     return <>
         <div className={styles.panel}>
 
-            <header className={styles.panelHeader}>
-                <div className={styles.panelHeader__content}>
-                    <img className={`${styles.back} cursor`} onClick={handleBack} src={back}/>
-                    <div className='flex-center'>
-                        <img className='cursor' src={logo} onClick={() => navigate("/")}/>
-                    </div>
-                    <div className={styles.reload}>
-                        { isSignedIn === true && isAdminSessionActive === true && 
-                            <img 
-                                src={restartSessionIcon} 
-                                className={`${styles.reload} cursor`} 
-                                onClick={() => setIsRevalidating(true)}
-                            /> 
-                        }
-                    </div>
-                </div>
-            </header>
+            <Header isSignedIn={isSignedIn} isAdminSessionActive={isAdminSessionActive}/>
 
             <main className={styles.panelContent}>
             {
@@ -102,6 +87,17 @@ export default function() {
 
             }
             </main>
+
+            
+            { isSignedIn === true && isAdminSessionActive === true && 
+                <div className={styles.reload}>
+                    <img 
+                        src={restartSessionIcon} 
+                        className={`${styles.reload} cursor`} 
+                        onClick={() => setIsRevalidating(true)}
+                    /> 
+                </div>
+            }
 
             <footer className={styles.footer}>
                 <a target="_BLANK" href={credits}>

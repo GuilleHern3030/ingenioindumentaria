@@ -1,11 +1,13 @@
 import { createContext, useRef, useEffect, useState } from 'react';
 import { devMode, loadDataBase } from '@/api';
-import { useDispatch } from 'react-redux';
 
 import { init as initIndexedDB } from '@/redux/database/indexedDB'
-import { setIndex } from '@/redux/reducers/index/indexSlice'
-import { setArticles } from '@/redux/reducers/articles/articlesSlice'
-import { setCategories } from '@/redux/reducers/categories/categoriesSlice'
+
+// Redux
+//import { useDispatch } from 'react-redux';
+//import { setIndex } from '@/redux/reducers/index/indexSlice'
+//import { setArticles } from '@/redux/reducers/articles/articlesSlice'
+//import { setCategories } from '@/redux/reducers/categories/categoriesSlice'
 
 export const DataBaseContext = createContext()
 const MAX_TRIES = 3
@@ -14,7 +16,7 @@ export function DataBaseContextProvider(props) {
 
     const initialized = useRef(false)
 
-    const dispatch = useDispatch()
+    //const dispatch = useDispatch()
 
     const [ categories, setCategories ] = useState([])
     const [ attributes, setAttributes ] = useState([])

@@ -64,7 +64,7 @@ export default ({onShowMenu, onHide, t}) => {
             <span className={ deployed === undefined ? "" : deployed ? styles.headerRNSpanCenter__active : styles.headerRNSpanCenter__inactive}></span>
             <span className={ deployed === undefined ? "" : deployed ? styles.headerRNSpanBottom__active : styles.headerRNSpanBottom__inactive}></span>
         </div>
-        <p>Menu</p>
+        <p>{t('common:menu')}</p>
     </div>
   )
 }

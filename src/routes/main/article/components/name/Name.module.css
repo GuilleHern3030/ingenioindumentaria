@@ -4,5 +4,6 @@
 }
 
 .name {
-    color: var(--color)
+    color: var(--color);
+    font-weight: bold;
 }

@@ -17,12 +17,12 @@ export default () => {
     return ready ?
         <main className='unselectable'>
         
-            <section className={styles.flags}>
+            {/*<section className={styles.flags}>
                 <div>
                     <img id="es" src={spanishFlag} className={`${styles.flag} ${language === "es" && styles.flag_active}`} onClick={e => setLanguage(e.target.id)}/>
                     <img id="en" src={englishFlag} className={`${styles.flag} ${language === "en" && styles.flag_active}`} onClick={e => setLanguage(e.target.id)}/>
                 </div>
-            </section>
+            </section> */}
 
             <section className={styles.list}>
                 <button className={styles.button} onClick={() => navigate("categories")}>{t('categories')}</button>

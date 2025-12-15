@@ -44,7 +44,7 @@ export default () => {
 
     const handleProductSelected = (product) => {
         navigate(`${product.id()}`,
-            { 
+            {
                 state: {
                     from: location.pathname,
                     product: product.toJson(),

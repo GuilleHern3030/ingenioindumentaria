@@ -1,0 +1,29 @@
+.icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: .4em;
+    --icon-height: 22px;
+}
+
+@media only screen and (min-width: 480px) { .icon { --icon-height: 28px !important } }
+
+@media only screen and (min-width: 768px) { .icon { --icon-height: 42px !important } }
+
+.span {
+    width: calc(var(--icon-height) / 1.5);
+    height: calc((var(--icon-height) - 12px) / 15);
+    background-color: var(--color);
+    border-radius: 8px;
+    transition: transform 0.3s;
+    width: 1em;
+}
+
+.span:nth-child(2) {
+    margin: .2em 0;
+    width: .66em;
+}
+
+.span:nth-child(3) {
+    width: .33em;
+}

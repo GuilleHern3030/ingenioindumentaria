@@ -14,7 +14,13 @@ export default ({ index, code }) => {
     const handleIdClick = () => {
         if (isAdmin()) {
             const id = IdUtils.parse(index).id
-            navigate(`/admin/products/${id}`)
+            navigate(`/admin/products/${id}`,
+                {
+                    state: {
+                        from: location.pathname
+                    }
+                }
+            )
         }
     }
 
