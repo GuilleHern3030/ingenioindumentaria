@@ -4,7 +4,7 @@ interface serializedId {
     variantId:number
 }
 
-function numberToLetters(num:number):string {
+function numberToLetters(num:number):string { // caps
     let result = '';
 
     while (num > 0) {
@@ -28,6 +28,13 @@ function lettersToNumber(str:string):number {
     return result;
 }
 
+function isId(str:string):boolean {
+    if (str?.length > 0) {
+        const l = (str.charCodeAt(0))
+        return l >= 65 && l <= 90
+    } return false
+}
+
 export default {
     serialize(id:number, variantId?:number, slug?:string):string {
         const slugString = slug?.length > 0 ? `${slug}/` : ''
@@ -38,10 +45,10 @@ export default {
         if(serializedId) {
             const splitted = serializedId.split('/')
             const ids = splitted.pop()
-            const slug = (splitted.length > 0) ? splitted.join("/") : ''
+            const slug = (splitted.length > 0) ? splitted.join("/") : isId(ids) ? '' : serializedId
             const index = ids.search(/\d/) // index del primer número
-            const id = lettersToNumber( (index > 0) ? ids.substring(0, index) : ids )
-            const variantId = (index > 0) ? Number(ids.substring(index)) : undefined
+            const id = isId(ids) ? lettersToNumber( (index > 0) ? ids.substring(0, index) : ids ) : undefined
+            const variantId = (index > 0 && isId(ids)) ? Number(ids.substring(index)) : undefined
             return { slug, id, variantId }
         }
     },

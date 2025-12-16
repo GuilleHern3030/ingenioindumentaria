@@ -6,5 +6,9 @@
     "add_cart": "Add to cart",
     "buy": "Buy now",
     "consult": "Ask for them",
-    "consult_message": "Hello, I would like to ask you about this article."
+    "consult_message": "Hello, I would like to ask you about this article.",
+    "error_title": "Article not found",
+    "error_message_1": "The article you are looking for could not be found. We apologize for the inconvenience.",
+    "error_message_2": "Please, come back to home page",
+    "error_button": "Back"
 }

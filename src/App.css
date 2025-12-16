@@ -1,9 +1,16 @@
 #root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: var(--background-color);
   font-size: 12px; 
   min-height: 100vh;
   --img-size: 45px;
   --header-height: 3.5em
+}
+
+#root main {
+  flex-grow: 1;
 }
 
 @media only screen and (min-width: 360px) {

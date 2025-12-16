@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { email, language, axios } from '@/api'
-import styles from './GoogleSheet.module.css'
+import styles from './Workers.module.css'
 import { useRouteI18n } from '@/hooks/useRouteI18N';
 import SizeUtils from '@/utils/SizeUtils';
 

@@ -1,0 +1,1 @@
+import{o as t,Z as n}from"./index-XS39YbrD.js";function a({style:r,color:s,backgroundColor:e,className:o}){return t.jsx("div",{className:`${n.spinner} ${o||""}`,style:{borderColor:s,borderLeftColor:e,...r}})}export{a as L};

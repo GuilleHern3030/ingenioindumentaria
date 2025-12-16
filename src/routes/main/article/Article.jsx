@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate, replace } from 'react-router-dom'
 
 import styles from './Article.module.css'
 
@@ -21,6 +21,7 @@ import Price from './components/price/Price'
 import Filter from './components/filter/Filter'
 import Filters, { parseQueryFilters, parseVariantId } from './components/filters/Filters'
 import Buy from './components/buy/Buy'
+import Error from './components/error/Error'
 
 
 export default () => {
@@ -29,6 +30,7 @@ export default () => {
     const { data } = useClientInfo()
 
     const { "*": index } = useParams() // obtiene todo el param
+    const navigate = useNavigate()
 
     const [ article, setArticle ] = useState()
     const [ variant, setVariant ] = useState()
@@ -40,21 +42,34 @@ export default () => {
 
     useEffect(() => {
 
-        const { slug, id, variantId } = IdUtils.parse(index)
 
-        console.clear()
+        try {
 
-        getArticle(id).then(article => {
-            const product = new Product(article)
-            const variant = product.selectVariant(variantId)
-            setArticle(product)
-            setVariant(variant)
-            setFilters(!variant ? parseQueryFilters(product, getQueryParams()) : parseVariantId(product, variantId))
-            console.log("%cARTICLE", "color:blue; background:pink; padding:4px; border:1px solid blue;", article)
-        }).catch(e => { 
-            console.error(e)
-            setArticle(null)
-        })
+            const { slug, id, variantId } = IdUtils.parse(index)
+            console.log(IdUtils.parse(index))
+
+            if (id) {
+
+                console.clear()
+
+                getArticle(id).then(article => {
+                    const product = new Product(article)
+                    const variant = product.selectVariant(variantId)
+                    setArticle(product)
+                    setVariant(variant)
+                    setFilters(!variant ? parseQueryFilters(product, getQueryParams()) : parseVariantId(product, variantId))
+                    console.log("%cARTICLE", "color:blue; background:pink; padding:4px; border:1px solid blue;", article)
+                }).catch(e => { 
+                    console.error(e)
+                    setArticle(null)
+                })
+
+            } else navigate(
+                '/category' + (slug ? `/${slug}` : ''), 
+                { replace:true }
+            )
+
+        } catch(e) { navigate('/category', { replace:true }) }
 
     }, [index])
 
@@ -133,5 +148,8 @@ export default () => {
                 </article>
             </section>
         }
+
+        { article === null && <Error t={t}/> }
+
     </main>
 }

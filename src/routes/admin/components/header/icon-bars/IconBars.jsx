@@ -110,7 +110,7 @@ const Menu = ({ onHide, onShowSubmenu, onBack, hasPromos, slug = '' }) => {
       <hr />
 
       <ul className='menu__ul'>
-        <li><Link to='/admin/googlesheet' onClick={onHide}>{t('googlesheet')}</Link></li>
+        <li><Link to='/admin/workers' onClick={onHide}>{t('workers')}</Link></li>
       </ul>
 
       <hr />

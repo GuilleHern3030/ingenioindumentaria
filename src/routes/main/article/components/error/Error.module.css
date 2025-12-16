@@ -1,0 +1,15 @@
+.error {
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1em;
+}
+
+.title {
+    margin-bottom: 1em;
+}
+
+.button {
+    margin-top: 1em;
+}

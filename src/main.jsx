@@ -27,9 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <ThemeContextProvider>
           <ClientInfoContextProvider>
             <UserContextProvider>
-              <ArticlesFilterContextProvider>
-                <App />
-              </ArticlesFilterContextProvider>
+              <App />
             </UserContextProvider>
           </ClientInfoContextProvider>
         </ThemeContextProvider>

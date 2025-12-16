@@ -102,7 +102,7 @@ export default () => {
                 <hr />
                 { !networkError ? 
                     <>
-                        {categories && !categorySelectedToMove && categorySelected && <Attributes category={categorySelected} t={t} />}
+                        {categories && !categorySelectedToMove && categorySelected && <Attributes categories={categories} category={categorySelected} t={t} />}
                         {categorySelected && !categorySelectedToMove && categorySelected.isActive() == false && <EnableCategory category={categorySelected} t={t} />}
                         {categorySelected && !categorySelectedToMove && <DeleteCategory category={categorySelected} t={t} />}
                         {categories && <MoveCategory categorySelected={categorySelectedToMove} category={categorySelected} onSelect={handleOnSelectToMove} t={t} />}

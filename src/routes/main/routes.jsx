@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { Route } from "react-router-dom";
+import { Navigate, Route } from "react-router-dom";
 
 import Loading from "@/components/loading/FullLoading";
 
@@ -25,5 +25,6 @@ export default (
     <Route path="help" element={<Suspense fallback={<Loading/>}><Help/></Suspense>}/>
     <Route path="politics" element={<Suspense fallback={<Loading/>}><Politics/></Suspense>}/>
     <Route path="terms" element={<Suspense fallback={<Loading/>}><Terms/></Suspense>}/>
+    <Route path="*" element={<Navigate to={'/'} replace={true}/>}/>
   </>
 );

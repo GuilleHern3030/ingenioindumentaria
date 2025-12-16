@@ -9,16 +9,29 @@ import { reload, request } from '@/api';
 
 import useUser from "@/hooks/useUser";
 
-export default ({category, t}) => {
+export default ({ categories, category, t }) => {
 
     const navigate = useNavigate()
     const param = category ? `?category=${category}` : ''
+
+    const handleNavigate = () => {
+        console.log(categories)
+
+        navigate('attributes' + param,
+            {
+                state: {
+                    categories: categories.toJson()
+                }
+            }
+        )
+        
+    }
 
     return <>
         <div className='flex-center-column'>
             <button 
                 className={styles.button} 
-                onClick={() => navigate('attributes' + param)}
+                onClick={handleNavigate}
                 >{`${category ? t('attributes_set') : t('attributes_set_global') }`}
             </button> 
         </div>

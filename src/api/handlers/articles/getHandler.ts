@@ -6,15 +6,18 @@ export default async(id:number):Promise<Record<string, any>> => new Promise(asyn
 
     try {
 
-        // Obtener el producto en formato JSON
-        const json:Record<string, any> = await request(id)
+        if (id > 0) {
 
-        // Convertir a objeto Producto
-        const product = new Product(json)
+            // Obtener el producto en formato JSON
+            const json:Record<string, any> = await request(id)
 
-        // Devuelve el producto en formato correcto
-        resolve(product)
+            // Convertir a objeto Producto
+            const product = new Product(json)
 
+            // Devuelve el producto en formato correcto
+            resolve(product)
+
+        } else throw new Error("Invalid ID")
 
     } catch(err:any) { reject(handleError(err)) }
 })

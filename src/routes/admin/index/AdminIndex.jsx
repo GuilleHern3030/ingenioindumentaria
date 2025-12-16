@@ -29,7 +29,7 @@ export default () => {
                 <button className={styles.button} onClick={() => navigate("products")}>{t('products')}</button>
                 <button className={styles.button} onClick={() => navigate("attributes")}>{t('attributes')}</button>
                 <button className={styles.button} onClick={() => navigate("messages")}>{t('messages')}</button>
-                <button className={styles.button} onClick={() => navigate("googlesheet")}>{t('googlesheet')}</button>
+                <button className={styles.button} onClick={() => navigate("workers")}>{t('workers')}</button>
             </section>
         </main> : <Loading />
 }

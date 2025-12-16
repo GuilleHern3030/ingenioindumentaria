@@ -6,5 +6,9 @@
     "add_cart": "Añadir al carrito",
     "buy": "Comprar",
     "consult": "Consultar",
-    "consult_message": "Hola, quiero consultar por este artículo"
+    "consult_message": "Hola, quiero consultar por este artículo",
+    "error_title": "Artículo no encontrado",
+    "error_message_1": "El artículo que buscas no pudo ser encontrado. Disculpe las molestias.",
+    "error_message_2": "Por favor, volvé a la página principal",
+    "error_button": "Volver"
 }

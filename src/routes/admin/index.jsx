@@ -59,7 +59,6 @@ export default function() {
         return <Navigate to={"/"} replace={true} />
 
     return <>
-        <div className={styles.panel}>
 
             <Header isSignedIn={isSignedIn} isAdminSessionActive={isAdminSessionActive}/>
 
@@ -89,14 +88,14 @@ export default function() {
             </main>
 
             
-            { isSignedIn === true && isAdminSessionActive === true && 
-                <div className={styles.reload}>
+            { isSignedIn === true && isAdminSessionActive === true && pathname === "/admin" && 
+                <aside className={styles.reload}>
                     <img 
                         src={restartSessionIcon} 
                         className={`${styles.reload} cursor`} 
                         onClick={() => setIsRevalidating(true)}
                     /> 
-                </div>
+                </aside>
             }
 
             <footer className={styles.footer}>
@@ -106,6 +105,5 @@ export default function() {
                 </a>
             </footer>
                 
-        </div>
     </>
 }

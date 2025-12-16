@@ -164,11 +164,13 @@ export default {
      * @returns {Promise<Record<string, any>>} información del producto
      */
     getArticle: async (id) => new Promise(async(resolve, reject) => {
-        const db = await open()
-        const article = await db.get(ARTICLES, id)
-        await db.close()
-        if (article) resolve(article)
-        else reject()
+        if (id > 0) {
+            const db = await open()
+            const article = await db.get(ARTICLES, id)
+            await db.close()
+            if (article) resolve(article)
+            else reject()
+        } else reject()
     }),
 
     /**

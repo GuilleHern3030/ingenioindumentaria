@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
-import { useOutletContext, useNavigate } from "react-router-dom";
+import { useOutletContext, useNavigate, useLocation } from "react-router-dom";
 import useParams from '@/hooks/useParams';
 import addIcon from '@/assets/icons/add.webp'
 import acceptIcon from '@/assets/icons/accept.webp'
 import cancelIcon from '@/assets/icons/cancel.webp'
 import removeIcon from '@/assets/icons/remove.webp'
+
+import { Categories } from '@/api/objects/Categories';
 
 import styles from './Attributes.module.css'
 
@@ -24,6 +26,7 @@ export default () => {
 
     const params = useParams()
     const navigate = useNavigate()
+    const location = useLocation()
 
     const [isLoading, setIsLoading] = useState(true)
     const [isAdding, setIsAdding] = useState(false)
@@ -38,19 +41,28 @@ export default () => {
     const { t } = useOutletContext()
 
     useEffect(() => {
-        request(setIsLoading, setError, selectAll, true)
-        .then(categories => {
+
+        const setValues = (rawCategories) => {
+            const categories = new Categories(rawCategories)
             const category = categories.get(params?.category)
             const attributes = category?.attributes()
             setCategories(categories)
             setCategory(category)
             setAttributes(attributes)
-        })
+            setIsLoading(false)
+        }
+
+        console.log(location.state)
+
+        if (location.state) setValues(location.state.categories)
+        else request(setIsLoading, setError, selectAll, true)
+        .then(categories => setValues(categories))
         .catch(e => {
             console.error(e)
             if (e?.isNetworkError())
                 setNetworkError(true)
         })
+
     }, [])
 
     useEffect(() => {
