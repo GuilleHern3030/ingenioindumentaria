@@ -7,7 +7,7 @@ const goTop = () => window.scrollTo({top:0});
 
 export default () => {
 
-    const { data } = useClientInfo()
+    const { dataLoaded, email } = useClientInfo()
     const navigate = useNavigate()
 
     const handleLink = () => {
@@ -17,11 +17,11 @@ export default () => {
 
     return <>
     
-        {data && <main className={`unselectable`}>
+        {dataLoaded && <main className={`unselectable`}>
             <div style={{margin:'1em'}}>
                 <div>
                     <h1>Políticas de Privacidad</h1>
-                    <p>{pageName} como encargada del tratamiento de datos personales del sitio, mediante la presente Política de Privacidad de Datos, pone en conocimiento de los Usuarios los alcances de la protección integral de sus datos personales asentados en los archivos; registros; bancos o bases de datos; u otros medios técnicos de tratamiento de datos implementados por {pageName}, asegurando el respeto al derecho a la intimidad de las personas, así como también al libre acceso a la información que sobre las mismas pueda eventualmente registrarse. {pageName}, considera que cualquier tipo de información relativa a un Usuario es información de carácter personal, y por consiguiente vela en todo momento por la privacidad y confidencialidad de la misma. La confidencialidad de la información relativa a los Usuarios implicará su mantenimiento en archivos y/o bancos o bases de datos seguros, de modo tal que el acceso por parte de terceros que no se encuentren autorizados a tal efecto, se encuentre restringido. Para preguntas sobre esta Política o cualquier circunstancia relativa al tratamiento de información de carácter personal, los Usuarios podrán contactarse a través del siguiente medio de contacto: E-mail: <a href={`mailto:${data.email}`}>{data.email}</a></p>
+                    <p>{pageName} como encargada del tratamiento de datos personales del sitio, mediante la presente Política de Privacidad de Datos, pone en conocimiento de los Usuarios los alcances de la protección integral de sus datos personales asentados en los archivos; registros; bancos o bases de datos; u otros medios técnicos de tratamiento de datos implementados por {pageName}, asegurando el respeto al derecho a la intimidad de las personas, así como también al libre acceso a la información que sobre las mismas pueda eventualmente registrarse. {pageName}, considera que cualquier tipo de información relativa a un Usuario es información de carácter personal, y por consiguiente vela en todo momento por la privacidad y confidencialidad de la misma. La confidencialidad de la información relativa a los Usuarios implicará su mantenimiento en archivos y/o bancos o bases de datos seguros, de modo tal que el acceso por parte de terceros que no se encuentren autorizados a tal efecto, se encuentre restringido. Para preguntas sobre esta Política o cualquier circunstancia relativa al tratamiento de información de carácter personal, los Usuarios podrán contactarse a través del siguiente medio de contacto: E-mail: <a href={`mailto:${email}`}>{email}</a></p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>Voluntariedad en la entrega de datos.</h2>
                     <p>La presente Política está destinada a informar a los usuarios acerca del tratamiento de datos personales llevado adelante por {pageName}, con el objeto que libre y voluntariamente determinen la entrega o no, de sus datos personales cuando les sean requeridos o que se puedan obtener a partir de la utilización de alguno de los servicios disponibles en el sitio.</p>
                     <p>Por regla general, cuando para utilizar un servicio o acceder a cierto contenido se solicite algún dato personal, la entrega del mismo no es obligatoria, con excepción de aquellos casos donde específicamente se indicara que es un dato requerido para la prestación del servicio o el acceso al contenido.</p>

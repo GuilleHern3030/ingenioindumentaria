@@ -127,7 +127,7 @@ export default ({attributes, order, filters, setFilters, t}) => {
 
                 <div className={styles.items}>
                     { subList !== null ?
-                        subList.values.map((value, key) => 
+                        (subList.values ?? subList.AttributeValues).map((value, key) => 
                             <div className={styles.item} onClick={() => handleSetFilter(subList, value)} key={key}>
                                 <p className={`${styles.attribute} ${filtersSelected[subList.name] == value.name ? styles.selected : ''}`}>{value.name}</p>
                             </div>

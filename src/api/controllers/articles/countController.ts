@@ -2,25 +2,25 @@ import { email, language, axios, devConsole } from '@/api'
 import { loadFromBackend, lazyLoading } from '@/api/config.json'
 import query from '@/utils/QueryUtils';
 
-const endpoint = "/articles/recent";
+const endpoint = "/articles/count";
 
 /**
- * Select articles from DataBase
+ * Select articles from DataBase with specific filters and options
  */
-export default async function getRecentController(order:object=null, page:number=1, limit:number=18) {
+export default async function selectController(slug:string, include_children:boolean, filters:object) {
 
     if (!loadFromBackend || !lazyLoading)
-        return []
-    
+        return null
+
     const queryParams = query.set({
-        page,
-        limit
+        children: include_children === true,
+        slug: slug ?? ''
     })
 
     const { data } = await axios.put(
         endpoint + queryParams,
         {
-            order
+            filters
         },
         { 
             headers: { 
@@ -30,7 +30,7 @@ export default async function getRecentController(order:object=null, page:number
         }
     )
     
-    devConsole(`articles.recent()`, data)
+    devConsole(`articles.count(slug:${slug})`, data)
     
     return data;
 }

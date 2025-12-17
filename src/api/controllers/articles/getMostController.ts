@@ -2,23 +2,26 @@ import { email, language, axios, devConsole } from '@/api'
 import { loadFromBackend, lazyLoading } from '@/api/config.json'
 import query from '@/utils/QueryUtils';
 
-const endpoint = "/articles";
+const endpoint = "/articles/most";
 
 /**
  * Select articles from DataBase
  */
-export default async function getRecentController(start:number=0, limit:number=20) {
+export default async function getRecentController(order:object=null, page:number=1, limit:number=18) {
 
     if (!loadFromBackend || !lazyLoading)
         return []
     
     const queryParams = query.set({
-        start,
+        page,
         limit
     })
 
-    const { data } = await axios.get(
+    const { data } = await axios.put(
         endpoint + queryParams,
+        {
+            order
+        },
         { 
             headers: { 
                 user: email(),

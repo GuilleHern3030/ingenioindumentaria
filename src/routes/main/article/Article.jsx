@@ -3,7 +3,7 @@ import { useParams, useNavigate, replace } from 'react-router-dom'
 
 import styles from './Article.module.css'
 
-import Product from '@/api/products'
+import Article from '@/api/products'
 
 import { useRouteI18n } from '@/hooks/useRouteI18N'
 import useDataBase from '@/hooks/useDataBase'
@@ -23,17 +23,17 @@ import Filters, { parseQueryFilters, parseVariantId } from './components/filters
 import Buy from './components/buy/Buy'
 import Error from './components/error/Error'
 
-
 export default () => {
 
     const { t, ready } = useRouteI18n('main/article')
-    const { data } = useClientInfo()
+    const { dataLoaded, contactlink, fees } = useClientInfo()
 
     const { "*": index } = useParams() // obtiene todo el param
     const navigate = useNavigate()
 
     const [ article, setArticle ] = useState()
     const [ variant, setVariant ] = useState()
+    const [ categories, setCategories ] = useState()
     const [ filters, setFilters ] = useState({})
 
     const [ code, setCode ] = useState()
@@ -41,7 +41,6 @@ export default () => {
     const { getArticle, isLoading, error } = useDataBase()
 
     useEffect(() => {
-
 
         try {
 
@@ -52,13 +51,14 @@ export default () => {
 
                 console.clear()
 
-                getArticle(id).then(article => {
-                    const product = new Product(article)
-                    const variant = product.selectVariant(variantId)
-                    setArticle(product)
+                getArticle(id).then(rawArticle => {
+                    const article = new Article(rawArticle)
+                    const variant = article.selectVariant(variantId)
+                    setArticle(article)
                     setVariant(variant)
-                    setFilters(!variant ? parseQueryFilters(product, getQueryParams()) : parseVariantId(product, variantId))
-                    console.log("%cARTICLE", "color:blue; background:pink; padding:4px; border:1px solid blue;", article)
+                    setCategories(article.slugs())
+                    setFilters(!variant ? parseQueryFilters(article, getQueryParams()) : parseVariantId(article, variantId))
+                    console.log("%cARTICLE", "color:blue; background:pink; padding:4px; border:1px solid blue;", article.toJson())
                 }).catch(e => { 
                     console.error(e)
                     setArticle(null)
@@ -88,11 +88,9 @@ export default () => {
     const handleConsult = (article, variant) => {
         const { id, slug } = IdUtils.parse(index)
         const url = IdUtils.url(id, slug, variant?.id)
-        console.log(url)
-        const contactLink = data?.contactlink
         const fullUrl = window.location.href
         const link = encodeURIComponent(url)
-        window.open(data.contactlink + `?text=${t('consult_message')}: \n\r` + link, "_blank")
+        window.open(contactlink + `?text=${t('consult_message')}: \n\r` + link, "_blank")
     }
 
     const handleFavouriteChange = () => {
@@ -101,7 +99,7 @@ export default () => {
 
     return <main>
 
-        { (!ready || !data || isLoading) && <Loading/> }
+        { (!ready || !dataLoaded || isLoading) && <Loading/> }
 
         { article && 
             <section className={styles.datasection}>
@@ -122,7 +120,7 @@ export default () => {
                     <Price 
                         price={variant?.price() ?? article.price()} 
                         discount={variant?.discount() ?? article.discount()}
-                        fees={data?.fees}
+                        fees={fees}
                         t={t}
                     />
 
@@ -130,7 +128,7 @@ export default () => {
 
                     <Filters
                         article={article}
-                        categories={article.slugs()}
+                        categories={categories}
                         filters={filters}
                         setFilters={setFilters}
                         onVariantChange={setVariant}

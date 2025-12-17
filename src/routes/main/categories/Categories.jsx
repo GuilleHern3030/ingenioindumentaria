@@ -35,13 +35,24 @@ export default () => {
     const { "*": slug } = useParams() // obtiene todo el slug
     const navigate = useNavigate()
     
-    const { getArticles, getRecent, getMost, getAttributes, isLoading, error } = useDataBase()
+    const { 
+        getArticles, countArticles,
+        getRecent, countRecent,
+        getMost, countMost,
+        getAttributes, 
+        isLoading, error 
+    } = useDataBase()
 
     const [ warning, setWarning ] = useState()
 
+    const [ articlesCount, setArticlesCount ] = useState()
     const [ articles, setArticles ] = useState()
-    const [ noArticles, setNoArticles ] = useState(false)
-    const [ attributes, setAttributes ] = useState(getAttributes(slug))
+    const setData = (data) => {
+        setArticles(data?.articles ?? []) 
+        setArticlesCount(data?.size)
+    }
+
+    const [ attributes, setAttributes ] = useState()
 
     const [ order, setOrder ] = useState({id:0})
     const [ filters, setFilters ] = useState(getParams())
@@ -53,7 +64,7 @@ export default () => {
         if (isLoading !== true)
             loadArticles(filters, order, slug)
             .then(articles => {
-                setArticles(articles)
+                setData(articles)
                 setFilters(filters)
                 setOrder(order)
                 const route = location.pathname.replaceAll('/', '').includes(ROUTE_NAME) ? ROUTE_NAME : location.pathname.split('/')[0]
@@ -71,20 +82,30 @@ export default () => {
 
     const [ page, setPage ] = useState(1)
 
+    const handleSetPage = (page) => {
+        if (isLoading !== true)
+            loadArticles(filters, order, slug, page)
+            .then(articles => setData(articles))
+            .catch(() => setData(null))
+        setPage(page)
+    }
+
     useEffect(() => {
         //console.clear()
-        if (isLoading !== true)
+        /*if (isLoading !== true)
             loadArticles(filters, order, slug)
             .then(articles => setArticles(articles))
-            .catch(() => setArticles([]))
+            .catch(() => setArticles([]))*/
+        handleSetPage(1)
+        setAttributes(getAttributes(slug))
     }, [location.pathname])
 
     useEffect(() => {
         if (articles !== undefined && QueryUtils.stringify(filters) != location.search && isLoading !== true) {
             setFilters(getParams())
             loadArticles(getParams(), order, slug)
-            .then(articles => setArticles(articles) )
-            .catch(() => setArticles([]))
+            .then(articles => setData(articles))
+            .catch(() => setData(null))
         }
         setWarning()
     }, [location.search])
@@ -92,25 +113,26 @@ export default () => {
     useEffect(() => {
         if (Array.isArray(articles) && articles.length == 0) {
             loadArticles(getParams(), order, '')
-            .then(articles => setArticles(articles) )
+            .then(articles => setData(articles))
             .catch(() => { console.warn("No articles available") })
             navigate(`/${ROUTE_NAME}`, { replace: true })
             setWarning(t('no_articles'))
         }
     }, [articles])
 
-    const loadArticles = async(filters, order, slug) => new Promise((resolve, reject) => {
+    const loadArticles = async(filters, order, slug, page=1) => new Promise((resolve, reject) => {
         setWarning()
+        setPage(page)
+
         const filtersToApply = Attributes.toFilters(filters, attributes)
         const orderToApply = order?.id === 0 ? null : order
         const get = 
             location.pathname.replaceAll('/', '') == 'recent' ? getRecent(orderToApply, page) :
             location.pathname.replaceAll('/', '') == 'promos' ? getMost(orderToApply, page) :
-            slug ? getArticles(slug, true, filtersToApply, orderToApply, page) 
-            : getArticles('', true, filtersToApply, orderToApply, page) 
-        get.then(articles => {
-            console.log("articles:", articles)
-            if (articles.length > 0) resolve(articles)
+            getArticles(slug ?? '', true, filtersToApply, orderToApply, page) 
+        get.then(data => {
+            console.log("data:", data)
+            if (data.articles?.length > 0) resolve(data)
             else reject([])
         }).catch(e => { 
             console.error(e)
@@ -128,7 +150,7 @@ export default () => {
             <Collection
                 className={styles.collection}
                 slug={slug}
-                articlesCount={articles?.length}
+                articlesCount={articlesCount}
                 t={t}
             />
 
@@ -165,9 +187,10 @@ export default () => {
                 articles={articles}
                 className={styles.articles}
                 onSelect={handleArticleSelect}
-                pages={Math.ceil((articles?.length ?? 1) / lazyLoadLimit)}
-                onPageChange={(p) => setPage(p)}
+                pages={Math.ceil((articlesCount ?? 1) / lazyLoadLimit)}
+                onPageChange={handleSetPage}
                 page={page}
+                t={t}
             />
 
         </main>

@@ -42,7 +42,7 @@ export default () => {
         })
     }
 
-    const { data } = useClientInfo()
+    const data = useClientInfo()
     
     return data == undefined ? null : <>
 

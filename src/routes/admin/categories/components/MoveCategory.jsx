@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react'
+
 import styles from './MoveCategory.module.css'
-import Dialog from '@/components/dialog/Dialog'
+
 import Loading from '@/components/loading/Loading'
-import { reload, request } from '@/api';
-import { move } from '@/api/categories.ts';
-import useUser from "@/hooks/useUser";
+import Dialog from '@/components/dialog/Dialog'
+
+import useUser from '@/hooks/useUser'
+
+import { move } from '@/api/categories'
+import { reload, request } from '@/api'
+
 
 /*function getParentSlug(slug) {
   const parts = slug.split('/');

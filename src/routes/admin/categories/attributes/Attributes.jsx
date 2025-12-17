@@ -1,26 +1,27 @@
 import { useEffect, useState, useRef } from 'react'
 import { useOutletContext, useNavigate, useLocation } from "react-router-dom";
-import useParams from '@/hooks/useParams';
+
+import styles from './Attributes.module.css'
+
+import useParams from '@/hooks/useParams'
+
+import Loading from '@/components/loading/Loading'
+import Dialog from '@/components/dialog/Dialog'
+import Alert from '@/components/alert/Alert'
+import Reload from '../../components/reload/Reload'
+import Input from '../../components/input/Input'
+import Attributes from './components/attributes/Attributes'
+import AttributesList from './components/list/AttributesList'
+
+import { selectAll, put as applyCategoryAttributes } from '@/api/categories'
+import { globalPut as applyGlobalAttributes } from '@/api/attributes'
+import { Categories } from '@/api/objects/Categories'
+import { request } from '@/api'
+
 import addIcon from '@/assets/icons/add.webp'
 import acceptIcon from '@/assets/icons/accept.webp'
 import cancelIcon from '@/assets/icons/cancel.webp'
 import removeIcon from '@/assets/icons/remove.webp'
-
-import { Categories } from '@/api/objects/Categories';
-
-import styles from './Attributes.module.css'
-
-import { selectAll, put as applyCategoryAttributes } from '@/api/categories.ts'
-import { globalPut as applyGlobalAttributes } from '@/api/attributes.ts'
-import { request } from '@/api'
-
-import Loading from '@/components/loading/Loading.jsx'
-import Reload from '../../components/reload/Reload.jsx'
-import Input from '../../components/input/Input';
-import Attributes from './components/attributes/Attributes';
-import AttributesList from './components/list/AttributesList';
-import Dialog from '@/components/dialog/Dialog';
-import Alert from '@/components/alert/Alert';
 
 export default () => {
 
@@ -52,8 +53,6 @@ export default () => {
             setIsLoading(false)
         }
 
-        console.log(location.state)
-
         if (location.state) setValues(location.state.categories)
         else request(setIsLoading, setError, selectAll, true)
         .then(categories => setValues(categories))
@@ -64,10 +63,6 @@ export default () => {
         })
 
     }, [])
-
-    useEffect(() => {
-        console.log("actualizedAttributes:", attributes)
-    }, [attributes])
 
     // --- Attributes editor --- //
 

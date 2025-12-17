@@ -16,7 +16,7 @@ const goTop = () => window.scrollTo({top:0});
 
 export default () => {
 
-    const { data } = useClientInfo()
+    const data = useClientInfo()
     const { t } = useCommonI18n()
 
     return /*data == undefined ? null :*/ <footer className={styles.footer}>

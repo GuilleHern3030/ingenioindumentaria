@@ -1,15 +1,11 @@
 
 import styles from './PageSelector.module.css'
 
-import { useCommonI18n } from '@/hooks/useRouteI18N'
-
-export default ({page, pages, onChange, className}) => {
-    
-    const { t } = useCommonI18n()
+export default ({page, pages, onChange, className, t}) => {
 
     return pages > 1 && <section className={`${styles.pages} ${className ?? ''}`}>
         <div className={`${styles.navigate}`}>
-            <p>{t('common:last')}</p>
+            <p>{t('last')}</p>
         </div>
 
         <Pages 
@@ -19,7 +15,7 @@ export default ({page, pages, onChange, className}) => {
         />
 
         <div className={`${styles.navigate}`}>
-            <p>{t('common:next')}</p>
+            <p>{t('next')}</p>
         </div>
     </section>
 

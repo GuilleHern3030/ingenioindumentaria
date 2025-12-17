@@ -1,4 +1,4 @@
-import { lazyLoadLimit } from '@/api/config.json'
+import { lazyLoading, lazyLoadLimit } from '@/api/config.json'
 
 // Data base name
 const DATA_BASE = "IngenioIndumentaria"
@@ -10,7 +10,7 @@ const ARTICLES = "Articles" // Articulos precargados
 const SHOPPING_CART = "Cart" // Artículos en el carrito
 
 // --- Auxiliary functions --- //
-const open = async() => new Promise((resolve, reject) => {
+const open = async () => new Promise((resolve, reject) => {
     const IDBrequest = window.indexedDB.open(DATA_BASE, 1)
     IDBrequest.onupgradeneeded = () => {
         const db = IDBrequest.result
@@ -26,11 +26,12 @@ const open = async() => new Promise((resolve, reject) => {
         IDBrequest["close"] = () => event.target.result.close()
         IDBrequest["write"] = (objectStore) => dbWrite(IDBrequest, objectStore)
         IDBrequest["read"] = (objectStore) => dbRead(IDBrequest, objectStore)
-        IDBrequest["select"] = (objectStore, func=undefined, order=0, start=0, limit=0) => dbSelect(IDBrequest, objectStore, func, order, start, limit)
-        IDBrequest["get"] = (objectStore, key=undefined) => key ? dbGet(IDBrequest, objectStore, key) : dbGetAll(IDBrequest, objectStore)
+        IDBrequest["select"] = (objectStore, func = undefined, order = null, start = 0, limit = 0) => dbSelect(IDBrequest, objectStore, func, order, start, limit)
+        IDBrequest["pks"] = (objectStore, func = undefined, order = null) => dbGetPks(IDBrequest, objectStore, func, order)
+        IDBrequest["get"] = (objectStore, key = undefined) => key ? dbGet(IDBrequest, objectStore, key) : dbGetAll(IDBrequest, objectStore)
         IDBrequest["set"] = (objectStore, objects) => dbSetAll(IDBrequest, objectStore, objects)
         resolve(IDBrequest)
-        
+
     }
 })
 
@@ -48,7 +49,7 @@ const dbWrite = (IDBrequest, objectStore) => {
     return { request, transaction, store }
 }
 
-const dbSelect = (IDBrequest, objectStore, filter, order=null, start=0, limit=0) => new Promise((resolve, reject) => {
+const dbSelect = (IDBrequest, objectStore, filter, order = null, start = 0, limit = 0) => new Promise((resolve, reject) => {
     const { store } = dbRead(IDBrequest, objectStore)
 
     console.time("idb selection")
@@ -62,7 +63,7 @@ const dbSelect = (IDBrequest, objectStore, filter, order=null, start=0, limit=0)
                 const filterResult = filter(object)
                 if (filterResult == true) {
                     n++
-                    if (n >= start) 
+                    if (n >= start)
                         objects.push(object)
                     if (limit > 0 && n >= start + limit)
                         resolve(objects)
@@ -77,7 +78,7 @@ const dbSelect = (IDBrequest, objectStore, filter, order=null, start=0, limit=0)
                 const filterResult = filter(object)
                 if (filterResult == true) {
                     n++
-                    if (n >= start) 
+                    if (n >= start)
                         objects.push(object)
                     if (limit > 0 && n >= start + limit)
                         resolve(objects)
@@ -87,6 +88,34 @@ const dbSelect = (IDBrequest, objectStore, filter, order=null, start=0, limit=0)
         resolve(objects)
     })
     console.timeEnd("idb selection")
+})
+
+const dbGetPks = (IDBrequest, objectStore, filter, order = null) => new Promise((resolve, reject) => {
+    const { store } = dbRead(IDBrequest, objectStore)
+
+    console.time("idb count")
+    const pks = []
+    if (order == null) {
+        const cursor = store.openCursor()
+        cursor.addEventListener('success', () => {
+            if (cursor.result) {
+                const object = cursor.result.value
+                const filterResult = filter(object)
+                if (filterResult == true)
+                    pks.push(object.id ?? object.slug)
+                cursor.result.continue()
+            } else resolve(pks)
+        })
+    } else dbGetAll(IDBrequest, objectStore).then(objs => {
+        const objectsSorted = sortBy(objs, order.key, order.order)
+        objectsSorted.forEach(object => {
+            const filterResult = filter(object)
+            if (filterResult == true)
+                pks.push(object.id ?? object.slug)
+        })
+        resolve(pks)
+    })
+    console.timeEnd("idb count")
 })
 
 const dbSetAll = (IDBrequest, objectStore, objects) => new Promise((resolve, reject) => {
@@ -104,18 +133,37 @@ const dbGetAll = (IDBrequest, objectStore) => new Promise((resolve, reject) => {
     const objects = []
 
     const cursor = store.getAll()
-    cursor.onsuccess = () => resolve(cursor.result) 
+    cursor.onsuccess = () => resolve(cursor.result)
 
 })
 
-const dbGet = (IDBrequest, objectStore, key) => new Promise((resolve, reject) => {
+const dbGet = (IDBrequest, objectStore, key) => new Promise(async(resolve, reject) => {
     const { store } = dbRead(IDBrequest, objectStore)
-    const objects = []
-    const cursor = store.get(key)
-    cursor.onsuccess = () => resolve (cursor.result) 
+
+    if (!Array.isArray(key)) {
+
+        const cursor = store.get(key)
+        cursor.onsuccess = () => resolve(cursor.result)
+
+    } else { // key array
+
+        console.time("idb selectByPK")
+
+        const promises = key.map(pk =>
+            new Promise(resolve => {
+                const req = store.get(pk);
+                req.onsuccess = () => resolve(req.result);
+            })
+        )
+
+        const objects = await Promise.all(promises)
+        console.timeEnd("idb selectByPK")
+        resolve(objects)
+
+    }
 })
 
-const clear = async() => {
+const clear = async () => {
     return new Promise(resolve => {
         const IDBrequest = window.indexedDB.deleteDatabase(DATA_BASE)
         IDBrequest.onsuccess = () => resolve()
@@ -124,13 +172,13 @@ const clear = async() => {
 }
 
 // --- Getters --- //
-const getAttributes = async(slug) => {
+const getAttributes = async (slug) => {
     const db = await open()
     db.close()
 }
 
 // --- Initialization --- //
-export const init = async(categories, attributes, articles=[]) => {
+export const init = async (categories, attributes, articles = []) => {
     await clear()
     const db = await open()
     await db.set(CATEGORIES, categories)
@@ -140,7 +188,7 @@ export const init = async(categories, attributes, articles=[]) => {
     return;
 }
 
-export const pull = async() => {
+export const pull = async () => {
     const db = await open()
 
     const categories = await db.get(CATEGORIES)
@@ -163,8 +211,8 @@ export default {
      * @param {number} id id del producto
      * @returns {Promise<Record<string, any>>} información del producto
      */
-    getArticle: async (id) => new Promise(async(resolve, reject) => {
-        if (id > 0) {
+    getArticle: async (id) => new Promise(async (resolve, reject) => {
+        if (!lazyLoading && id > 0) {
             const db = await open()
             const article = await db.get(ARTICLES, id)
             await db.close()
@@ -175,58 +223,84 @@ export default {
 
     /**
      * Obtiene los productos de una categoría específica
-     * @param {string} slug ruta de la categoría
+     * @param {string} route ruta de la categoría
      * @param {boolean} include_children define si se incluyen los productos de categorías padre
      * @param {Record<number, number>} filters establece los filtros. Su formato es { attributeId, valueId }.
      * @param {Record<string, string>} order establece el orden de listado con formato { key, order:'asc','desc' }
      * @param {number} start establece desde qué número de id que será devuelto
-     * @param {number} limit establece la cantidad de articulos que serán llamados
+     * @param {Array<number>} pks ids donde se realizará la búsqueda (null para revisar todos)
      * @returns {Promise<Record<string, any>[]>} listado de productos
      */
-    getArticles: (route, include_children, filters={}, order=null, start=0, limit=lazyLoadLimit) => new Promise(async(resolve, reject) => {
-        
-        const db = await open()
-        const articles = await db.select(ARTICLES, (article) => {
-            if (!route || article.Categories.find(category => hasSlug(category.slug, route, include_children))) {
+    getArticles: (route, include_children, filters = {}, order = null, page = 1) => new Promise(async (resolve, reject) => {
+        if (!lazyLoading) {
+            const db = await open()
 
-                const filtersOk = (!filters || Object.keys(filters).length == 0) ? true :
-                    article.ProductVariants?.find(variant => hasFilters(variant.Attributes, filters) ) != undefined
+            const pks = await db.pks(ARTICLES, (article) => {
+                if (!route || article.Categories.find(category => hasSlug(category.slug, route, include_children))) {
 
-                return (filtersOk)
+                    const filtersOk = (!filters || Object.keys(filters).length == 0) ? true :
+                        article.ProductVariants?.find(variant => hasFilters(variant.Attributes, filters)) != undefined
 
-            } return false
-        }, order, start, limit)
+                    return (filtersOk)
 
-        await db.close()
+                } return false
+            }, order)
 
-        if (articles?.length > 0)
-            resolve(articles)
-            //resolve(articles.slice(start, start + limit))
-        else reject()
+            const start = (page - 1) * lazyLoadLimit
+
+            const articles = await db.get(ARTICLES, pks.slice(start, start + lazyLoadLimit))
+
+            await db.close()
+
+            if (articles?.length > 0)
+                resolve({ articles, size: pks.length })
+            else reject()
+        } else reject()
     }),
 
     /**
      * Obtiene los productos más vendidos o que contienen mayor stock
      * @returns {Promise<Record<string, any>[]>} listado de productos
      */
-    getMost: async (order=null, start=0, limit=lazyLoadLimit) => new Promise(async(resolve, reject) => {
-        const db = await open()
-        const articles = await db.select(ARTICLES, (article) => article?.discount > 0, order, start, limit)
-        await db.close()
-        if (articles?.length > 0) resolve(articles)
-        else reject()
+    getMost: async (order = null, page = 1) => new Promise(async (resolve, reject) => {
+            
+        if (!lazyLoading) {
+            const db = await open()
+
+            const pks = await db.pks(ARTICLES, (article) => article.discount > 0, order)
+
+            const start = (page - 1) * lazyLoadLimit
+
+            const articles = await db.get(ARTICLES, pks.slice(start, start + lazyLoadLimit))
+
+            await db.close()
+            
+            if (articles?.length > 0) 
+                resolve({ articles, size: pks.length })
+            else reject()
+        } else reject()
     }),
 
     /**
      * Obtiene los productos establecidos como recientes
      * @returns {Promise<Record<string, any>[]>} listado de productos
      */
-    getRecent: async (order=null, start=0, limit=lazyLoadLimit) => new Promise(async(resolve, reject) => {
-        const db = await open()
-        const articles = await db.select(ARTICLES, (article) => article?.isRecent, order, start, limit)
-        await db.close()
-        if (articles?.length > 0) resolve(articles)
-        else reject()
+    getRecent: async (order = null, page = 1) => new Promise(async (resolve, reject) => {
+        if (!lazyLoading) {
+            const db = await open()
+
+            const pks = await db.pks(ARTICLES, (article) => article.isRecent === true, order)
+
+            const start = (page - 1) * lazyLoadLimit
+
+            const articles = await db.get(ARTICLES, pks.slice(start, start + lazyLoadLimit))
+
+            await db.close()
+            
+            if (articles?.length > 0) 
+                resolve({ articles, size: pks.length })
+            else reject()
+        } else reject()
     })
 
 }
@@ -246,9 +320,9 @@ const hasSlug = (slug, route, include_children) => {
  * @returns {boolean} Si el filtro existe, devuelve true
  */
 const hasAnyFilter = (attributes, filters) => {
-    return Object.entries(filters).find(([attributeId, valueId]) => 
-        attributes.find(attribute => 
-            attributeId == attribute.attributeId && 
+    return Object.entries(filters).find(([attributeId, valueId]) =>
+        attributes.find(attribute =>
+            attributeId == attribute.attributeId &&
             valueId == attribute.valueId
         ) != undefined
     ) != undefined
@@ -262,9 +336,9 @@ const hasAnyFilter = (attributes, filters) => {
  */
 const hasFilters = (attributes, filters) => {
     const attributesArray = Object.entries(filters)
-    return attributesArray.filter(([attributeId, valueId]) => 
-        attributes.find(attribute => 
-            attributeId == attribute.attributeId && 
+    return attributesArray.filter(([attributeId, valueId]) =>
+        attributes.find(attribute =>
+            attributeId == attribute.attributeId &&
             valueId == attribute.valueId
         ) != undefined
     ).length == attributesArray.length
@@ -278,24 +352,24 @@ const hasFilters = (attributes, filters) => {
  * @returns {Array} - Nuevo array ordenado
  */
 function sortBy(arr, key, order = 'asc') {
-  const sorted = [...arr];
+    const sorted = [...arr];
 
-  sorted.sort((a, b) => {
-    let A = key == 'price' && a['discount'] > 0 ? a['price'] - a['price'] * a['discount'] / 100 : a[key];
-    let B = key == 'price' && b['discount'] > 0 ? b['price'] - b['price'] * b['discount'] / 100 : b[key];
+    sorted.sort((a, b) => {
+        let A = key == 'price' && a['discount'] > 0 ? a['price'] - a['price'] * a['discount'] / 100 : a[key];
+        let B = key == 'price' && b['discount'] > 0 ? b['price'] - b['price'] * b['discount'] / 100 : b[key];
 
-    // Manejo de undefined/null
-    if (A == null) return 1;
-    if (B == null) return -1;
+        // Manejo de undefined/null
+        if (A == null) return 1;
+        if (B == null) return -1;
 
-    // Si son strings → normalizar
-    if (typeof A === 'string') A = A.toLowerCase();
-    if (typeof B === 'string') B = B.toLowerCase();
+        // Si son strings → normalizar
+        if (typeof A === 'string') A = A.toLowerCase();
+        if (typeof B === 'string') B = B.toLowerCase();
 
-    if (A < B) return order === 'asc' ? -1 : 1;
-    if (A > B) return order === 'asc' ? 1 : -1;
-    return 0;
-  });
+        if (A < B) return order === 'asc' ? -1 : 1;
+        if (A > B) return order === 'asc' ? 1 : -1;
+        return 0;
+    });
 
-  return sorted;
+    return sorted;
 }

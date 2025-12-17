@@ -7,7 +7,7 @@ const endpoint = "/articles";
 /**
  * Select articles from DataBase with specific filters and options
  */
-export default async function selectController(slug:string, include_children:boolean, filters:object, order:object, start:number=0, limit:number=20) {
+export default async function selectController(slug:string, include_children:boolean, filters:object, order:object, page:number=1, limit:number=18) {
 
     if (!loadFromBackend || !lazyLoading)
         return []
@@ -15,7 +15,7 @@ export default async function selectController(slug:string, include_children:boo
     const queryParams = query.set({
         children: include_children === true,
         slug: slug ?? '',
-        start,
+        page,
         limit
     })
 

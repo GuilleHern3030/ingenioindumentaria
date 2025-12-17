@@ -1,5 +1,5 @@
 import styles from './Categories.module.css'
-export default ({parent, options, onClick, t}) => {
+export default ({ parent, options, onClick, t }) => {
 
     return options && <div className={styles.container}>
         { options && options.length > 0 ?

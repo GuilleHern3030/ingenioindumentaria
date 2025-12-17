@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
+
+import styles from './CreateCategory.module.css'
+
+import Loading from '@/components/loading/Loading'
+
+import useUser from '@/hooks/useUser'
+
+import StringUtils from '@/utils/StringUtils'
+
 import { post } from '@/api/categories'
 import { request } from '@/api'
-import StringUtils from '@/utils/StringUtils'
-import styles from './CreateCategory.module.css'
-import Loading from '@/components/loading/Loading'
-import useUser from "@/hooks/useUser";
 
 export default ({parent, onCreate, t}) => {
 

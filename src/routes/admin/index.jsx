@@ -55,7 +55,7 @@ export default function() {
     useEffect(() => { verifyIsAdminSessionActive() }, [location.pathname])
 
     // Si el website permite logearse, el usuario está logeado y no es admin, se regresa al index
-    if (isSignedIn === true && isAdmin !== true && usersCanSignIn === true && !getParams().force) 
+    if (isSignedIn === true && isAdmin == false && usersCanSignIn === true && !getParams().force) 
         return <Navigate to={"/"} replace={true} />
 
     return <>
@@ -65,7 +65,7 @@ export default function() {
             <main className={styles.panelContent}>
             {
 
-                isSignedIn === true && isAdmin == true ?
+                isSignedIn === true && isAdmin != false ?
                     <>
                         { pathname === "/admin" ? <Index/> : <Outlet/> }
 

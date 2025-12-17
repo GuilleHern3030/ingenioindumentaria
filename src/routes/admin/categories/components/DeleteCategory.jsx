@@ -1,9 +1,13 @@
+import { useState, useEffect, useRef } from 'react'
+
 import styles from './DeleteCategory.module.css'
-import { useState, useEffect, useRef } from "react"
+
+import Loading from '@/components/loading/Loading'
+
+import useUser from '@/hooks/useUser'
+
 import { remove, disable } from '@/api/categories'
 import { reload, request } from '@/api'
-import Loading from '@/components/loading/Loading'
-import useUser from "@/hooks/useUser";
 
 const OPTION_DISABLE = 'disable' // deshabilita pero no borra
 const OPTION_DELETE = 'delete' // borra sólo la categoría y las hijas pasarán al nodo padre (o raíz)

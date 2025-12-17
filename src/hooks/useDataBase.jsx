@@ -2,7 +2,6 @@ import { useState, useContext, useEffect } from "react"
 
 // Context
 import { DataBaseContext } from '@/context/DataBaseContext'
-import { lazyLoadLimit } from '@/api/config.json'
 
 // Api
 import { request } from '@/api'
@@ -15,21 +14,21 @@ import { getAttributes, getCategories } from "@/redux/reducers/categories/catego
 import indexedDB from "@/redux/database/indexedDB"
 import backend from "@/redux/database/backend"
 
-const getArticles = async (slug, include_parents, filter, order, start, limit) => {
-    return indexedDB.getArticles(slug, include_parents, filter, order, start, limit)
-        .catch(() => backend.getArticles(slug, include_parents, filter, order, start, limit))
+const getArticles = async (slug, include_parents, filter, order, page) => {
+    return indexedDB.getArticles(slug, include_parents, filter, order, page)
+        .catch(() => backend.getArticles(slug, include_parents, filter, order, page))
         .catch(() => [])
 }
 
-const getMost = async (order, start, limit) => {
-    return indexedDB.getMost(order, start, limit)
-        .catch(() => backend.getMost(order, start, limit))
+const getMost = async (order, page) => {
+    return indexedDB.getMost(order, page)
+        .catch(() => backend.getMost(order, page))
         .catch(() => [])
 }
 
-const getRecent = async (order, start, limit) => {
-    return indexedDB.getRecent(order, start, limit)
-        .catch(() => backend.getRecent(order, start, limit))
+const getRecent = async (order, page) => {
+    return indexedDB.getRecent(order, page)
+        .catch(() => backend.getRecent(order, page))
         .catch(() => [])
 }
 
@@ -103,10 +102,10 @@ export default function useDataBase() {
         getAttributes,
         preloadedArticles: articles,
         getArticle: (id) => request(setIsLoading, setError, getArticle, Number(id)),
-        getMost: (order = null, start = 0, limit = lazyLoadLimit) => request(setIsLoading, setError, getMost, order, start, limit),
-        getRecent: (order = null, start = 0, limit = lazyLoadLimit) => request(setIsLoading, setError, getRecent, order, start, limit),
-        getArticles: (slug, include_children, filter = {}, order = null, start = 0, limit = lazyLoadLimit) =>
-            request(setIsLoading, setError, getArticles, slug, include_children, filter, order, start, limit),
+        getMost: (order = null, page = 1) => request(setIsLoading, setError, getMost, order, page),
+        getRecent: (order = null, page = 1) => request(setIsLoading, setError, getRecent, order, page),
+        getArticles: (slug, include_children, filter = {}, order = null, page = 0) =>
+            request(setIsLoading, setError, getArticles, slug, include_children, filter, order, page),
     }
 
 }

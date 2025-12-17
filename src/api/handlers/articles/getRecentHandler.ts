@@ -1,12 +1,13 @@
 import request from '../../controllers/articles/getRecentController'
 import handleError from '../errorHandler.js'
+import { lazyLoadLimit } from '../../config.json'
 
-export default async(start:number=0, limit:number=20):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
+export default async(order:object=null, page:number=1, limit:number=lazyLoadLimit):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
 
     try {
 
         // Obtener el producto en formato JSON
-        const json:any = await request(start, limit)
+        const json:any = await request(order, page, limit)
 
         // Devuelve el producto en formato correcto
         resolve(json)

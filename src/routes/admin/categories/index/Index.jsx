@@ -22,13 +22,13 @@ export default () => {
     
     const { t } = useOutletContext();
 
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState()
-    const [networkError, setNetworkError] = useState(false)
-    const [categories, setCategories] = useState()
-    const [listedCategories, setListedCategories] = useState()
-    const [categorySelected, setCategorySelected] = useState()
-    const [categorySelectedToMove, setCategorySelectedToMove] = useState()
+    const [ isLoading, setIsLoading ] = useState(true)
+    const [ error, setError ] = useState()
+    const [ networkError, setNetworkError ] = useState(false)
+    const [ categories, setCategories ] = useState()
+    const [ listedCategories, setListedCategories ] = useState()
+    const [ categorySelected, setCategorySelected ] = useState()
+    const [ categorySelectedToMove, setCategorySelectedToMove ] = useState()
 
     useEffect(() => {
         request(setIsLoading, setError, selectAll, true)

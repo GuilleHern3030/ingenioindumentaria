@@ -10,10 +10,10 @@ import useClientInfo from '@/hooks/useClientInfo'
 import Article from "./Article"
 import Empty from './Empty'
 
-export default ({className, articles, columns=2, onSelect, pages, page, onPageChange }) => {
+export default ({className, articles, columns=2, onSelect, pages, page, onPageChange, t }) => {
 
     const [ screenBig, setScreenBig ] = useState()
-    const { data } = useClientInfo()
+    const { digits, dataLoaded } = useClientInfo()
 
     const handleMediaQuery = (e) => {
         if (e.matches) { // Pantalla <= 768px
@@ -29,34 +29,43 @@ export default ({className, articles, columns=2, onSelect, pages, page, onPageCh
         handleMediaQuery(mediaQuery) 
     }, [])
 
-    return (!articles || articles.length == 0) ? <Empty/> : data && articles && <section 
-        className={`${styles.articles} ${className??''}`}
-        style={{gridTemplateColumns:`repeat(${screenBig ? columns * 2 : columns}, 1fr)`}}
-        >{
-            Array.isArray(articles) && 
-            <>
-                { articles.length > 0 &&
-                    <>
-                        { articles.map(
-                            (article, key) => 
-                                <Article 
-                                    key={key}
-                                    article={new Product(article)}
-                                    summary={columns >= 3}
-                                    onSelect={onSelect}
-                                    digits={data.digits}
-                                />
-                        )}
+    return (!articles || articles.length == 0) ? <Empty/> : dataLoaded && articles && <>
+        
+        <section 
+            className={`${styles.articles} ${className??''}`}
+            style={{gridTemplateColumns:`repeat(${screenBig ? columns * 2 : columns}, 1fr)`}}
+            >{
+                Array.isArray(articles) && 
+                <>
+                    { articles.length > 0 &&
+                        <>
+                            { articles.map(
+                                (article, key) => 
+                                    <Article 
+                                        key={key}
+                                        article={article}
+                                        summary={columns >= 3}
+                                        onSelect={onSelect}
+                                        digits={digits}
+                                    />
+                            )}
 
-                        <PageSelector
-                            page={page}
-                            pages={Math.ceil((articles?.length ?? 1) / lazyLoadLimit)}
-                            onChange={onPageChange}
-                        />
+                        </>
+                    }
+                </>
+            }
+        </section>
 
-                    </>
-                }
-            </>
-        }
-    </section>
+        <PageSelector
+            page={page}
+            pages={pages}
+            onChange={onPageChange}
+            t={t}
+        />
+        
+    </>
 }
+
+
+
+

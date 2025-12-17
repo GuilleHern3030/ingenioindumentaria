@@ -7,16 +7,18 @@ export const ClientInfoContext = createContext();
 export function ClientInfoContextProvider(props) {
 
     const [ data, setData ] = useState({})
+    const [ dataLoaded, setReady ] = useState()
 
     useEffect( () => {
       fetch(LINKS_URI)
         .then(res => res.json())
         .then(json => setData(json))
         .catch(err => setData(null))
+        .then(() => setReady(true))
     }, []);
 
     return (<>
-        <ClientInfoContext.Provider value = {{ data }}>
+        <ClientInfoContext.Provider value = {{ data, dataLoaded }}>
             {props.children}
         </ClientInfoContext.Provider>
     </>)

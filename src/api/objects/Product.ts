@@ -39,8 +39,8 @@ export class Product {
         Number(this.#json.price).toFixed(digits)
 
     // Atributos relacionados
-    categories = ():any[] => this.#json.Categories ?? []
-    images = ():any[] => this.#json.Images ?? []
+    categories = ():any[] => this.#json.Categories ?? this.#json.categories ?? []
+    images = ():any[] => this.#json.Images ?? this.#json.images ?? []
     attributes = ():any[] => Object.assign(new Attributes(), this.#json.Attributes ?? [])
     variants = ():ProductVariants => Object.assign(new ProductVariants(), this.#json.ProductVariants ? this.#json.ProductVariants : [])
 

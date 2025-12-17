@@ -5,7 +5,7 @@ import { pull as cachePull } from '@/redux/database/indexedDB'
 import { isAdmin } from './users'
 
 export { default as axios } from './controllers/axios'
-export { email, isAdmin } from './users'
+export { email, isAdmin, admin } from './users'
 export { language } from '@/utils/i18n'
 
 export const devMode = () => location.hostname.includes("localhost") || location.hostname.includes("192.168.1")

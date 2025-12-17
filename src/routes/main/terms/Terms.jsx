@@ -3,9 +3,9 @@ import { title as pageName } from "@/assets/data/data.json"
 
 export default () => {
 
-    const { data } = useClientInfo()
+    const { dataLoaded, email } = useClientInfo()
 
-    return <>
+    return dataLoaded && <>
         
         <main className={`unselectable`}>
             <div style={{margin:'1em'}}>
@@ -69,7 +69,7 @@ export default () => {
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>12) Garantía de los productos.</h2>
                     <p>La venta de los productos se realiza por cuenta y orden de la empresa {pageName}. La garantía de los productos que se adquieren a través de la empresa es la que ofrecen los fabricantes y/o proveedores de los mismos, que son los únicos responsables directos.</p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>13) Derecho de arrepentimiento o revocación. Devolución de los productos.</h2>
-                    <p>El usuario tendrá derecho a devolver los productos adquiridos en el website durante el plazo de diez días corridos, contados a partir de la entrega. Para esto deberá notificar enviando un mail a <a href={`mailto:${data.email}`}>{data.email}</a> dentro del plazo señalado, y poner a su disposición el o los productos adquiridos. Los productos deberán estar en el mismo estado en que fueron recibidos, sin haber sido utilizados, y con el embalaje original. En dicho caso, la empresa pondrá a disposición otros productos de características similares para el intercambio deseado.</p>
+                    <p>El usuario tendrá derecho a devolver los productos adquiridos en el website durante el plazo de diez días corridos, contados a partir de la entrega. Para esto deberá notificar enviando un mail a <a href={`mailto:${email}`}>{email}</a> dentro del plazo señalado, y poner a su disposición el o los productos adquiridos. Los productos deberán estar en el mismo estado en que fueron recibidos, sin haber sido utilizados, y con el embalaje original. En dicho caso, la empresa pondrá a disposición otros productos de características similares para el intercambio deseado.</p>
                     <p>Asimismo, si el o los productos presentaren algún defecto de fabricación, hubieren sufrido roturas o deterioros en tránsito, o fueren despachados equivocadamente, el usuario deberá comunicarse con el centro de atención al cliente dentro del plazo mencionado en el párrafo anterior, para que la empresa proceda, según corresponda, a gestionar el re-despacho de la compra, o pasar a retirar la orden, sin costo alguno.</p>
                     <p>Los productos no deben haber sido utilizados, y deben encontrarse en las mismas condiciones en que fueron recibidos, con sus embalajes y etiquetas. Por ejemplo, y a mero título ilustrativo, si el producto se encuentra en un envoltorio ("blíster") Plástico, éste debe ser abierto prolija y cuidadosamente, pues de lo contrario no podrá realizarse el cambio.</p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>14) Moneda.</h2>
@@ -90,7 +90,7 @@ export default () => {
                     <p>Todos los derechos del presente website están reservados y corresponden a la empresa. el contenido del presente website, incluyendo aunque no limitado al texto, logos, gráficos, y todo el diseño en general, así como su base de datos y software, es de propiedad de la empresa o tiene derecho a usarlo en virtud de licencias de uso otorgadas y se encuentra protegido por las legislación nacional e internacional vigente sobre propiedad intelectual.</p>
                     <p>Si el usuario considera que en el website se viola o atenta de algún modo contra derechos de propiedad intelectual de terceros deberá notificarlo a la empresa en la dirección indicada en los presentes términos y condiciones generales, acompañando toda la información y documentación necesaria que respalde la mencionada consideración.</p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>20) Notificaciones.</h2>
-                    <p>Todas las notificaciones y/o comunicaciones que deban efectuarse por el uso de website bajo estos términos y condiciones generales, deberán realizarse por escrito: (i) Al usuario: mediante correo electrónico, a la cuenta de correo consignada por éste, o por carta documento, al domicilio declarado en el formulario de registración; (ii) A la empresa a la cuenta de correo electrónico <a href={`mailto:${data.email}`}>{data.email}</a> o a su domicilio indicado en el punto anterior.</p>
+                    <p>Todas las notificaciones y/o comunicaciones que deban efectuarse por el uso de website bajo estos términos y condiciones generales, deberán realizarse por escrito: (i) Al usuario: mediante correo electrónico, a la cuenta de correo consignada por éste, o por carta documento, al domicilio declarado en el formulario de registración; (ii) A la empresa a la cuenta de correo electrónico <a href={`mailto:${email}`}>{email}</a> o a su domicilio indicado en el punto anterior.</p>
                     <h2 style={{marginTop:'1.5em', marginBottom:'.3em'}}>21) Avisos publicitarios y links.</h2>
                     <p>Cuando el usuario hace "click" en avisos publicitarios o links de terceros e ingresa en otros sitios que no pertenecen a la empresa estará sujeto a los términos y condiciones de dichos sitios. El usuario deberá leer detenidamente sus políticas de acceso y uso.</p>
                     <p>La empresa no garantiza la legalidad, actualidad, calidad ni utilidad de los contenidos, operaciones e informaciones que se comuniquen, reproduzcan y/o realicen en sitios enlazados de terceros ni la ausencia de nocividad de tales contenidos o servicios, por lo que el usuario exime de toda responsabilidad a la empresa por los contenidos incluidos en los referidos sitios o los servicios que en ellos se brindan o promocionan.</p>

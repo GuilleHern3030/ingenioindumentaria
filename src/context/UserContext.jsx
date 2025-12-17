@@ -22,7 +22,7 @@ export function UserContextProvider(props) {
     const [ lastSession, setLastSession ] = useState(user.lastSession())
     useEffect( () => { user.setLastSession(lastSession) }, [lastSession])
 
-    const [ isAdmin, setIsAdmin ] = useState(user.isAdmin())
+    const [ isAdmin, setAdmin ] = useState(user.admin())
     useEffect( () => { user.setAdmin(isAdmin) }, [isAdmin])
 
     const signOut = () => {
@@ -31,7 +31,7 @@ export function UserContextProvider(props) {
         setName(undefined)
         setLastSession(undefined)
         setIsSignedIn(false)
-        setIsAdmin(false)
+        setAdmin(false)
     }
 
     const [ isSigningIn, setIsSigningIn ] = useState(false)
@@ -43,7 +43,7 @@ export function UserContextProvider(props) {
             setPicture(result.picture)
             setEmail(result.username) // email
             setLastSession(result.last_session)
-            setIsAdmin(result.is_admin)
+            setAdmin(result.is_admin)
             setIsSigningIn(false)
             resolve(result)
         })
@@ -53,9 +53,9 @@ export function UserContextProvider(props) {
         })
     })
 
-    const [ isAdminSessionActive, setIsAdminSessionActive ] = useState(isAdmin === true && lessThan(lastSession))
+    const [ isAdminSessionActive, setIsAdminSessionActive ] = useState(isAdmin != false && lessThan(lastSession))
     const verifyIsAdminSessionActive = () => {
-        const isActive = isAdmin === true && isAdminSessionActive === true && lessThan(lastSession)
+        const isActive = isAdmin != false && isAdminSessionActive === true && lessThan(lastSession)
         setIsAdminSessionActive(isActive)
         return isActive
     }
@@ -70,7 +70,7 @@ export function UserContextProvider(props) {
                 email, setEmail,
                 picture, setPicture,
                 name, setName,
-                isAdmin, setIsAdmin,
+                isAdmin, setAdmin,
                 verifyIsAdminSessionActive, 
                 isAdminSessionActive, setIsAdminSessionActive,
                 isSigningIn, setIsSigningIn,

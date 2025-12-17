@@ -14,7 +14,7 @@ import Article from '@/components/articles/Article'
 export default ({ articles, limit, t }) => {
 
     const [ visible, setVisible ] = useState()
-    const { data } = useClientInfo()
+    const { dataLoaded, decimals } = useClientInfo()
 
     const navigate = useNavigate()
     const width = useScreenWidth()
@@ -29,7 +29,7 @@ export default ({ articles, limit, t }) => {
         else setVisible(4)                   // Desktop
     }, [width])
 
-    return data && articles?.length >= 3 && <section>
+    return dataLoaded && articles?.length >= 3 && <section>
 
         <h2 className={styles.title}>{t('outstanding')}</h2>
 
@@ -42,8 +42,8 @@ export default ({ articles, limit, t }) => {
                         .map((article, key) => 
                             <Article 
                                 key={key} 
-                                article={new Product(article)} 
-                                digits={data.decimals}
+                                article={article} 
+                                digits={decimals}
                                 onSelect={handleArticleSelect}
                             />
                         )

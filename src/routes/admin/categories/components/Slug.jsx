@@ -1,13 +1,18 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from 'react'
+
 import styles from './Slug.module.css'
+
+import Loading from '@/components/loading/Loading'
+
+import useUser from '@/hooks/useUser'
+
+import { rename } from '@/api/categories'
+import { request } from '@/api'
+
 import cancel from '@/assets/icons/cancel.webp'
 import accept from '@/assets/icons/accept.webp'
-import Loading from '@/components/loading/Loading'
-import { rename } from '@/api/categories'
-import { request } from "@/api"
-import useUser from "@/hooks/useUser";
 
-export default ({categories, category, onClick, onEdit, canEdit=undefined, t}) => {
+export default ({ categories, category, onClick, onEdit, canEdit=undefined, t }) => {
 
     const [ slug, setSlug ] = useState()
     const [ isEditing, setIsEditing ] = useState()
@@ -73,7 +78,7 @@ export default ({categories, category, onClick, onEdit, canEdit=undefined, t}) =
         { isPutting ? <Loading/> :
           isEditing !== undefined ?
             <>
-                <p><span style={{fontWeight:'bold'}}>{`${t('editing')}:`}</span>{` '${isEditing}'`}</p>
+                <p className={styles.span}><span className={styles.span} style={{fontWeight:'bold'}}>{`${t('editing')}:`}</span>{` '${isEditing}'`}</p>
                 <input ref={input} className={styles.input} placeholder={t('new_name')}/>
                 <img className={styles.button} src={accept} onClick={handleAccept}/>
                 <img className={styles.button} src={cancel} onClick={handleCancel}/>

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
+
+import styles from './EnableCategory.module.css'
+
+import Loading from '@/components/loading/Loading'
+import Dialog from '@/components/dialog/Dialog'
+
+import useUser from '@/hooks/useUser'
+
 import { enable } from '@/api/categories'
 import { reload, request } from '@/api'
-import styles from './EnableCategory.module.css'
-import Dialog from '@/components/dialog/Dialog'
-import Loading from '@/components/loading/Loading'
-import useUser from "@/hooks/useUser";
 
 export default ({category, t}) => {
 

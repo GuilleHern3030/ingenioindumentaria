@@ -1,17 +1,19 @@
 export { default as authenticate } from "./handlers/users/authenticateHandler";
 
-const IS_ADMIN = 'is-admin'
+const ADMIN = 'admin'
 const PICTURE = 'picture'
 const NAME = 'name'
 const EMAIL = 'email'
 const LAST_SESSION = 'last-session'
 
-export const isAdmin = () => localStorage.getItem(IS_ADMIN) != null
+export const isAdmin = () => localStorage.getItem(ADMIN) != null
 export const clearAdmin = () => setAdmin(false)
-const setAdmin = (is?:boolean) => 
-    is === true ? 
-        localStorage.setItem(IS_ADMIN, "true") : 
-        localStorage.removeItem(IS_ADMIN)
+export const admin = () => localStorage.getItem(ADMIN) ?? false
+
+const setAdmin = (role?:string|boolean) => 
+    (typeof(role) === 'string' && role.length > 0 || role === true) ? 
+        localStorage.setItem(ADMIN, role === true ? '*' : role) :
+        localStorage.removeItem(ADMIN)
 
 const name = () => localStorage.getItem(NAME)
 const setName = (name?:string) => 
@@ -46,7 +48,7 @@ export const clear = () => {
 }
 
 export default {
-    isAdmin, setAdmin,
+    isAdmin, setAdmin, admin,
     picture, setPicture,
     lastSession, setLastSession,
     name, setName,
