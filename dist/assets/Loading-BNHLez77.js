@@ -1,1 +1,0 @@
-import{p as t,_ as n}from"./index-CTsbF1de.js";function p({style:o,color:s,backgroundColor:e,className:r}){return t.jsx("div",{className:`${n.spinner} ${r||""}`,style:{borderColor:s,borderLeftColor:e,...o}})}export{p as L};

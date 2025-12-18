@@ -28,9 +28,12 @@
     background: rgba(0, 0, 0, .1);
 }
 
-.navigate:hover {
-    color: blue !important;
+.navigate {
     cursor: pointer;
+}
+
+.navigate:hover * {
+    color: var(--color-link) !important;
 }
 
 .dots {
@@ -38,8 +41,8 @@
     opacity: 0.6;
 }
 
-.navigate * {
-    display: none;
+.hide * {
+    color: transparent
 }
 
 @media only screen and (min-width: 768px) {

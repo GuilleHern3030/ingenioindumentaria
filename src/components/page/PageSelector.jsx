@@ -4,7 +4,12 @@ import styles from './PageSelector.module.css'
 export default ({page, pages, onChange, className, t}) => {
 
     return pages > 1 && <section className={`${styles.pages} ${className ?? ''}`}>
-        <div className={`${styles.navigate}`}>
+        <div 
+            className={`${page <= 1 ? styles.hide : styles.navigate}`}
+            onClick={() => {
+                if (page > 1)
+                    onChange(page - 1)
+            }}>
             <p>{t('last')}</p>
         </div>
 
@@ -14,7 +19,12 @@ export default ({page, pages, onChange, className, t}) => {
             onChange={onChange}
         />
 
-        <div className={`${styles.navigate}`}>
+        <div 
+            className={`${page >= pages ? styles.hide : styles.navigate}`}
+            onClick={() => {
+                if (page < pages)
+                    onChange(page + 1)
+            }}>
             <p>{t('next')}</p>
         </div>
     </section>

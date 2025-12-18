@@ -44,18 +44,18 @@ export default () => {
         <header className={styles.header}>
             <div className={styles.fixedHeader}>
 
-                <div className={`flex-center`} style={{justifyContent:'flex-start'}}>
+                <div className={`flex-center ${styles.header_aside}`} style={{justifyContent:'flex-start'}}>
                     <MenuBar onHide={handleHide} onShowMenu={handleShowMenu} t={t}/>
-                    <SearchBar onHide={handleHide} t={t}/>
+                    { usersCanSearch && <SearchBar onHide={handleHide} t={t}/> }
                 </div>
 
                 <div onClick={() => navigate("/")} className={`${styles.logo} flex-center cursor`}>
                     <img src={logo}/>
                 </div>
 
-                <div className={`flex-center`} style={{justifyContent:'flex-end'}}>
-                    <ShoppingCart onHide={handleHide} t={t}/>
-                    <MenuUser onHide={handleHide} t={t}/>
+                <div className={`flex-center ${styles.header_aside}`} style={{justifyContent:'flex-end'}}>
+                    { usersCanUseShoppingCart && <ShoppingCart onHide={handleHide} t={t}/> }
+                    { usersCanSignIn && <MenuUser onHide={handleHide} t={t}/> }
                 </div>
 
             </div>
