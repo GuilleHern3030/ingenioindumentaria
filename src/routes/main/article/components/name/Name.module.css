@@ -7,3 +7,11 @@
     color: var(--color);
     font-weight: bold;
 }
+
+.selectable {
+    cursor: pointer;
+}
+
+.selectable:hover {
+    color: var(--color-link)
+}

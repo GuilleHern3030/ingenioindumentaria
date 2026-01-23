@@ -1,0 +1,6 @@
+.theme {
+    display: flex;
+    justify-content: center;
+    font-size: .8em;
+    padding-top: 1em;
+}

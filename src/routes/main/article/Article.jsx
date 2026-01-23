@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate, replace } from 'react-router-dom'
+import { useParams, useNavigate, useLocation, replace } from 'react-router-dom'
 
 import styles from './Article.module.css'
 
-import Article from '@/api/products'
-
 import { useRouteI18n } from '@/hooks/useRouteI18N'
-import useDataBase from '@/hooks/useDataBase'
 import { getParams as getQueryParams } from '@/hooks/useParams'
 import useClientInfo from '@/hooks/useClientInfo'
+import useDataBase from '@/hooks/useDataBase'
+import useCart from '@/hooks/useCart'
 
 import IdUtils from '@/utils/IdUtils'
 
@@ -18,10 +17,11 @@ import Images from './components/images/Images'
 import Slug from './components/slug/Slug'
 import Name from './components/name/Name'
 import Price from './components/price/Price'
-import Filter from './components/filter/Filter'
-import Filters, { parseQueryFilters, parseVariantId } from './components/filters/Filters'
+import Options from './components/options/Options'
+import Filters from './components/filters/Filters'
 import Buy from './components/buy/Buy'
 import Error from './components/error/Error'
+import FilterUtils from './utils/FilterUtils'
 
 export default () => {
 
@@ -29,56 +29,90 @@ export default () => {
     const { dataLoaded, contactlink, fees } = useClientInfo()
 
     const { "*": index } = useParams() // obtiene todo el param
+    const location = useLocation()
     const navigate = useNavigate()
 
+    const [ articleId, setArticleId ] = useState(IdUtils.id(index))
     const [ article, setArticle ] = useState()
     const [ variant, setVariant ] = useState()
     const [ categories, setCategories ] = useState()
-    const [ filters, setFilters ] = useState({})
-
-    const [ code, setCode ] = useState()
-
+    
     const { getArticle, isLoading, error } = useDataBase()
+    const cart = useCart()
 
     useEffect(() => {
 
         try {
 
             const { slug, id, variantId } = IdUtils.parse(index)
-            console.log(IdUtils.parse(index))
+            /*console.log("Index:", index)
+            console.log("ID:", IdUtils.parse(index))
+            console.log("From:", location.state?.from)*/
 
             if (id) {
 
-                console.clear()
+                getArticle(id).then(article => {
 
-                getArticle(id).then(rawArticle => {
-                    const article = new Article(rawArticle)
-                    const variant = article.selectVariant(variantId)
+                    article.variants.forEach(variant => variant.name = variant.name ?? article.name )
+
+                    console.log("%cARTICLE", "color:blue; background:pink; padding:4px; border:1px solid blue;", article)
+                    
+                    const slugs = article.categories?.map(category => category.slug)
+
+                    const queryFilters = FilterUtils.url()
+                    console.log("URL-filters", queryFilters)
+                    console.log("Variant ID selected:", variantId)
+
+                    const variant = (
+                        variantId ? article.variants.find(variant => variant.id == variantId) :
+                        queryFilters ? FilterUtils.selectVariant(article.variants, queryFilters) :
+                        article.variants[0]
+                    ) ?? article.variants[0]
+                    
+                    console.log("%cVARIANT", "color:blue; background:pink; padding:4px; border:1px solid blue;", variant)
+
+                    setCategories(slugs)
                     setArticle(article)
                     setVariant(variant)
-                    setCategories(article.slugs())
-                    setFilters(!variant ? parseQueryFilters(article, getQueryParams()) : parseVariantId(article, variantId))
-                    console.log("%cARTICLE", "color:blue; background:pink; padding:4px; border:1px solid blue;", article.toJson())
+
                 }).catch(e => { 
                     console.error(e)
                     setArticle(null)
                 })
 
-            } else navigate(
-                '/category' + (slug ? `/${slug}` : ''), 
-                { replace:true }
-            )
+            } else {
+                console.warn("No article selected")
+                navigate(-1)
+            }
 
-        } catch(e) { navigate('/category', { replace:true }) }
+        } catch(e) {
+            console.warn(e)
+            navigate('/category', { replace:true }) 
+        }
 
-    }, [index])
+    }, [ articleId ])
 
     useEffect(() => {
-        setCode(`${IdUtils.id(index)}${variant?.id() ?? ''}`)
-    }, [variant])
+        const { slug, id, variantId } = IdUtils.parse(index)
+        const route = slug ? `/${slug}` : ''
+        const code = `${IdUtils.id(index)}${variant?.id ?? ''}`
+        navigate(
+            `/article${route}/${code}`, 
+            { 
+                replace: true,
+                state: { from: location.state?.from }
+            }
+        )
+    }, [ variant ])
 
-    const handleAddCart = (article, variant) => {
-
+    const handleAddCart = (article, variant, quantity=1) => {
+        cart.add(article, quantity, variant)
+        .then(() => {
+            console.log("added")
+        })
+        .catch(e => {
+            console.error(e)
+        })
     }
 
     const handleBuy = (article, variant) => {
@@ -97,54 +131,85 @@ export default () => {
 
     }
 
+    const handleBack = () => {
+        const { slug } = IdUtils.parse(index)
+        const from = location.state?.from
+        const route = 
+            from ? from :
+            slug ? `/category/${slug}` :
+            `/`
+        navigate(
+            from ? from :
+            slug ? `/category/${slug}` :
+            `/`
+        )
+    }
+
+    const handleSelect = (variant) => {
+        document.getElementById("article")?.scrollIntoView({ behavior: "smooth" })
+        setVariant(variant)
+    }
+
     return <main>
 
         { (!ready || !dataLoaded || isLoading) && <Loading/> }
 
-        { article && 
-            <section className={styles.datasection}>
+        { article != undefined && 
+            <>
+            <section className={styles.datasection} id='article'>
 
-                <Images images={variant?.images().length > 0 ? variant.images() : article.images()} />
+                <Images images={variant?.images.length > 0 ? variant.images : article.images} />
 
                 <article className={styles.information}>
 
-                    <Slug code={code} index={index}/>
+                    <Slug 
+                        index={index}
+                        onBack={handleBack}
+                    />
 
                     {/* Nombre y botón para agregar artículo a favoritos */}
                     <Name 
-                        id={article.id()} 
-                        name={article.name()}
+                        id={article.id} 
+                        name={variant?.name ?? article?.name}
                         onFavouriteChange={handleFavouriteChange}
+                        
                     /> 
 
                     <Price 
-                        price={variant?.price() ?? article.price()} 
-                        discount={variant?.discount() ?? article.discount()}
+                        price={variant?.price ?? article.price} 
+                        discount={variant?.discount ?? article.discount}
                         fees={fees}
                         t={t}
                     />
 
-                    <p className={styles.description}>{variant?.description() ?? article.description()}</p>
+                    <p className={styles.description}>{variant?.description ?? article.description}</p>
 
-                    <Filters
-                        article={article}
-                        categories={categories}
-                        filters={filters}
-                        setFilters={setFilters}
-                        onVariantChange={setVariant}
+                    <Filters 
+                        variant={variant}
                     />
 
                     <Buy
-                        article={article?.toJson()}
-                        variant={variant?.toJson()}
+                        article={article}
+                        variant={variant}
                         onBuy={handleBuy}
                         onAddShoppingCart={handleAddCart}
                         onConsult={handleConsult}
+                        onBack={handleBack}
                         t={t}
                     />
                     
                 </article>
+
             </section>
+                
+            <Options
+                article={article}
+                variant={variant}
+                categories={categories}
+                onSelect={handleSelect}
+                t={t}
+            />
+            </>
         }
 
         { article === null && <Error t={t}/> }

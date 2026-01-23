@@ -24,7 +24,7 @@ export default ({category, t}) => {
 
     const handleEnable = () => {
         setDialogShowed(false)
-        request(setIsLoading, setWarning, enable, category.slug())
+        request(setIsLoading, setWarning, enable, category.slug)
         .then(() => { reload() })
         .catch(e => {
             if(e.adminSessionExpired())
@@ -36,7 +36,7 @@ export default ({category, t}) => {
     return <>
         {
             dialogShowed && <Dialog 
-                title={category.name()}
+                title={category.name}
                 message={t('category_enable_question')}
                 onAccept={handleEnable}
                 onReject={() => setDialogShowed(false)}
@@ -44,7 +44,7 @@ export default ({category, t}) => {
         }
         <div className='flex-center-column'>
             { isLoading == true ? <Loading/> : <>
-                    <button className={styles.button} onClick={() => setDialogShowed(true)}>{`${t('reenable')} ${category.name()}`}</button>
+                    <button className={styles.button} onClick={() => setDialogShowed(true)}>{`${t('reenable')} ${category.name}`}</button>
                     <p className={styles.warning}>{warning}</p>
                 </>
             }

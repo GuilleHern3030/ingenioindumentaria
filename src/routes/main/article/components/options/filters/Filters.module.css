@@ -1,0 +1,81 @@
+.filters {
+    margin: 1em 1em;
+    user-select: none;
+}
+
+.filter {
+    display: flex;
+    justify-content: space-between;
+    padding: .25em .4em .25em 0;
+    margin: .25em 0;
+    cursor: pointer;
+}
+
+.hr {
+    border-color: rgb(158, 160, 160, .25);
+}
+
+.clean {
+    background-color: blue;
+    color: rgb(226, 224, 224);
+    border-radius: 8px;
+    margin-top: 1em;
+    margin-inline: .5em;
+    text-align: center;
+    padding: .4em 0;
+    cursor: pointer;
+}
+
+.clean:hover {
+    background-color: rgb(6, 4, 101);
+}
+
+.menu {
+    display: flex;
+}
+
+.menu > p {
+    padding-right: .5em;
+}
+
+.background {
+    user-select: none;
+    width: 100vw;
+    height: 100vh;
+    background-color: #393737c4;
+    position: fixed;
+    z-index: 110;
+    top: 0;
+    left: 0;
+}
+
+.rotated {
+    rotate: 90deg;
+}
+
+.selector {
+    display: flex;
+    flex-direction: column;
+}
+
+.value {
+    display: inline-flex;
+    padding: .35em;
+    margin: .2em;
+    padding-left: 3em;
+}
+
+.available:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.selected {
+    font-weight: bold;
+    color: var(--color-filter);
+    cursor: pointer;
+}
+
+.unavailable {
+    color: var(--color-gray);
+}

@@ -1,6 +1,5 @@
 import request from '../../controllers/categories/enableCategoryController'
 import handleError from '../errorHandler'
-import { Category } from '@/api/objects/Category'
 import { isAdmin } from '../../index'
 import { useCommonI18n } from '@/hooks/useRouteI18N'
 

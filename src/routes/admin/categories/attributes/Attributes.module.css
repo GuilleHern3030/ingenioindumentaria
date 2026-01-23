@@ -95,3 +95,21 @@
     outline: 2px rgb(74, 74, 204) solid;
     cursor: pointer;
 }
+
+.dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.response > p {
+    color: black
+}
+
+.nothing {
+    color: gray
+}
+
+.something {
+    color: rgb(35, 41, 17)
+}

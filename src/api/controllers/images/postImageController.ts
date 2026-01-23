@@ -9,10 +9,6 @@ const endpoint = "/images";
  */
 export const postImage = async(image:FormData): Promise<Record<string, any>> => {
 
-//    for (const pair of image.entries()) {
-//  console.log(pair[0], pair[1]);
-//}
-
     const { data } = await axios.post(
         endpoint,
         image, 

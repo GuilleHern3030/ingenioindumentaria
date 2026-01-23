@@ -7,8 +7,8 @@ import { request } from '@/api'
 import styles from './Index.module.css'
 
 // Components
-import Categories from '../components/Categories.jsx'
 import Slug from '../components/Slug.jsx'
+import CategoriesList from '../components/CategoriesList.jsx'
 import CreateCategory from '../components/CreateCategory.jsx'
 import DeleteCategory from '../components/DeleteCategory.jsx'
 import EnableCategory from '../components/EnableCategory.jsx'
@@ -18,9 +18,11 @@ import Attributes from '../components/Attributes.jsx'
 import Loading from '@/components/loading/Loading.jsx'
 import Reload from '../../components/reload/Reload.jsx'
 
+import CategoryUtils from '../utils/CategoryUtils';
+
 export default () => {
     
-    const { t } = useOutletContext();
+    const { t } = useOutletContext()
 
     const [ isLoading, setIsLoading ] = useState(true)
     const [ error, setError ] = useState()
@@ -30,47 +32,42 @@ export default () => {
     const [ categorySelected, setCategorySelected ] = useState()
     const [ categorySelectedToMove, setCategorySelectedToMove ] = useState()
 
-    useEffect(() => {
+    const loadCategories = (callback) => {
         request(setIsLoading, setError, selectAll, true)
-        .then(categories => {
-            setCategories(categories)
-            const mainCategories = categories.mainCategories()
-            setListedCategories(mainCategories)
+        .then(treeOfCategories => {
+            setCategories(treeOfCategories)
+            setListedCategories(treeOfCategories)
+            callback && callback(treeOfCategories)
         })
         .catch(e => {
             console.error(e)
             if (e?.isNetworkError())
                 setNetworkError(true)
         })
-    }, [])
+    }
+
+    useEffect(() => { loadCategories() }, [])
 
     const handleCategoryClick = (category) => {
         if (category) {
-            if (category && category.isChildOf(categorySelectedToMove)) {
+            category.name = CategoryUtils.name(category)
+            if (category && category.slug.startsWith(categorySelectedToMove?.slug)) { // category is child of categorySelectedToMove
                 setError(t('couldnt_move_inside_self'))
                 return;
             } else if (categorySelectedToMove) setError()
             setCategorySelected(category)
-            setListedCategories(category.children())
+            setListedCategories(category.children)
         }
         else {
             setCategorySelected(category)
-            const mainCategories = categories.mainCategories()
-            setListedCategories(mainCategories)
+            setListedCategories(categories)
         }
     }
 
     const handleOnCategoriesEdited = (category) => {
-        request(setIsLoading, setError, selectAll, true)
-        .then(categories => {
-            setCategories(categories)
+        loadCategories((treeOfCategories) => {
             setCategorySelectedToMove(undefined)
-            handleCategoryClick(category)
-        })
-        .catch(e => {
-            console.error(e)
-            if (e?.isNetworkError())
-                setNetworkError(true)
+            handleCategoryClick(CategoryUtils.find(treeOfCategories, category.slug))
         })
     }
 
@@ -86,9 +83,9 @@ export default () => {
             (isLoading === true) ? <Loading /> :
             <>
                 <Slug categories={categories} category={categorySelected} onClick={handleCategoryClick} onEdit={handleOnCategoriesEdited} canEdit={true} t={t} />
-                {categorySelectedToMove && <p className='green'>{`${t('instruction_movement')} ${categorySelectedToMove.name()}`}</p>}
+                {categorySelectedToMove && <p className='green'>{`${t('instruction_movement')} ${categorySelectedToMove.name}`}</p>}
                 {error && <p className='error'>{error}</p>}
-                {categorySelected && <p className={styles.category}>{categorySelected?.name()}</p>}
+                {categorySelected && <p className={styles.category}>{categorySelected?.name}</p>}
                 {!categorySelected && !categorySelectedToMove && 
                     <section className={styles.instructions}>
                         <p className={styles.instruction}>{t('instruction_1')}</p>
@@ -97,13 +94,13 @@ export default () => {
                 }
                 <hr />
                 {categorySelected && <p className={styles.subtitle}>{t('subcategories')}</p>}
-                <Categories parent={categorySelected} options={listedCategories} onClick={handleCategoryClick} t={t} />
+                <CategoriesList parent={categorySelected} options={listedCategories} onClick={handleCategoryClick} t={t} />
                 { !networkError && !categorySelectedToMove && <CreateCategory parent={categorySelected} onCreate={handleOnCategoriesEdited} t={t} />}
                 <hr />
                 { !networkError ? 
                     <>
-                        {categories && !categorySelectedToMove && categorySelected && <Attributes categories={categories} category={categorySelected} t={t} />}
-                        {categorySelected && !categorySelectedToMove && categorySelected.isActive() == false && <EnableCategory category={categorySelected} t={t} />}
+                        {categories && !categorySelectedToMove && <Attributes categories={categories} category={categorySelected} t={t} />}
+                        {categorySelected && !categorySelectedToMove && categorySelected.disabled && <EnableCategory category={categorySelected} t={t} />}
                         {categorySelected && !categorySelectedToMove && <DeleteCategory category={categorySelected} t={t} />}
                         {categories && <MoveCategory categorySelected={categorySelectedToMove} category={categorySelected} onSelect={handleOnSelectToMove} t={t} />}
                     </> : <Reload/>

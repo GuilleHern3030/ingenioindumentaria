@@ -3,9 +3,9 @@ import styles from './Dialog.module.css'
 import accept from '../../assets/icons/accept.webp'
 import cancel from '../../assets/icons/cancel.webp'
 
-export default function({title, message, onAccept, onReject, children}) {
+export default function({ title, message, onAccept, onReject, children }) {
     
-    return <div className={styles.background}>
+    return <div className={styles.background} onClick={e => e.stopPropagation()}>
             <div className={styles.confirmation}>
             <p className={`${styles.message} ${styles.title}`}>{title}</p>
             <p className={styles.message}>{message}</p>

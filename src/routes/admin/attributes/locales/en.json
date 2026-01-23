@@ -35,10 +35,12 @@
     "attribute_enable_title": "Do you want to restore that attribute?",
     "attribute_value_enable_title": "Do you want to restore that attribute value?",
     "attribute_value_remove_title": "Do you want to delete that attribute value?",
+    "attribute_disabled": "This attribute is disabled",
     "attribute_no_repeated": "That name already exists for a value in that attribute.",
     "cancel_edition_title": "Cancel edition",
     "cancel_edition_message": "The changes made will not be saved",
     "save_edition_title": "Save changes",
-    "save_edition_message": "All changes made will be applied. If you removed any attributes (or one of their values), this will apply to all your existing products. This is irreversible, so proceed with caution."
-    
+    "save_edition_message": "All changes made will be applied. If you removed any attributes (or one of their values), this will apply to all your existing products. This is irreversible, so proceed with caution.",
+    "create": "Creator",
+    "edit": "Editor"
 }

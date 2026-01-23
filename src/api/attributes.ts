@@ -1,7 +1,4 @@
 export { default as selectAll } from './handlers/attributes/selectAllHandler'
-export { default as selectByCategory } from './handlers/attributes/selectByCategoryHandler'
-export { default as selectByCategoryCascade } from './handlers/attributes/selectByCategoryCascadeHandler'
-export { default as selectByCategoriesCascade } from './handlers/attributes/selectByCategoriesCascadeHandler'
 export { default as get } from './handlers/attributes/selectHandler'
 export { default as post } from './handlers/attributes/postHandler'
 export { default as put } from './handlers/attributes/putHandler'

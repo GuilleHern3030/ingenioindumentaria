@@ -1,20 +1,23 @@
 import { email, language, axios, devConsole } from '@/api'
-import { category } from '@/api/objects/Category';
+import { category } from '../../models/Category'
 
 const endpoint = "/categories";
 
 /**
  * Creates a category and put it into DataBase
- * @param {JSON} category Category in JSON format: { id, name }
+ * @param {Record<string, any>} category Category in JSON format: { id, name }
  * @returns result of the request
  */
-export const putCategory = async(category:category) => {
+export const putCategory = async(category: category, applyAttributesToChildren: boolean) => {
 
-    console.log("Putting", category)
+    devConsole("categories.put", category)
 
     const { data } = await axios.put(
         endpoint, 
-        { category }, 
+        { 
+            category,
+            apply_children: applyAttributesToChildren
+        }, 
         { 
             headers: { 
                 user: email(),
@@ -23,7 +26,8 @@ export const putCategory = async(category:category) => {
         }
     )
 
-    devConsole(`categories.put(${category})`, data)
+    devConsole("categories.put response", data)
+
 
     return data;
 }

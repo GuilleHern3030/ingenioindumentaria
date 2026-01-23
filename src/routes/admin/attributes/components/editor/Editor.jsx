@@ -7,7 +7,7 @@ import saveIcon from '@/assets/icons/accept.webp'
 import enableIcon from '@/assets/icons/restore.webp'
 
 import Input from '../../../components/input/Input'
-import Categories from '../../../components/categories/Categories.tsx'
+import Categories from '../categories/Categories'
 
 import Loading from '@/components/loading/FullLoading'
 import Values from '../values/Values'
@@ -15,28 +15,19 @@ import Dialog from '@/components/dialog/Dialog'
 import Alert from '@/components/alert/Alert'
 import { devMode } from '@/api'
 
-export default ({attribute, onSuccess, onCancel, onEnable, onDelete, defaultCategory=undefined, t}) => {
+import Attribute from '../../utils/Attribute'
 
-    // Dialog
+export default ({ attributeSelected, categories, onSuccess, onCancel, onEnable, onDelete, t }) => {
+
     const [ dialogShowed, setDialogShowed ] = useState()
-
-    // Request
-    const [ isLoading, setIsLoading ] = useState(false)
     const [ error, setError ] = useState()
-
-    // Categories
-    const [ categories, setCategories ] = useState(defaultCategory)
-    const [ prevCategories, setPrevCategories ] = useState(defaultCategory)
-
-    const [ attributeSelected, setAttribute ] = useState(attribute)
+    const [ attribute, setAttribute ] = useState()
 
     useEffect(() => { 
-        console.log(attribute)
-        if (attribute.categories().length > 0) 
-            setPrevCategories(attribute?.categories())
-        else if (defaultCategory) 
-            setPrevCategories([{slug:defaultCategory}])
-    }, [attribute])
+        console.log("Attribute Selected", attributeSelected)
+        console.log("Categories", categories)
+        setAttribute(new Attribute(attributeSelected))
+    }, [ attributeSelected ])
 
     const name = useRef()
     const isActive = useRef()
@@ -50,16 +41,17 @@ export default ({attribute, onSuccess, onCancel, onEnable, onDelete, defaultCate
         />)
     }
 
-    const getAttributeData = () => {
-        return {
-            attribute: {
-                id: attribute?.id(),
-                name: name.current.value.trim(),
-                disabled: !(isActive.current ? isActive.current.checked : true),
-                values: attributeSelected?.rawValues() ?? [],
-            },
-            slugs: categories
-        }
+    const handleSave = () => {
+        if (name.current.value.trim().length > 0) {
+            const attributeData = attribute.toJson()
+            attributeData.name = name.current.value
+            console.log(attributeData)
+            showDialog(
+                t('editor_save_title'), 
+                t('editor_save_message'),
+                () => onSuccess(attributeData, name.current.value)
+            )
+        } else setError(t('editor_invalid_name'))
     }
 
     const handleCancel = () => {
@@ -70,22 +62,10 @@ export default ({attribute, onSuccess, onCancel, onEnable, onDelete, defaultCate
         )
     }
 
-    const handleSave = () => {
-        const attributeData = getAttributeData()
-        console.log(attributeData)
-        if (attributeData.attribute.name.trim().length > 0) {
-            showDialog(
-                t('editor_save_title'), 
-                t('editor_save_message'),
-                () => onSuccess(attributeData)
-            )
-        } else setError(t('editor_invalid_name'))
-    }
-
     const handleDelete = () => {
         showDialog(
             t('editor_remove_title'), 
-            attribute?.isActive() ? 
+            attribute?.disabled === false ? 
                 t('editor_disable_message') : 
                 t('editor_delete_message'), 
             () => onDelete(attribute)
@@ -95,15 +75,16 @@ export default ({attribute, onSuccess, onCancel, onEnable, onDelete, defaultCate
     const handleEnable = () => {
         showDialog(
             t('editor_recove_title'),  
-            attribute.name(), 
+            attribute.name, 
             () => onEnable(attribute)
         )
     }
 
     // --- VALUES EDITOR --- //
 
-    const handleAddValue = (attribute, value) => {
+    const handleAddValue = (value) => {
         console.log("attribute:", attribute)
+        console.log("value:", value)
         if (value?.length > 0) {
             if (!attribute.hasValue(value)) {
                 setAttribute(attribute.addValue(value))
@@ -111,7 +92,7 @@ export default ({attribute, onSuccess, onCancel, onEnable, onDelete, defaultCate
         } else setError(t('attribute_no_name_error'))
     }
 
-    const handleEditValue = (attribute, prevValue, newValue) => {
+    const handleEditValue = (prevValue, newValue) => {
         if (newValue?.length > 0) {
             if (!attribute.hasValue(newValue)) {
                 setAttribute(attribute.renameValue(prevValue, newValue))
@@ -119,14 +100,22 @@ export default ({attribute, onSuccess, onCancel, onEnable, onDelete, defaultCate
         } else setError(t('attribute_no_name_error'))
     }
 
-    const handleDisableValue = (attribute, value) => 
+    const handleDisableValue = (value) => 
         setAttribute(prev => prev.disableValue(value))
 
-    const handleEnableValue = (attribute, value) => 
+    const handleEnableValue = (value) => 
         setAttribute(attribute.enableValue(value))
 
-    const handleRemoveValue = (attribute, value) => 
+    const handleRemoveValue = (value) => 
         setAttribute(prev => prev.removeValue(value))
+
+    // --- CATEGORIES EDITOR --- //
+
+    const handleAddCategory = (slug) => 
+        setAttribute(prev => prev.addCategory(slug))
+
+    const handleRemoveCategory = (slug) => 
+        setAttribute(prev => prev.removeCategory(slug))
 
     // --- React Component --- //
 
@@ -134,24 +123,35 @@ export default ({attribute, onSuccess, onCancel, onEnable, onDelete, defaultCate
 
         { error && <p className='error'>{error}</p>}
         
-        <Categories defaultCategories={prevCategories} onChange={setCategories} t={t}/>
-
-        <Input ref={name} name='name' className={styles.input} label={t("name")} defaultValue={attribute?.name()}/>
-
-        <Values attribute={attributeSelected} t={t}
-            onAddValue = {handleAddValue} 
-            onEditValue = {handleEditValue} 
-            onRemoveValue = {handleRemoveValue}
-            onDisableValue = {handleDisableValue}
-            onEnableValue = {handleEnableValue}
+        <Categories
+            categories={categories}
+            slugs={attribute?.slugs}
+            onAdd={handleAddCategory} 
+            onRemove={handleRemoveCategory} 
+            t={t}
         />
 
-        { !(attribute?.isActive() || !attribute) && <Input ref={isActive} className={styles.input} label={`${t('is_available')}:`} type='checkbox' defaultChecked={attribute?.isActive()}/> }
+        { attribute?.disabled === true && <p className={styles.disabled}>{t('attribute_disabled')}</p> }
+
+        <Input ref={name} name='name' className={styles.input} label={t("name")} defaultValue={attribute?.name}/>
+
+        { attribute && 
+            <Values 
+                values={attribute.values} t={t}
+                onAddValue = {handleAddValue} 
+                onEditValue = {handleEditValue} 
+                onRemoveValue = {handleRemoveValue}
+                onDisableValue = {handleDisableValue}
+                onEnableValue = {handleEnableValue}
+            />
+        }
+
+        { !(!attribute?.disabled || !attribute) && <Input ref={isActive} className={styles.input} label={`${t('is_available')}:`} type='checkbox' defaultChecked={!attribute?.disabled}/> }
 
         <div className={styles.footer}>
             <div className={styles.icon}> <img src={closeIcon} onClick={handleCancel}/> </div>  
-            { attribute.id() && <div className={styles.icon}> <img src={deleteIcon} onClick={handleDelete}/> </div> }
-            { attribute.isActive() === false && <div className={styles.icon}> <img src={enableIcon} onClick={handleEnable}/> </div> } 
+            { attribute?.id && <div className={styles.icon}> <img src={deleteIcon} onClick={handleDelete}/> </div> }
+            { !attribute?.disabled === false && <div className={styles.icon}> <img src={enableIcon} onClick={handleEnable}/> </div> } 
             <div className={styles.icon}> <img src={saveIcon} onClick={handleSave}/> </div>  
         </div>
 

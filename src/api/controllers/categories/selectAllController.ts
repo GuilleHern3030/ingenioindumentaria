@@ -1,16 +1,10 @@
 import { email, language, axios, devConsole } from '@/api'
-import query from '@/utils/QueryUtils';
 
-const endpoint = "/categories";
+const endpoint = "/categories/all";
 
-export const selectAllCategories = async(includeDisabled:boolean) => {
+export const selectAllCategories = async () => {
 
-    const queryParams = query.set({
-        disabled: includeDisabled === true,
-        forceAll: true
-    })
-
-    const { data } = await axios.get(endpoint + queryParams,
+    const { data } = await axios.get(endpoint,
         {
             headers: {
                 user: email(),
@@ -19,7 +13,7 @@ export const selectAllCategories = async(includeDisabled:boolean) => {
         }
     )
 
-    devConsole(`categories.selectAll(includeDisabled:${includeDisabled})`, data)
+    devConsole(`categories.selectAll()`, data)
 
     return data;
 }

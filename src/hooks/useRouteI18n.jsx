@@ -41,6 +41,10 @@ import common_en from "@/locales/common/en.json"
 import common_es from "@/locales/common/es.json"
 import error_en from "@/locales/error/en.json"
 import error_es from "@/locales/error/es.json"
+import cart_en from "@/locales/cart/en.json"
+import cart_es from "@/locales/cart/es.json"
+import user_en from "@/locales/user/en.json"
+import user_es from "@/locales/user/es.json"
 
 /**
  * Carga las traducciones comunes de i18n ubicadas en src/locales
@@ -71,6 +75,16 @@ export const useCommonI18n = () => {
     else if(local === 'error') switch(lang) {
       case "es": return error_es;
       case "en": return error_en;
+      default: return lang(default_lang)
+    }
+    else if(local === 'cart') switch(lang) {
+      case "es": return cart_es;
+      case "en": return cart_en;
+      default: return lang(default_lang)
+    }
+    else if(local === 'user') switch(lang) {
+      case "es": return user_es;
+      case "en": return user_en;
       default: return lang(default_lang)
     }
   }

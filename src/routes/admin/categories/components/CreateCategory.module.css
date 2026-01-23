@@ -49,4 +49,7 @@
 .disabled {
     display: block;
     text-align: center;
+    color: brown;
+    margin: 1em;
+    user-select: none;
 }

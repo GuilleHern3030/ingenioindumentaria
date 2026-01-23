@@ -1,4 +1,4 @@
-export { default as get } from "./handlers/products/selectHandler";
+export { default as select } from "./handlers/products/selectHandler";
 export { default as selectAll } from "./handlers/products/selectAllHandler";
 export { default as selectByCategory } from "./handlers/products/selectByCategoryHandler";
 export { default as selectByCategoryCascade } from "./handlers/products/selectByCategoryCascadeHandler";
@@ -9,80 +9,58 @@ export { default as post } from "./handlers/products/postHandler";
 export { default as put } from "./handlers/products/putHandler";
 export { default as count } from "./handlers/products/countHandler";
 
-export { Product as default } from "./objects/Product"
-
-import { Product, product } from "./objects/Product"
-import { ProductVariant } from "./objects/ProductVariant";
-
-import { post as postArticle, put as putArticle, destroy as removeArticle } from './products'
+import { post, put, destroy } from './products'
 import { deleteAll as deleteImages, updateImages, uploadAll as uploadImages } from './images'
 
-export const remove = async(product:Product) => {
-    if (!Product.isProduct(product)) throw new Error("El producto que deseas borrar tiene formato inválido")
+import variant from "./models/Variant";
+import product from "./models/Product";
 
-    console.log("Removing: ", product)
+interface data {
+    product: product,
+    slugs: string[],
+    variants: variant[]
+}
 
-    console.log("Removing images ", product.images())
-    const results = await deleteImages(product.images())
-    console.log("Remove images result: ", results)
+export const remove = async(product:product) => {
+    if (!product?.id) throw new Error("El producto que deseas borrar tiene formato inválido")
 
-    const variants = product.variants()
-    for (let i = 0; i < variants.length; i++) {
-        //variants[i].Images = 
-        await deleteImages(new ProductVariant(variants[i]).images())
-    }
+    console.clear()
 
-    const result = removeArticle(product)
-    console.log("Remove result: ", result)
+    const results = await deleteImages(product.images)
+
+    const variants = product.variants
+    for (let i = 0; i < variants.length; i++) 
+        await deleteImages(variants[i].images)
+
+    const result = destroy(product)
 
 }
 
-export const edit = async(article:product) => {
-    if (!article.product) throw new Error("El producto que deseas editar tiene formato inválido")
+export const edit = async(data:data) => {
+    if (!data?.product) throw new Error("Invalid format")
     
-    console.log("Editing: ", article)
+    const { product, slugs, variants } = data
 
-    /*const removedImages = !article.images ? [] : article.images.filter((image:image) => image.removed === true && !image.file)
-    const addedImages = !article.images ? [] : article.images.filter((image:image) => image.file && !image.removed)
-    const stayedImages = !article.images ? [] : article.images.filter((image:image) => !image.file && !image.removed && image.id)
+    const updatedImages = await updateImages(product.images)
+    for (let i = 0; i < variants.length; i++) 
+        variants[i].images = await updateImages(variants[i].images)
 
-    console.log("Uploading ", addedImages)
-    const uploadedImages:image[] = (addedImages.length > 0) ? await uploadImages(addedImages) : []
-    console.log("Upload images result: ", uploadedImages)
+    const result = await put(product, updatedImages, slugs, variants)
 
-    console.log("Removing ", removedImages)
-    const deletedImages:image[] = (removedImages.length > 0) ? await deleteImages(removedImages) : []
-    console.log("Remove images result: ", deletedImages)
-
-    const updatedImages = [...stayedImages, ...uploadedImages]
-    console.log("Updated images:", updatedImages)*/
-
-    const updatedImages = await updateImages(article.images)
-    for (let i = 0; i < article.variants.length; i++) 
-        article.variants[i].Images = await updateImages(article.variants[i].Images)
-
-    const result = await putArticle(new Product(article.product), updatedImages, article.slugs, article.attributes, article.variants)
-    console.log("Edition result: ", result)
-
-    return article
+    return result
 }
 
-export const create = async(article:product) => {
-    if (!article.product) throw new Error("El producto que deseas crear tiene formato inválido")
+export const create = async(data:data) => {
+    if (!data?.product) throw new Error("The product you want to create has an invalid format.")
 
-    console.log("Creating: ", article)
+    const { product, slugs, variants } = data
 
-    /*console.log("Uploading images: ", article.images)
-    const uploadedImages:image[] = await uploadImages(article.images)
-    console.log("Upload images result: ", uploadedImages)*/
+    const uploadedImages = await uploadImages(product.images)
+    for (let i = 0; i < variants.length; i++) 
+        variants[i].images = await updateImages(variants[i].images)
 
-    const uploadedImages = await uploadImages(article.images)
-    for (let i = 0; i < article.variants.length; i++) 
-        article.variants[i].Images = await updateImages(article.variants[i].Images)
+    const result = await post(product, uploadedImages, slugs, variants)
 
-    const result = await postArticle(new Product(article.product), uploadedImages, article.slugs, article.attributes, article.variants)
-    console.log("Creation result: ", result)
-
-    return article;
+    return result;
 
 }

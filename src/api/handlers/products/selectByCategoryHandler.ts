@@ -1,8 +1,7 @@
 import request from '../../controllers/products/selectByCategoryController'
 import handleError from '../errorHandler'
-import { Product } from '../../objects/Product'
 
-export const selectByCategory = async(slug?:string, includeDisabled?:boolean):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
+export const selectByCategory = async(slug?:string):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
 
     try {
 
@@ -11,18 +10,11 @@ export const selectByCategory = async(slug?:string, includeDisabled?:boolean):Pr
 
         // Obtener los productos en formato JSON
         const jsonArray:Array<any> = await request(
-            categorySlug.toLowerCase().trim().replace(/\s+/g, '-'),
-            includeDisabled === true
+            categorySlug.toLowerCase().trim().replace(/\s+/g, '-')
         )
 
-        // Parsear productos
-        const products = jsonArray
-            .map(json => new Product(json))// convertir a objeto Producto
-            //.filter(product => onlyActives === true && product.isActive() === true || onlyActives !== true) // filtrar activos
-
         // Devuelve las categorías en formato correcto
-        resolve(products)
-
+        resolve(jsonArray)
 
     } catch(err:any) { reject(handleError(err)) }
 })

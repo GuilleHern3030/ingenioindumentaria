@@ -1,0 +1,9 @@
+.cart {
+    user-select: none;
+}
+
+.title {
+    text-align: center;
+    font-size: 2.5em;
+    margin: 1rem;
+}

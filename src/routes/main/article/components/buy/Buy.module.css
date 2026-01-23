@@ -1,25 +1,28 @@
 .buy {
-    margin: .5em 0;
+  margin: .5em 0;
 }
 
 .button {
-    font-size: 1.1em;
-    background-color: var(--article-buy-background-color);
-    color: var(--color-article-buy);
-    border-radius: 2em;
-    margin: 1em 0;
-    text-align: center;
-    padding: .8em 0;
-    cursor: pointer;
-    font-family: 'Times New Roman', Times, serif;
+  font-size: 1.1em;
+  background-color: var(--article-buy-background-color);
+  color: var(--color-article-buy);
+  border-radius: 2em;
+  margin: 1em 0;
+  text-align: center;
+  padding: .8em 0;
+  cursor: pointer;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .button:hover {
-    background-color: var(--article-buy-background-color-hover);
+  background-color: var(--article-buy-background-color-hover);
 }
 
 @media only screen and (min-width: 768px) {
-  .button { 
+  .button {
     font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+  .exit {
+    display: none;
   }
 }

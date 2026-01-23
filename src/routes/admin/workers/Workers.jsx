@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { email, language, axios } from '@/api'
 import styles from './Workers.module.css'
 import { useRouteI18n } from '@/hooks/useRouteI18N';
-import SizeUtils from '@/utils/SizeUtils';
+import SizeUtils from '../utils/SizeUtils';
 
 import updateGoogleSheet from '@/api/handlers/external/updateGoogleSheetHandler';
 import updateJson from '@/api/handlers/external/updateJsonHandler';

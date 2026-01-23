@@ -11,6 +11,10 @@
     place-items: center;
 }
 
+.images {
+  margin: .5em;
+}
+
 .image {
      position: fixed;
     z-index: 152;

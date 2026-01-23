@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './Attributes.module.css'
 import StringUtils from '@/utils/StringUtils'
@@ -8,31 +8,42 @@ import contractIcon from '@/assets/icons/cross.webp'
 import Attribute from '../attribute/Attribute'
 
 
-export default ({attributes, title, onAttributeSelected, defaultContracted=false, hide=false, t}) => {
+export default ({ attributes, slug, title, onAttributeSelected, defaultContracted=false, hide=false, t }) => {
 
     const [ contracted, setContracted ] = useState(defaultContracted)
 
-    return attributes && <div style={{display: hide === false ? 'block' : 'none'}}>
+    const [ attributesList, setAttributesList] = useState([])
+
+    useEffect(() => { 
+        if (attributes) {
+            const attributesFiltered = attributes.filterSlug(slug)
+            console.log(attributesFiltered)
+            setAttributesList(attributesFiltered) 
+            setContracted(defaultContracted)
+        }
+    }, [ slug ])
+
+    return attributesList && <div style={{display: hide === false ? 'block' : 'none'}}>
         <div className={styles.title}>
             <div></div>
             <p>{StringUtils.lastSlug(title)}</p>
             <div className={styles.contract}>
-                { !contracted && attributes.length > 0 && <img src={contractIcon} onClick={() => setContracted(true)}/> }
+                { !contracted && attributesList.length > 0 && <img src={contractIcon} onClick={() => setContracted(true)}/> }
             </div>
         </div>
         { 
-            attributes.length > 0 && contracted === true ?
+            attributesList.length > 0 && contracted === true ?
                 <p 
                     onClick={() => setContracted(false)}
                     className={styles.contracted}>{t('contracted_text')}
                 </p>
             :
             
-            attributes.length > 0 ?
+            attributesList.length > 0 ?
                 <section className={styles.attributes}>
                     
                     {
-                        attributes.map((attribute, index) =>
+                        attributesList.map((attribute, index) =>
                             <Attribute key={index} attribute={attribute} onAttributeSelected={onAttributeSelected} t={t} />
                         )
                     }

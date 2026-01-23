@@ -1,0 +1,20 @@
+.variant {
+    padding: 1.5em 0;
+}
+
+.variant h6 {
+    font-size: 1em;
+    color: black;
+    margin: 1em 0 .2em 1em;
+}
+
+.input {
+    margin: .8em 1em;
+    color: black
+}
+
+.save {
+    display: grid;
+    place-items: center;
+    margin: 2em;
+}

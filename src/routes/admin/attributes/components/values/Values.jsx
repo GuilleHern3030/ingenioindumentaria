@@ -15,17 +15,16 @@ import Input from '../../../components/input/Input'
 import Dialog from '@/components/dialog/Dialog';
 
 export default ({
-    attribute, 
+        values, 
         onAddValue, 
         onEditValue, 
         onRemoveValue,
         onDisableValue,
         onEnableValue,
-    t}) => {
+        t
+        }) => {
 
 
-    //const attributes = [attribute]
-    //const [ attributeSelected, setAttributeSelected ] = useState(attribute)
     const [ isRenaming, setIsRenaming ] = useState(null)
     const [ isEditing, setIsEditing ] = useState(null)
     const [ isAdding, setIsAdding ] = useState(false)
@@ -33,19 +32,19 @@ export default ({
     const [ dialog, setDialog ] = useState(null)
     const nameRef = useRef()
 
-    useEffect(() => { close() }, [attribute])
+    useEffect(() => { close() }, [ values ])
 
     // --- Attribute values editor --- //
 
     const handleAddValue = (value) => {
         if (value?.length > 0)
-            onAddValue(attribute, value)
+            onAddValue(value)
         close()
     }
 
     const handleEditValue = (prevValue, newValue) => {
         if (prevValue != newValue)
-            onEditValue(attribute, prevValue, newValue)
+            onEditValue(prevValue, newValue)
         close()
     }
 
@@ -57,8 +56,8 @@ export default ({
             onReject={() => setDialog(undefined)}
             onAccept={() => {
                 setDialog(null)
-                if (valueIsActive) onDisableValue(attribute, value)
-                else onRemoveValue(attribute, value)
+                if (valueIsActive) onDisableValue(value.name)
+                else onRemoveValue(value.name)
                 close()
             }}
         />)
@@ -71,16 +70,13 @@ export default ({
             onReject={() => setDialog(null)}
             onAccept={() => {
                 setDialog(null)
-                onEnableValue(attribute, value)
+                onEnableValue(value.name)
                 close()
             }}
         />)
     }
 
     // --- Auxiliary function --- //
-
-    const handleSelect = (attribute) => {
-    }
 
     const close = (deselect = false) => {
         setIsCreating(false) 
@@ -93,16 +89,15 @@ export default ({
 
     return <div className={styles.attributes}>
         {
-            //attributes?.map((attribute, key) => !attribute ? null :
                 <article>
                         <div className={styles.details}>
-                            { attribute.values() != undefined && attribute.values() != null && attribute.values(false).length > 0 && attribute.values(false).map((value, key) => <div key={key}>
+                            { values?.length > 0 && values.map((value, key) => <div key={key}>
                                 { isEditing != value ? 
                                     <p className={value.disabled !== true ? styles.value : styles.value_disabled} onClick={() => setIsEditing(value)}>{value.name}</p> :
                                     <div className={styles.form}>
                                         <p>{t('value')}:</p>
                                         <Input ref={nameRef} name='value' className={styles.input} defaultValue={value.name}/>
-                                        <img onClick={() => handleEditValue(value, nameRef.current.value.trim())} src={acceptIcon}/>
+                                        <img onClick={() => handleEditValue(value.name, nameRef.current.value.trim())} src={acceptIcon}/>
                                         <img onClick={() => setIsEditing(false)} src={cancelIcon}/>
                                         <img onClick={() => handleRemoveValue(value)} src={removeIcon}/>
                                         { value.disabled === true && <img onClick={() => handleEnableValue(value)} src={restoreIcon}/> }

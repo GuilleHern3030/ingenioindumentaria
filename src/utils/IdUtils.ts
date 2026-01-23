@@ -1,44 +1,23 @@
+import String from './StringUtils'
+
 interface serializedId {
     id:number,
     slug:string,
     variantId:number
 }
 
-function numberToLetters(num:number):string { // caps
-    let result = '';
-
-    while (num > 0) {
-        num--; // Ajuste porque no hay "0" (A=1)
-        const char = String.fromCharCode(65 + (num % 26)); // 65 = 'A'
-        result = char + result;
-        num = Math.floor(num / 26);
-    }
-
-    return result;
-}
-
-function lettersToNumber(str:string):number {
-    let result = 0;
-
-    for (let i = 0; i < str.length; i++) {
-        result = result * 26 + (str.charCodeAt(i) - 64); 
-        // 'A' = 65 → 65 - 64 = 1
-    }
-
-    return result;
-}
-
 function isId(str:string):boolean {
-    if (str?.length > 0) {
+    if (typeof(str) == 'string' && str?.length > 0) {
         const l = (str.charCodeAt(0))
         return l >= 65 && l <= 90
     } return false
 }
 
 export default {
+    
     serialize(id:number, variantId?:number, slug?:string):string {
         const slugString = slug?.length > 0 ? `${slug}/` : ''
-        return `${slugString}${numberToLetters(Number(id))}${variantId??''}`
+        return `${slugString}${String.numberToLetters(Number(id))}${variantId??''}`
     },
 
     parse(serializedId:string):serializedId {
@@ -47,7 +26,7 @@ export default {
             const ids = splitted.pop()
             const slug = (splitted.length > 0) ? splitted.join("/") : isId(ids) ? '' : serializedId
             const index = ids.search(/\d/) // index del primer número
-            const id = isId(ids) ? lettersToNumber( (index > 0) ? ids.substring(0, index) : ids ) : undefined
+            const id = isId(ids) ? String.lettersToNumber( (index > 0) ? ids.substring(0, index) : ids ) : undefined
             const variantId = (index > 0 && isId(ids)) ? Number(ids.substring(index)) : undefined
             return { slug, id, variantId }
         }

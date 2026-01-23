@@ -12,6 +12,15 @@ import { request } from '@/api'
 import cancel from '@/assets/icons/cancel.webp'
 import accept from '@/assets/icons/accept.webp'
 
+import CategoryUtils from '../utils/CategoryUtils'
+
+const getSlugs = (parts) => {
+    const slugs = []
+    for (let i = 1; i <= parts.length; i++)
+        slugs.push(parts.slice(0, i).join('/'))
+    return slugs;
+}
+
 export default ({ categories, category, onClick, onEdit, canEdit=undefined, t }) => {
 
     const [ slug, setSlug ] = useState()
@@ -27,9 +36,9 @@ export default ({ categories, category, onClick, onEdit, canEdit=undefined, t })
         setIsPutting(undefined)
 
         if (category) {
-            const slug = category.slug()
-            const slugs = category.slugs()
-            const slugArray = category.toSlug()
+            const slug = category.slug
+            const slugArray = category.slug.split("/")
+            const slugs = getSlugs(slugArray)
             const routes = slugs.map((route, index) => 
                 <div className="flex-center" key={index}>
                     <p className={styles.separator}>/</p>
@@ -37,7 +46,7 @@ export default ({ categories, category, onClick, onEdit, canEdit=undefined, t })
                         className={styles.route} 
                         onClick={ route == slug ? 
                             () => handleEdit(slug) :
-                            () => onClick(categories.get(route))
+                            () => onClick(CategoryUtils.find(categories, route))
                         }
                         >{slugArray[index]} 
                     </p>
@@ -61,7 +70,7 @@ export default ({ categories, category, onClick, onEdit, canEdit=undefined, t })
 
     const handleAccept = () => {
         const newName = input.current.value
-        request(setIsPutting, ()=>{}, rename, category.slug(), newName)
+        request(setIsPutting, ()=>{}, rename, category.slug, newName)
         .then(response => {
             setIsEditing(undefined)
             onEdit(response)

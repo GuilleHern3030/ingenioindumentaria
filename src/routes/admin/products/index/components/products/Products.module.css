@@ -1,0 +1,53 @@
+.title {
+    background-color: rgb(24, 24, 24);
+    padding: .75em;
+    text-align: center;
+    text-transform: capitalize;
+    user-select: none;
+}
+
+.button {
+    display: grid;
+    margin: 1.5em;
+    place-items: center;
+}
+
+.empty {
+    user-select: none;
+    text-align: center;
+    color: black;
+    padding: 1em;
+}
+
+.products {
+    display: flex;
+    flex-direction: column;
+}
+
+.product {
+    user-select: none;
+    border-radius: 4px;
+    border: 1px solid gray;
+    background-color: beige;
+    padding: .75em 1em;
+    margin: .1em .25em;
+    cursor: pointer;
+}
+
+.disabled {
+    background-color: brown;
+}
+
+.product:hover * {
+    transform: scale(1.02);
+}
+
+.product * {
+    color: black;
+    transition: transform .15s;
+}
+
+.product span {
+    font-weight: bold;
+    padding-right: .35em;
+}

@@ -10,6 +10,7 @@ export default ({images}) => {
     return <div className={images.length > 0 ? '' : styles.disabled}>
 
         <Images 
+            className={styles.images}
             images={images}
             onImageClick={setImage}
         />

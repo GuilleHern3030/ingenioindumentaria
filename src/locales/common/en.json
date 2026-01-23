@@ -13,5 +13,8 @@
     "help": "Help",
     "ubication": "Where we are",
     "contact": "Contact",
+    "cart": "Cart",
+    "search": "Search",
+    "search-other": "Show others articles",
     "admin": "Admin panel"
 }

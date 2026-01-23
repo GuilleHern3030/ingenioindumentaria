@@ -2,7 +2,7 @@ import request from '../../controllers/images/postImageController'
 import { maxImageSize, imagesType } from '../../config.json'
 import handleError from '../errorHandler'
 import { isAdmin } from '../../index'
-import { image } from '@/api/objects/Image'
+import image from '@/api/models/Image'
 
 /**
  * Upload an image to DataBase
@@ -31,10 +31,10 @@ export const postImage = async(img:image):Promise<any> => new Promise(async(reso
             // Devuelve la respuesta del Backend
             resolve(newImg)
 
-        } else reject(`La imagen supera el límite máximo de ${maxImageSize/1000} KB`)
+        } else reject(`${maxImageSize/1000} KB`)
 
     } catch(err:any) { reject(handleError(err)) }
-        else reject(handleError("La sesión caducó. Vuelve a iniciar sesión para continuar."))
+        else reject(handleError("Forbidden"))
 })
 
 export default postImage

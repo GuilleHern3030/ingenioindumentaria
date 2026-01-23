@@ -1,0 +1,66 @@
+.attributes {
+    user-select: none;
+    background-color: rgb(212, 203, 192);
+    padding: .8em 1em;
+    border-bottom: 1px solid black;
+}
+
+.attributes p {
+    
+    color: black;
+}
+
+.attribute {
+    display: flex;
+    align-items: center;
+}
+
+.attribute img {
+    height: 1.2em
+}
+
+.attribute img:hover {
+    cursor: pointer;
+}
+
+.attr {
+    font-size: 1.2em;
+    padding: .1em .8em;
+    margin: 0 .2em;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.attr:hover {
+    cursor: pointer;
+    color:blue;
+}
+
+.add {
+    height: 1.8em;
+    padding-left: 2.3em;
+    margin-top: .8em;
+    display: flex;
+    flex-direction: row;
+}
+
+.add img, .searching img {
+    height: 1.8em;
+}
+
+.add img:hover, .searching img:hover {
+    cursor: pointer;
+}
+
+.searching {
+    margin-top: .5em;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    align-items: center;
+}
+
+.accept {
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 1em;
+}

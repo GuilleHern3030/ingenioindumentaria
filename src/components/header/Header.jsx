@@ -2,23 +2,17 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import styles from './Header.module.css'
-import './Menu.css'
+import '@/assets/styles/menu.css'
 
-import logo from '../../assets/icons/logo.webp'
-import search from '../../assets/icons/search.webp'
-import shoppingcart from '../../assets/icons/shoppingcart.webp'
-import user from '../../assets/icons/user.webp'
-import cross from '../../assets/icons/cross.webp'
+import logo from '@/assets/icons/logo.webp'
 
-import { usersCanSignIn, usersCanUseShoppingCart, usersCanSearch } from '../../api/config.json'
+import { usersCanSignIn, usersCanUseShoppingCart, usersCanSearch } from '@/api/config.json'
 
 import MenuBar from './icon-bars/IconBars'
 import MenuUser from './icon-user/IconUser'
 import SearchBar from './icon-search/IconSearch'
 import ShoppingCart from './icon-cart/IconCart'
 
-import useUser from '../../hooks/useUser'
-import User from './user/User'
 import { useCommonI18n } from '@/hooks/useRouteI18N'
 
 export const goTop = () => window.scrollTo({top:0})
@@ -28,7 +22,6 @@ export default () => {
     const { t } = useCommonI18n()
 
     const navigate = useNavigate()
-    const { picture } = useUser()
 
     const [ menuShowed, setMenuShowed ] = useState(null)
 
@@ -46,7 +39,7 @@ export default () => {
 
                 <div className={`flex-center ${styles.header_aside}`} style={{justifyContent:'flex-start'}}>
                     <MenuBar onHide={handleHide} onShowMenu={handleShowMenu} t={t}/>
-                    { usersCanSearch && <SearchBar onHide={handleHide} t={t}/> }
+                    { usersCanSearch && <SearchBar onHide={handleHide} onShowMenu={handleShowMenu} t={t}/> }
                 </div>
 
                 <div onClick={() => navigate("/")} className={`${styles.logo} flex-center cursor`}>
@@ -54,8 +47,8 @@ export default () => {
                 </div>
 
                 <div className={`flex-center ${styles.header_aside}`} style={{justifyContent:'flex-end'}}>
-                    { usersCanUseShoppingCart && <ShoppingCart onHide={handleHide} t={t}/> }
-                    { usersCanSignIn && <MenuUser onHide={handleHide} t={t}/> }
+                    { usersCanSignIn && <MenuUser onHide={handleHide} onShowMenu={handleShowMenu} t={t}/> }
+                    { usersCanUseShoppingCart && <ShoppingCart onHide={handleHide} onShowMenu={handleShowMenu} t={t}/> }
                 </div>
 
             </div>

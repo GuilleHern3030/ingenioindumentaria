@@ -1,13 +1,7 @@
 import { createContext, useRef, useEffect, useState } from 'react';
 import { devMode, loadDataBase } from '@/api';
 
-import { init as initIndexedDB } from '@/redux/database/indexedDB'
-
-// Redux
-//import { useDispatch } from 'react-redux';
-//import { setIndex } from '@/redux/reducers/index/indexSlice'
-//import { setArticles } from '@/redux/reducers/articles/articlesSlice'
-//import { setCategories } from '@/redux/reducers/categories/categoriesSlice'
+import { init as initIndexedDB, getCart as indexedCart } from '@/redux/database/indexedDB'
 
 export const DataBaseContext = createContext()
 const MAX_TRIES = 3
@@ -16,15 +10,17 @@ export function DataBaseContextProvider(props) {
 
     const initialized = useRef(false)
 
-    //const dispatch = useDispatch()
+    const [ isInitializing, setIsInitalizing ] = useState(true)
 
+    // Articles
     const [ categories, setCategories ] = useState([])
     const [ attributes, setAttributes ] = useState([])
     const [ hasPromos, setHasPromos ] = useState(false)
     const [ hasNewest, setHasNewest ] = useState(false)
     const [ articles, setArticles ] = useState([])
 
-    const [ isInitializing, setIsInitalizing ] = useState(true)
+    // Cart
+    const [ cart, setCart ] = useState([])
 
     useEffect(() => {
         if (initialized.current) return; // evita múltiples ejecuciones
@@ -36,18 +32,16 @@ export function DataBaseContextProvider(props) {
 
         if (tries < MAX_TRIES) try {
 
-            const { articles, categories, attributes } = await loadDataBase()
+            const { articles, categories, attributes, cart } = await loadDataBase()
             const { hasDiscounts, hasNewests } = reduceArticles(articles)
-            //dispatch(setCategories(categories))
             setCategories(categories)
             setAttributes(attributes)
             setHasPromos(hasDiscounts)
             setHasNewest(hasNewests)
             setArticles(articles)
-            //dispatch(setArticles(articles))
-            await initIndexedDB(categories, attributes, articles)
+            await initIndexedDB(categories, attributes, articles, cart)
+            setCart(await indexedCart())
             setIsInitalizing(false)
-            //dispatch(setShoppingCart(articles.shoppingCart))
 
         } catch(err) {
             tries ++
@@ -69,7 +63,8 @@ export function DataBaseContextProvider(props) {
                 hasNewest,
                 categories,
                 attributes,
-                articles
+                articles,
+                cart, setCart
             }
         }>
             {props.children}
@@ -79,7 +74,7 @@ export function DataBaseContextProvider(props) {
 
 const reduceArticles = (articles) => {
     const hasDiscounts = articles.find(article => article.discount > 0) != undefined
-    const hasNewests = articles.find(article => article.isRecent === true) != undefined
+    const hasNewests = articles.find(article => article.newest === true) != undefined
     return {
         hasDiscounts,
         hasNewests,

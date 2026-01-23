@@ -22,7 +22,7 @@ import { getParams } from '@/hooks/useParams.jsx'
 import { useCommonI18n } from '@/hooks/useRouteI18N'
 
 import Login from '@/routes/admin/components/login/Login.jsx'
-import Header from './components/header/Header'
+import Header from './layouts/header/Header'
 
 export default function() {
 
@@ -60,7 +60,7 @@ export default function() {
 
     return <>
 
-            <Header isSignedIn={isSignedIn} isAdminSessionActive={isAdminSessionActive}/>
+            <Header />
 
             <main className={styles.panelContent}>
             {

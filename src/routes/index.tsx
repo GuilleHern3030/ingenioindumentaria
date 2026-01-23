@@ -4,7 +4,7 @@ import { Suspense, lazy } from "react"
 import Loading from "@/components/loading/FullLoading"
 
 import Main, { routes as mainRoutes } from "./main"
-//import Admin, { routes as adminRoutes } from "./admin"
+import Auth from "./auth"
 
 const Admin = lazy(() => import("./admin"))
 const AdminRoutes = lazy(() => import("./admin").then(mod => ({ default: mod.routes })))
@@ -19,6 +19,8 @@ export default () => {
           <Route element={<Main />}>
             {mainRoutes}
           </Route>
+
+          <Route path="/auth" element={<Auth/>}/>
 
           <Route
             path="/admin"

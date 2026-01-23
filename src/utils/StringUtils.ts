@@ -1,9 +1,5 @@
 export default {
 
-  reverse(str:string) {
-    return str.split("").reverse().join("")
-  },
-
   capitalize(str:string) {
     return str.charAt(0).toUpperCase() + str.slice(1)
   },
@@ -24,11 +20,11 @@ export default {
   },
 
   slugToArray(slug:string):string[] {
-    const parts = slug.split('/');
+    const parts = slug.split('/')
     const result = []
     for (let i = parts.length; i > 0; i--) 
         result.push(parts.slice(0, i).join('/'))
-    return result.reverse();
+    return result.reverse()
   },
 
   capitalizeAll(str:string) {
@@ -37,6 +33,30 @@ export default {
 
   hasSpecialCharacter(str:string) {
     return /[\/\-\_\!\,\.]/.test(str)
+  },
+
+  lettersToNumber(str:string):number {
+    let result = 0
+    const strCaps = str.toUpperCase()
+
+    for (let i = 0; i < strCaps.length; i++) {
+        result = result * 26 + (strCaps.charCodeAt(i) - 65)
+        // 'A' = 65 → 65 - 65 = 0
+    }
+
+    return result
+  },
+
+  numberToLetters(num:number):string { // caps
+    let result = ''
+
+    while (num > 0) {
+        const char = String.fromCharCode(65 + (num % 26)) // 65 = 'A'
+        result = char + result
+        num = Math.floor(num / 26)
+    }
+
+    return result
   }
 
 }

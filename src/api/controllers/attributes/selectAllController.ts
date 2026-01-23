@@ -1,15 +1,10 @@
 import { email, language, axios, devConsole } from '@/api'
-import query from '@/utils/QueryUtils';
 
 const endpoint = "/attributes/all";
 
-export const getAttributes = async(includeDisabled:boolean) => {
-
-    const queryParams = query.set({
-        disabled: includeDisabled === true,
-    })
+export const selectAll = async() => {
     
-    const { data } = await axios.get(endpoint + queryParams,
+    const { data } = await axios.get(endpoint,
         {
             headers: {
                 user: email(),
@@ -18,9 +13,9 @@ export const getAttributes = async(includeDisabled:boolean) => {
         }
     )
 
-    devConsole(`attributes.selectAll(includeDisabled:${includeDisabled})`, data)
+    devConsole(`attributes.selectAll()`, data)
 
     return data;
 }
 
-export default getAttributes;
+export default selectAll;

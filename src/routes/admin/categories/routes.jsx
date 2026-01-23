@@ -1,7 +1,7 @@
 import { Route } from "react-router-dom";
 
 import Index from './index/Index'
-import Attributes from './attributes/Attributes'
+import Attributes from './attributes/Attributes.tsx'
 
 export default (
   <>

@@ -5,18 +5,22 @@ import { useOutletContext } from "react-router-dom";
 import styles from './Index.module.css'
 
 import { selectAll } from "@/api/products"
-import { devMode } from "@/api";
+import { request } from "@/api";
 
 // Icons
 import addIcon from "@/assets/icons/add.webp"
+
+// Hooks
+import { getParam } from "@/hooks/useParams";
 
 // Componentes globales
 import Dialog from "@/components/dialog/Dialog"
 
 // Componentes locales
-import Slug from "../../components/slug/Slug"
-import Products from "../components/products/Products"
-import Editor from "../components/editor/Editor"
+import Products from "./components/products/Products"
+import CategorySelector from "./components/category-selector/CategorySelector";
+import Loading from "@/components/loading/Loading";
+
 
 export default () => {
 
@@ -24,9 +28,13 @@ export default () => {
 
     const [ dialog, setDialog ] = useState()
 
-    // Categories
-    const [ categories, setCategories ] = useState()
-    const [ slug, setSlug ] = useState('')
+    const [ isLoading, setIsLoading ] = useState(true)
+    const [ error, setError ] = useState()
+
+    const [ categories, setCategories ] = useState([])
+    const [ products, setProducts ] = useState()
+
+    const [ category, setCategory ] = useState(undefined)
 
     const initialized = useRef(false)
 
@@ -37,18 +45,34 @@ export default () => {
         if (initialized.current) return;
         initialized.current = true
 
-        if (devMode())
-            selectAll(true)
+        request(setIsLoading, setError, selectAll)
+        .then(response => {
+
+            console.log(response)
+
+            setCategories(response.categories)
+            setProducts(response.products)
+
+            const slug = getParam("slug")
+            if (slug && response.products.categorized.find(category => category.slug == slug) != undefined) 
+                setCategory(slug)
+
+        })
+        .catch(e => {
+            console.error(e)
+            /*if (e?.isNetworkError())
+                setNetworkError(true)*/
+        })
 
     }, [])
 
     const handleProductSelected = (product) => {
-        navigate(`${product.id()}`,
+        navigate(`${product.id}`,
             {
                 state: {
                     from: location.pathname,
-                    product: product.toJson(),
-                    slug
+                    product: product,
+                    slug: category 
                 }
             }
         )
@@ -59,42 +83,34 @@ export default () => {
             {
                 state: { 
                     from: location.pathname,
-                    slug 
+                    slug: category 
                 }
             }
         )
     }
 
-    return <>
-        { <Slug onSlugChange={(slug) => setSlug(slug)} onCategoriesLoaded={setCategories} params={true} /> }
-        { !slug && 
-            <section className={styles.instructions}>
-                <p className={styles.instruction}>{ t('instruction_1') }</p>
-                <p className={styles.instruction}>{ t('instruction_2') }</p>
-                <p className={styles.instruction}>{ t('instruction_3') }</p>
-                <p className={styles.instruction}>{ t('instruction_4') }</p>
-            </section>
-        }
-        <hr/>
-        {
-            <>
-                <Products 
-                    slug={slug} 
-                    title={slug === '' ? t('product_without_category') : slug}
-                    onProductSelected={handleProductSelected}
-                    t={t}
-                />
+    const handleCategorySelect = (slug) => {
+        setCategory(slug)
+    }
 
-                {
-                    <>
-                        <hr/>
-                        <div className={styles.button} onClick={handleProductCreate}>
-                            <img src={addIcon}/>
-                        </div>
-                    </>
-                }
+    return isLoading ? <Loading/> : error ? <p className="error">{error}</p> : <>
 
-            </>
+        { category === undefined ? 
+            <CategorySelector 
+                categories={categories} 
+                products={products}
+                onSelect={handleCategorySelect} 
+                t={t}
+            /> 
+            :
+            <Products
+                categories={categories} 
+                category={category}
+                onSelect={handleProductSelected}
+                onCreate={handleProductCreate}
+                onBack={() => handleCategorySelect(undefined)}
+                t={t}
+            />
         }
 
         { dialog }

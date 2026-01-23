@@ -16,11 +16,12 @@ import backIcon from '@/assets/icons/leftarrow_black.webp'
 import styles from './IconBars.module.css'
 import StringUtils from "@/utils/StringUtils";
 import { ThemeSwitch } from "@/components/switch/Switch";
+
 import useDataBase from "@/hooks/useDataBase";
 
 const goTop = () => window.scrollTo({top:0});
 
-export default ({onShowMenu, onHide, t}) => {
+export default ({ onShowMenu, onHide, t }) => {
 
   const [ deployed, setDeployed ] = useState(undefined)
 
@@ -69,7 +70,7 @@ export default ({onShowMenu, onHide, t}) => {
   )
 }
 
-const Menu = ({onHide, onShowSubmenu, onBack, hasPromos, slug='', t}) => {
+const Menu = ({ onHide, onShowSubmenu, onBack, hasPromos, slug='', t }) => {
   
   const { categories } = useDataBase()
   const navigate = useNavigate()
@@ -88,9 +89,9 @@ const Menu = ({onHide, onShowSubmenu, onBack, hasPromos, slug='', t}) => {
 
   return <div className='menu__background' onClick={onHide}>
       <div className='header__background'></div>
-      <div className='menu' onClick={e => e.stopPropagation()}>
+      <div className='menu menu-left' onClick={e => e.stopPropagation()}>
 
-          <ul className='menu__promotions menu__ul'>
+          <ul className='menu__ul'>
             { slug.length === 0 ?
               <>
                 <li className={styles.bold}><Link to='/recent' onClick={onHide}>{t('common:recent')}</Link></li>
@@ -107,7 +108,7 @@ const Menu = ({onHide, onShowSubmenu, onBack, hasPromos, slug='', t}) => {
 
           <hr/>
 
-          <ul className='menu__categories menu__ul'>
+          <ul className='menu__ul'>
               <Categories 
                 slug={slug} 
                 onClick={onShowSubmenu} 
@@ -118,8 +119,8 @@ const Menu = ({onHide, onShowSubmenu, onBack, hasPromos, slug='', t}) => {
 
           <hr/>
 
-          <ul className='menu__useful menu__ul'>
-            { slug.length === 0 ? 
+          <ul className='menu__ul'>
+            { slug.length === 0 ?
               <>
                 <li className={styles.cursive}><Link to='/about' onClick={handleHide}>{t('common:ubication')}</Link></li>
                 <li className={styles.cursive}><Link to='/contact' onClick={handleHide}>{t('common:contact')}</Link></li>

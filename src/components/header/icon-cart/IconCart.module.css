@@ -1,0 +1,64 @@
+.shoppingcart:hover img {
+    transform: scale(1.1);
+}
+
+.img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shoppingcart img {
+    height: calc(var(--img-size) * .85);
+    width: calc(var(--img-size) * .85);
+    transition: transform 0.15s;
+    user-select: none;
+    z-index: -1;
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.3em;
+    width: 1.3em;
+    background-color: rgb(255, 0, 13);
+    border-radius: 100%;
+    position: absolute;
+    right: 6px;
+    top: 6px;
+}
+
+.counter p {
+    color: rgb(225, 225, 225);
+    user-select: none;
+    font-size: .9 !important;
+    padding-top: .1em;
+}
+
+.shoppingcart {
+    --img-size: 22px;
+    border-radius: 100%;
+    z-index: 60;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.15s;
+    margin-left: 1.5em;
+}
+
+@media only screen and (min-width: 360px) {
+    .shoppingcart { --img-size: 28px }
+}
+
+@media only screen and (min-width: 480px) {
+    .shoppingcart { --img-size: 32px }
+}
+
+@media only screen and (min-width: 768px) {
+    .shoppingcart { --img-size: 36px }
+    .counter p { padding-top: 0em; }
+}
+
+@media only screen and (min-width: 1024px) {
+    .shoppingcart { --img-size: 40px }
+}

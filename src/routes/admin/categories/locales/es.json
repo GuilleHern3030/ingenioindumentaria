@@ -20,6 +20,8 @@
     "couldnt_edit_category": "No se pudo editar la categoría",
     "couldnt_move_inside_self": "No se puede mover una categoría por dentro de sí misma",
     "attributes_set": "Gestionar atributos",
+    "attributes_empty": "Aún no hay atributos por acá",
+    "values_empty": "No hay valores asignados aún",
     "attributes_set_global": "Gestionar atributos globales",
     "attributes_instruction_1": "En esta sección vas a poder definir qué atributos tienen tus categorías.",
     "attributes_instruction_2": "Los atributos son las características que los productos dentro de una categoría poseen.",
@@ -40,8 +42,13 @@
     "cancel_edition_title": "Cancelar la edición",
     "cancel_edition_message": "Los cambios realizados no se guardarán",
     "save_edition_title": "Guardar cambios",
-    "save_edition_message": "Se aplicarán todos los cambios realizados. Si eliminó algún atributo (o uno de sus valores), se aplicará a todos sus productos existentes. Esto es irreversible, por lo que debe continuar con precaución.",
-    "no_attributes_to_add": "No hay attributos para agregar",
+    "save_edition_message": "Actualizar categorías hijas",
+    "no_attributes_to_add": "No hay atributos para agregar",
     "close": "Cerrar",
-    "add": "Agregar"
+    "add": "Agregar",
+    "added": "Agregado",
+    "unedited": "Sin editar",
+    "removed": "Removido",
+    "nothing": "Nada",
+    "applied-to-children": "Se aplicaron los cambios en categorías hijas"
 }

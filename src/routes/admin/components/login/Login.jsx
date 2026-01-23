@@ -12,6 +12,7 @@ import key from '@/assets/icons/key.webp'
 import Loading from '@/components/loading/Loading'
 
 import { GoogleLogin } from "@react-oauth/google"
+import Session from '@/components/icon/session/Session'
 
 export default ({ message, onSuccess=()=>{}, onError=()=>{}, maxTries=3 }) => {
 
@@ -41,8 +42,8 @@ export default ({ message, onSuccess=()=>{}, onError=()=>{}, maxTries=3 }) => {
     const handleGoogleSession = (response) => {
         setTries(maxTries + 1)
         setIsLoading(true)
-        const credential = response.credential
-        authenticateRequest({ google: credential })
+        //const credential = response.credential // string
+        authenticateRequest({ google: response })
     }
 
     const authenticateRequest = async(json) => {
@@ -85,12 +86,14 @@ export default ({ message, onSuccess=()=>{}, onError=()=>{}, maxTries=3 }) => {
                         <p className={styles.o}>{t('or')}</p>
                     </>
                     :
-                    <div className={styles.credentials} onClick={() => setIsFormShowed(true)}>
-                        <img className={styles.key} src={key}/>
-                        <p className={styles.keytext}>{t('sign_in_with_password')}</p>
-                    </div>
+                    <Session 
+                        onClick={() => setIsFormShowed(true)}
+                        text={t('sign_in_with_password')}
+                        src={key}
+                        width='100%'
+                    />
                 }
-                <GoogleLogin className={styles.google} onSuccess={handleGoogleSession} onError={onError}/>
+                <GoogleLogin onSuccess={handleGoogleSession} onError={onError} width='100%'/>
                 { warning ? <p className={styles.warning}>{warning}</p> : null }
             </fieldset>
         </form>

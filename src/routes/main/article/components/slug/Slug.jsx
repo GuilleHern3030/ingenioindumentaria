@@ -6,12 +6,12 @@ import IdUtils from '@/utils/IdUtils'
 import { queryParams } from '@/hooks/useParams'
 import { isAdmin } from '@/api'
 
-export default ({ index, code }) => {
+export default ({ index, code, onBack }) => {
 
     const [ categories, setCategories ] = useState()
     const navigate = useNavigate()
 
-    const handleIdClick = () => {
+    /*const handleIdClick = () => {
         if (isAdmin()) {
             const id = IdUtils.parse(index).id
             navigate(`/admin/products/${id}`,
@@ -22,7 +22,7 @@ export default ({ index, code }) => {
                 }
             )
         }
-    }
+    }*/
 
     useEffect(() => {
         const slug = StringUtils.slugToArray(IdUtils.parse(index).slug)
@@ -40,7 +40,11 @@ export default ({ index, code }) => {
         <div className={styles.categories}>
             {categories}
         </div>
-        <p className={styles.id} onClick={handleIdClick}>{code}</p>
+        <p className={styles.id} onClick={onBack}>{code}</p>
+        <div className={styles.exit} onClick={onBack}>
+            <span></span>
+            <span></span>
+        </div>
     </div>
 
 }

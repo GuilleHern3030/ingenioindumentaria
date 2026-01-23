@@ -36,7 +36,7 @@ export default ({category, onDelete, t}) => {
 
     const handleDelete = (option) => {
         const remover = option === OPTION_DELETE ? remove : disable
-        request(setIsLoading, setWarning, remover, category.slug(), checkbox.current.checked)
+        request(setIsLoading, setWarning, remover, category.slug, checkbox.current.checked)
         .then(response => {
             reload()
         })
@@ -50,13 +50,13 @@ export default ({category, onDelete, t}) => {
     return isLoading ? <Loading/> :
 
         !isShowed ? <div className='flex-center'>
-            <button className={styles.button} onClick={() => showFirstMenu()}>{`${t('delete')} ${category.name()}`}</button>
+            <button className={styles.button} onClick={() => showFirstMenu()}>{`${t('delete')} ${category.name}`}</button>
         </div> : 
         
         <div className={styles.deletes} onClick={() => setIsShowed(false)}>
             <div className={styles.form} onClick={e => e.stopPropagation()}>
-                <p className={styles.title}>{category.name()}</p>
-                <p className={styles.subtitle}>{category.slug()}</p>
+                <p className={styles.title}>{category.name}</p>
+                <p className={styles.subtitle}>{category.slug}</p>
 
                 { !isShowingOptions ? <>
                     <p className={styles.subtitle}>{t('category_delete_question')}</p>
@@ -65,7 +65,7 @@ export default ({category, onDelete, t}) => {
                 </> : <>
                     <p className={styles.subtitle}>{t('category_delete_method_question')}</p>
                     <button className={`${styles.button} ${styles.cancel}`} onClick={() => setIsShowed(false)}>{t('cancel')}</button>
-                    { category.isActive() && <button onClick={() => handleDelete(OPTION_DISABLE)} className={`${styles.button} ${styles.option}`}>{t('disable')}</button> }
+                    { !category.disabled && <button onClick={() => handleDelete(OPTION_DISABLE)} className={`${styles.button} ${styles.option}`}>{t('disable')}</button> }
                     <button onClick={() => handleDelete(OPTION_DELETE)} className={`${styles.button} ${styles.option}`}>{t('delete_force')}</button>
                     <div className='flex-center'>
                         <input ref={checkbox} style={{marginRight: '.5rem'}} type='checkbox'/>

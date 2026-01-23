@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useOutletContext } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { useOutletContext } from "react-router-dom"
 
 import styles from '../Products.module.css'
 
-import { disable, remove, edit, get } from '@/api/products'
-import { devMode, request } from "@/api";
+import { EditorContextProvider } from "../layouts/editor/context"
+import Editor from '../layouts/editor/Editor.tsx'
 
-import Editor from '../components/editor/Editor';
-import Loading from "@/components/loading/FullLoading";
-import Alert from "@/components/alert/Alert";
-import useUser from "@/hooks/useUser";
+import { disable, remove, edit, select } from '@/api/products'
+import { verifySizeLimit } from "@/api/images"
+import { devMode, request } from "@/api"
+
+import Alert from "@/components/alert/Alert"
+import Loading from "@/components/loading/FullLoading"
+import useUser from "@/hooks/useUser"
 
 export default () => {
 
@@ -18,23 +21,31 @@ export default () => {
 
     const navigate = useNavigate()
     const location = useLocation()
-    const { id } = useParams()
 
-    const { setIsAdminSessionActive } = useUser()
-
-    const [ product, setProduct ] = useState()
     const [ from, setFrom ] = useState()
     const [ slug, setSlug ] = useState()
+
+    const { setIsAdminSessionActive } = useUser()
+    
+    const [ categories, setCategories ] = useState()
+    const [ attributes, setAttributes ] = useState()
+    const [ product, setProduct ] = useState()
 
     const [ dialog, setDialog ] = useState(null)
     const [ isLoading, setIsLoading ] = useState(true)
     const [ error, setError ] = useState()
 
+    const { id } = useParams()
+
     useEffect(() => {
-        request(setIsLoading, setError, get, id, true)
-        .then(product => {
-            console.log("product:", product)
-            setProduct(product)
+        request(setIsLoading, setError, select, id)
+        .then(response => {
+            console.log("product:", response.product)
+
+            setProduct(response.product)
+            setAttributes(response.attributes)
+            setCategories(response.categories)
+
             if (location.state) {
                 setFrom(location.state.from)
                 setSlug(location.state.slug)
@@ -46,8 +57,7 @@ export default () => {
     const goBack = (result) => {
 
         const back = () => {
-            const param =  slug ? `${from}?slug=${slug}` : ''
-            navigate(from ? `${from}${param}` : -1, { replace: true })
+            navigate(from ? from : -1, { replace: true })
             window.location.reload()
         }
 
@@ -60,17 +70,23 @@ export default () => {
     }
 
     const handleEdit = (data) => {
-        console.log("Saving:", data)
-        request(setIsLoading, setError, edit, data)
-        .then(result => { 
-            if (devMode()) 
-                window.location.reload() 
-            else goBack(result) 
-        })
-        .catch(e => {
-            if(e.adminSessionExpired())
-                setIsAdminSessionActive(false)
+        setIsLoading(true)
+        verifySizeLimit(data.product, data.variants)
+        .then(ok => {
+            if (ok === true) {
+                request(setIsLoading, setError, edit, data)
+                .then(result => { 
+                    if (!devMode()) goBack(result) 
+                })
+                .catch(e => {
+                    if(e.adminSessionExpired())
+                        setIsAdminSessionActive(false)
+                    console.error(e)
+                })
+            } else setError(t(`image_error_${ok}`))
+        }).catch(e => { // network error
             console.error(e)
+            setError(t('network_error'))
         })
     }
 
@@ -89,13 +105,18 @@ export default () => {
         <p className={styles.subtitle}>{t('editor')}</p>
         { error && <p className="error">{error}</p>}
         { product && 
-            <Editor 
+            <EditorContextProvider
                 product={product}
-                onSuccess={handleEdit} 
-                onCancel={goBack} 
-                onDelete={handleDelete}
-                t={t}
-            /> 
+                categories={categories}
+                attributes={attributes}
+                slug={slug}
+                ><Editor 
+                    onSuccess={handleEdit} 
+                    onCancel={goBack}
+                    onDelete={handleDelete}
+                    t={t}
+                /> 
+            </EditorContextProvider>
         }
 
         { 

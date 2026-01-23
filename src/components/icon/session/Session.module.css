@@ -1,0 +1,55 @@
+.googleLikeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 40px;
+
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+
+    background-color: #fff;
+    color: #3c4043;
+
+    font-family: "Google Sans", arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold !important;
+
+    padding-inline: 12px;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.googleLikeButton:hover {
+    background-color: #f7f8f8;
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.15);
+}
+
+.googleLikeButton:active {
+    background-color: #f1f3f4;
+}
+
+.icon {
+    margin-right: 8px !important;
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.text {
+    text-align: center !important;
+    letter-spacing: .25px !important;
+    width: max-content !important;
+    flex-grow: 1 !important;
+    -webkit-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+/* Detecta touch manual típico de móviles */
+@media (hover: none) and (pointer: coarse) { 
+    .text {
+        font-weight: 500 !important;
+    }
+}

@@ -1,5 +1,5 @@
-import { Categories } from '@/api/objects/Categories';
-import { Attributes } from '@/api/objects/Attributes';
+//import { Categories } from '@/api/objects/Categories';
+//import { Attributes } from '@/api/objects/Attributes';
 import { createSelector } from 'reselect';
 import StringUtils from '@/utils/StringUtils';
 

@@ -1,13 +1,14 @@
-import { Product } from '@/api/objects/Product'
-import { image } from '@/api/objects/Image'
 import request from '../../controllers/products/postController'
 import handleError from '../errorHandler'
 
-export const postHandler = async(product:Product, images?:image[], slugs?:string[], attributes?:any[], variants?:any[]):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
+import { product } from '@/api/models/Product'
+import { image } from '@/api/models/Image'
+
+export const postHandler = async(product:product, images?:image[], slugs?:string[], variants?:any[]) => new Promise<product>(async(resolve, reject) => {
 
     try {
 
-        const response = await request(product.toJson(), images, slugs, attributes, variants)
+        const response = await request(product, images, slugs, variants)
         resolve(response)
 
     } catch(err:any) { reject(handleError(err)) }

@@ -1,0 +1,16 @@
+{   
+    "cart": "Carrito",
+    "remove": "Eliminar del carrito",
+    "quantity": "Cantidad",
+    "subtotal": "Subtotal",
+    "subtotal-nofees": "Subtotal sin impuestos",
+    "continue": "Continuar con la compra",
+    "consult": "Consultar",
+    "clear": "Vaciar carrito",
+    "instructions": "Cuando añadas artículos al carrito, podrás visualizarlos aquí",
+    "dialog-clear-title": "¿Deseas vaciar tu carrito?",
+    "dialog-clear-message": "Se eliminarán todos los artículos guardados en tu carrito",
+    "dialog-remove-title": "¿Deseas eliminar este artículo de tu carrito?",
+    "consult-message": "Hola! Estoy en su website y quisiera consultar este producto",
+    "consults-message": "Hola! Estoy en su website y quisiera consultar estos productos"
+}

@@ -1,13 +1,14 @@
-import { Attribute } from '@/api/objects/Attribute'
 import request from '../../controllers/attributes/disableController'
 import handleError from '../errorHandler'
+import attribute from '@/api/models/Attribute'
 
-export const disable = async(attribute:Attribute):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
+export const disable = async(attribute:attribute):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
 
     try {
 
-        const response = await request(attribute.id())
-        resolve(response)
+        attribute.disabled = true
+        const attributeDisabled = await request(attribute.id)
+        resolve(attributeDisabled)
 
     } catch(err:any) { reject(handleError(err)) }
 })

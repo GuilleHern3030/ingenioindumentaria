@@ -1,6 +1,5 @@
-import request from '../../controllers/categories/getCategoriesController'
-import { Categories } from '../../objects/Categories'
-import { category } from '@/api/objects/Category'
+import request from '@/api/controllers/categories/getCategoriesController'
+import category from '@/api/models/Category'
 import handleError from '../errorHandler'
 
 /**
@@ -14,10 +13,10 @@ export const getHandler = async(includeDisabled=true):Promise<Record<string, any
         // Obtener los artículos en formato JSON
         const categoriesTree:category[] = await request(includeDisabled)
 
-        const categories = new Categories(categoriesTree)
+        //const categories = new Categories(categoriesTree)
 
         // Devuelve las categorías en formato correcto
-        resolve(categories)
+        resolve(categoriesTree)
 
 
     } catch(err:any) { reject(handleError(err)) }

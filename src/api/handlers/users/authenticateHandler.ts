@@ -1,6 +1,6 @@
-import authenticateRequest from '../../controllers/users/authenticateController.ts'
-import googleAuthenticateRequest from '../../controllers/users/authenticateGoogleController.ts'
-import handleError from '../errorHandler.ts'
+import authenticateRequest from '../../controllers/users/authenticateController'
+import googleAuthenticateRequest from '../../controllers/users/authenticateGoogleController'
+import handleError from '../errorHandler'
 
 /**
  * Authenticate user by email and password manually
@@ -29,13 +29,13 @@ export const authenticate = async(username:string, password:string):Promise<Reco
  * @param credential Google credential
  * @returns 
  */
-export const googleAuthenticate = async(credential:string):Promise<Record<string,any>> => new Promise(async (resolve, reject) => {
+export const googleAuthenticate = async(google:Record<string, any>):Promise<Record<string,any>> => new Promise(async (resolve, reject) => {
 
     try {
 
-        if (credential && typeof(credential) === 'string') {
+        if (google) {
 
-                const response = await googleAuthenticateRequest(credential)
+                const response = await googleAuthenticateRequest(google)
                 console.log(response)
                 resolve(response)
 
@@ -44,7 +44,7 @@ export const googleAuthenticate = async(credential:string):Promise<Record<string
     } catch(err:any) { reject(handleError(err)) }
 })
 
-export default (data:Record<string, string>):Promise<Record<string,any>> => {
+export default (data:Record<string, any>):Promise<Record<string,any>> => {
     if (!data) return new Promise((_, reject) => { reject("No data") })
 
     // Google

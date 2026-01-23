@@ -36,8 +36,11 @@
     "attribute_value_enable_title": "¿Deseas rehabilitar ese valor del atributo?",
     "attribute_value_remove_title": "¿Deseas borrar ese valor del atributo?",
     "attribute_no_repeated": "Ese nombre ya existe para un valor en ese atributo",
+    "attribute_disabled": "Este atributo está deshabilitado",
     "cancel_edition_title": "Cancelar la edición",
     "cancel_edition_message": "Los cambios realizados no se guardarán",
     "save_edition_title": "Guardar cambios",
-    "save_edition_message": "Se aplicarán todos los cambios realizados. Si eliminó algún atributo (o uno de sus valores), se aplicará a todos sus productos existentes. Esto es irreversible, por lo que debe continuar con precaución."
+    "save_edition_message": "Se aplicarán todos los cambios realizados. Si eliminó algún atributo (o uno de sus valores), se aplicará a todos sus productos existentes. Esto es irreversible, por lo que debe continuar con precaución.",
+    "create": "Creador",
+    "edit": "Editor"
 }

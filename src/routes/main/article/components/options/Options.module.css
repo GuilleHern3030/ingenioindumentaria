@@ -1,0 +1,9 @@
+.options {
+    margin: 2em 0;
+
+}
+
+.title {
+    user-select: none;
+    text-align: center;
+}

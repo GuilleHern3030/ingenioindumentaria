@@ -20,6 +20,8 @@
     "couldnt_edit_category": "The category could not be edited",
     "couldnt_move_inside_self": "You cannot move a category within itself",
     "attributes_set": "Manage attributes",
+    "attributes_empty": "There are no attributes here yet",
+    "values_empty": "There are no values here yet",
     "attributes_set_global": "Manage global attributes",
     "attributes_instruction_1": "In this section you will be able to define what attributes your categories have.",
     "attributes_instruction_2": "Attributes are the characteristics that products within a category possess.",
@@ -40,8 +42,13 @@
     "cancel_edition_title": "Cancel edition",
     "cancel_edition_message": "The changes made will not be saved",
     "save_edition_title": "Save changes",
-    "save_edition_message": "All changes made will be applied. If you removed any attributes (or one of their values), this will apply to all your existing products. This is irreversible, so proceed with caution.",
+    "save_edition_message": "Actualize children categories",
     "no_attributes_to_add": "No attributes to add",
     "close": "Close",
-    "add": "Add"
+    "add": "Add",
+    "added": "Added",
+    "unedited": "Unedited",
+    "removed": "Removed",
+    "nothing": "Nothing",
+    "applied-to-children": "The changes were applied to the child categories"
 }

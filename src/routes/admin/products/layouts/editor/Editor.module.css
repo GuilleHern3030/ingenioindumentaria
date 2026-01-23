@@ -1,0 +1,72 @@
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    place-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    user-select: none;
+    background-color: rgb(50, 52, 48);
+}
+
+.title {
+    display: block;
+    text-align: center;
+    padding: .5em;
+    color: aliceblue;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2em;
+    padding-right: .65em;
+}
+
+.icon img:hover {
+    cursor: pointer;
+}
+
+.icon > * {
+    height: 80%;
+}
+
+.close {
+    font-size: 1.5em;
+    margin: 1em;
+}
+
+.footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    text-align: center;
+    place-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    user-select: none;
+    margin: 1em 0;
+}
+
+.input {
+    margin: .8em 1em;
+    color: black
+}
+
+.warning {
+    display: block;
+    text-align: center;
+    font-size: 1.3rem;
+    color: brown;
+    user-select: none;
+}
+
+.catalog {
+    user-select: none;
+}
+
+.catalog_title {
+    text-align: center;
+    padding: .75em;
+    font-size: 1.1em;
+}

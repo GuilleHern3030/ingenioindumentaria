@@ -56,3 +56,10 @@
     color: brown;
     user-select: none;
 }
+
+.disabled {
+    text-align: center;
+    color: brown;
+    user-select: none;
+    margin-top: .5em;
+}

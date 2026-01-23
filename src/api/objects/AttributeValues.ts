@@ -41,7 +41,6 @@ export class AttributeValues extends Array<value> {
     has = (value:string|AttributeValue, onlyActives=true) => {
         const val = this.get(value)
         if (val) {
-            console.log(val)
             return onlyActives === true ? val.isActive() : true
         } return false
 

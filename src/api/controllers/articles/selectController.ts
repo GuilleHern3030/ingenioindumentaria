@@ -10,7 +10,7 @@ const endpoint = "/articles";
 export default async function selectController(slug:string, include_children:boolean, filters:object, order:object, page:number=1, limit:number=18) {
 
     if (!loadFromBackend || !lazyLoading)
-        return []
+        throw new Error('Backend is not allowed')
 
     const queryParams = query.set({
         children: include_children === true,

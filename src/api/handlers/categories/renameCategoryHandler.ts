@@ -1,7 +1,6 @@
 import request from '../../controllers/categories/renameCategoryController'
 import handleError from '../errorHandler'
 import { isAdmin } from '../../index'
-import { Category } from '@/api/objects/Category'
 import { useCommonI18n } from '@/hooks/useRouteI18N'
 
 export const renameCategory = async(slug:string, newName:string):Promise<any> => new Promise(async(resolve, reject) => {
@@ -17,7 +16,7 @@ export const renameCategory = async(slug:string, newName:string):Promise<any> =>
                 const response = await request( slug, newName )
 
                 // Devuelve la respuesta del Backend
-                resolve(new Category(response)) // true
+                resolve(response)
 
             } else reject(handleError(t("error:handle_error_body")))
         } else reject(handleError(t("error:handle_error_body")))

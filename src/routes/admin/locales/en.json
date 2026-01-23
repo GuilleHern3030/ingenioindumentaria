@@ -8,6 +8,9 @@
     "attributes": "Attributes",
     "products": "Products",
     "messages": "Messages",
+    "images": "Images",
+    "image": "Image",
+    "users": "Users",
     "revalidate_session_required": "The session needs to be revalidated",
     "create": "Create",
     "delete": "Delete",
@@ -18,10 +21,13 @@
     "reenable": "Rehabilitate",
     "enable": "Habilitate",
     "move": "Move",
+    "back": "Back",
     "editing": "Editing",
     "editor": "Editor",
+    "undefined": "Undefined",
     "new_name": "New name",
     "contracted_text": "Show",
     "attributes_global": "Global Attributes",
-    "saved": "Saved"
+    "saved": "Saved",
+    "empty-attributes": "No assigned attributes"
 }

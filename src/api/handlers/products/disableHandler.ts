@@ -1,12 +1,12 @@
-import Product from '@/api/objects/Product'
 import request from '../../controllers/products/disableController'
 import handleError from '../errorHandler'
+import product from '@/api/models/Product'
 
-export const disable = async(product:Product):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
+export const disable = async(product:product):Promise<Record<string, any>> => new Promise(async(resolve, reject) => {
 
     try {
 
-        const response = await request(product.id())
+        const response = await request(product.id)
         resolve(response)
 
     } catch(err:any) { reject(handleError(err)) }

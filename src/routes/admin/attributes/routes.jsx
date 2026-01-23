@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 
-import Index from './index/Index'
+import Index from './index/Index.tsx'
 import Editor from './editor/Editor'
 import Creator from './creator/Creator'
 

@@ -1,0 +1,89 @@
+.variants {
+    user-select: none;
+}
+
+.variants h5 {
+    color: black;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+    padding: 1em;
+}
+
+@media only screen and (min-width: 768px) { .options { grid-template-columns: repeat(3, 1fr) } }
+
+.option {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px outset black;
+    border-radius: 8px;
+    padding: .75em .5em;
+    width: 9em;
+    margin: .5em;
+    cursor: pointer;
+    transition: transform .1s;
+    background-color: rgb(170, 168, 162);
+}
+
+.option:hover {
+    transform: scale(1.05);
+}
+
+.option p {
+    color: black;
+    padding: .3em;
+}
+
+.option img {
+    max-height: 8em;
+    max-width: 6em;
+}
+
+.option_noimage {
+    padding: 1em .5em !important;
+    margin: .5em 0 !important;
+    border: 1px solid gray;
+    border-radius: 8px;
+    background-color: blanchedalmond;
+}
+
+.option_attributes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.option_attributes p {
+    text-align: center;
+    color: blue;
+}
+
+.option_attributes span {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3em;
+    padding-right: .65em;
+    margin: 2em;
+}
+
+.icon img:hover {
+    cursor: pointer;
+}
+
+.icon > * {
+    height: 80%;
+}

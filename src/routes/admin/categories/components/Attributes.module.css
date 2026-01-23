@@ -12,3 +12,68 @@
     outline: 2px rgb(74, 74, 204) solid;
     cursor: pointer;
 }
+
+.subtitle {
+    font-size: .8em;
+    display: block;
+    text-align: center;
+    user-select: none;
+    color: black;
+    margin-bottom: 1em;
+}
+
+.empty {
+    color:black;
+}
+
+.attributes {
+    user-select: none;
+}
+
+.attribute {
+    text-align: center;
+}
+
+.attribute > p {
+    color:black;
+    padding: .15em;
+    margin: .2em;
+}
+
+.hr {
+    margin-bottom: 1em;
+}
+
+.attribute_disabled {
+    color:gray !important;
+}
+
+.attribute_selected {
+    border: 1px solid black;
+    padding: .7em;
+    margin: .3em;
+}
+
+.attribute_unselected {
+    cursor: pointer;
+}
+
+.attribute_selected > p {
+    color: blue !important;
+}
+
+.attribute:hover {
+    color: blue;
+}
+
+.values {
+    display: flex;
+}
+
+.value_active {
+    color:black;
+}
+
+.value_inactive {
+    color:gray;
+}

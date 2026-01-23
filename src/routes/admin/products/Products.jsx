@@ -10,7 +10,7 @@ export default function() {
     const { t, ready } = useRouteI18n("/admin/products", "admin")
 
     return !ready ? <Loading/> : <>
-        <p className={styles.title}>{ t('title') }</p>
+        <h2 className={styles.title}>{ t('title') }</h2>
         <Outlet context={{ t }}/>
     </>
 

@@ -1,1 +1,0 @@
-import{p as t,Z as n}from"./index-dIbMV0Ai.js";function p({style:o,color:s,backgroundColor:e,className:r}){return t.jsx("div",{className:`${n.spinner} ${r||""}`,style:{borderColor:s,borderLeftColor:e,...o}})}export{p as L};

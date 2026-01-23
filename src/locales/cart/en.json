@@ -1,0 +1,16 @@
+{   
+    "cart": "Cart",
+    "remove": "Remove from cart",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "subtotal-nofees": "Subtotal without fees",
+    "continue": "Continue with purchase",
+    "consult": "Consult",
+    "clear": "Clear cart",
+    "instructions": "When you add items to your cart, you will be able to view them here",
+    "dialog-clear-title": "¿Do you want to clear your cart?",
+    "dialog-clear-message": "All items saved in your cart will be removed.",
+    "dialog-remove-title": "¿Are you sure?",
+    "consult-message": "Hello! I am on your website and I would like to consult this product",
+    "consults-message": "Hello! I am on your website and I would like to consult these products"
+}

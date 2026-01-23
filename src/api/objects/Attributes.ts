@@ -50,7 +50,6 @@ export class Attributes extends Array<attribute> {
      */
     static toFilters(filters:Record<string, string>, attributesData:Record<string, any>):Record<number, number> {
         const attributes = Object.assign(new Attributes(), attributesData)
-        console.log(attributes)
         let parsedFilters:Record<number, number> = {}
         Object.entries(filters).forEach(([attributeName, valueName]) => {
             const filter = attributes.getFilter(attributeName, valueName)
@@ -164,3 +163,5 @@ export class Attributes extends Array<attribute> {
         return this.slice()
     }
 }
+
+export default Attributes

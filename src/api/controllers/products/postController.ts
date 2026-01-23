@@ -1,24 +1,27 @@
-import { image } from '@/api/objects/Image'
 import { email, language, axios, devConsole } from '@/api'
+
+import { image } from '@/api/models/Image'
+import product from '@/api/models/Product'
 
 const endpoint = "/products";
 
 /**
  * Creates a Product into DataBase
- * @param {Record<String, any>} product product json
- * @param {image[]} images array of processed images to put into product in DataBase
- * @returns result of the request
  */
 export default async function(
-    product:Record<string, any>, 
+    product:product, 
     images?:image[],
     slugs?:string[],
-    attributes?:any[],
     variants?:any[]) 
     {
 
     try { delete product.id } catch(e) { }
-    devConsole("products.post request:", product, images, slugs, attributes, variants)
+    
+    devConsole("%cPRODUCT POST", "color:blue; background:pink; padding:4px; border:1px solid blue;")
+    devConsole("product:", product)
+    devConsole("images:", images)
+    devConsole("slugs:", slugs)
+    devConsole("variants:", variants)
 
     const { data } = await axios.post(
         endpoint, 
@@ -26,7 +29,6 @@ export default async function(
             product,
             images,
             slugs,
-            attributes,
             variants
         }, 
         { 
@@ -37,7 +39,7 @@ export default async function(
         }
     )
     
-    devConsole(`products.post response:`, data)
+    devConsole("%cPRODUCT POST RESPONSE", "color:blue; background:green; padding:4px; border:1px solid blue;", data)
     
     return data;
 }

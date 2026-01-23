@@ -5,9 +5,9 @@ const endpoint = "/attributes/delete";
 /**
  * Deletes a Attribute from DataBase
  * @param {number} id Attribute id
- * @returns result of the request
+ * @returns {Promise<number>} attribute deleted id
  */
-export default async function(id:number) {
+export default async function(id:number):Promise<number> {
 
     const { data } = await axios.delete(
         endpoint + "/" + id, 
@@ -21,5 +21,5 @@ export default async function(id:number) {
 
     devConsole(`attributes.delete(${id})`, data)
     
-    return data;
+    return data; // id
 }

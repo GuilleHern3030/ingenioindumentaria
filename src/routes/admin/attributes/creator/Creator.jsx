@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOutletContext } from "react-router-dom";
 
@@ -11,7 +11,6 @@ import { devMode, request } from "@/api";
 import Alert from "@/components/alert/Alert";
 import Loading from "@/components/loading/FullLoading";
 import useUser from "@/hooks/useUser";
-import { Attribute } from "@/api/objects/Attribute";
 
 export default () => {
     const { t } = useOutletContext();
@@ -21,6 +20,7 @@ export default () => {
     
     const [ from, setFrom ] = useState()
     const [ slug, setSlug ] = useState()
+    const [ categories, setCategories ] = useState()
 
     const [ dialog, setDialog ] = useState(null)
     const [ ready, setReady ] = useState(false)
@@ -29,10 +29,12 @@ export default () => {
 
     const { setIsAdminSessionActive } = useUser()
     
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (location?.state) {
+            console.log(location.state)
             setFrom(location.state.from)
             setSlug(location.state.slug)
+            setCategories(location.state.categories)
         }
         setIsLoading(false)
         setReady(true)
@@ -53,10 +55,11 @@ export default () => {
         />)
     }
 
-    const handleCreate = (data) => {
-        const { attribute, slugs } = data
-        request(setIsLoading, setError, post, attribute, slugs)
-        .then(result => { goBack(result) })
+    const handleCreate = (attribute) => {
+        request(setIsLoading, setError, post, attribute)
+        .then(result => { 
+            navigate(slug ? `${from}?slug=${slug}` : from)
+        })
         .catch(e => {
             if(e.adminSessionExpired())
                 setIsAdminSessionActive(false)
@@ -65,18 +68,22 @@ export default () => {
     }
 
     return <>
-        <p className={styles.subtitle}>Crear</p>
+        <p className={styles.subtitle}>{t('create')}</p>
         { error && <p className="error">{error}</p>}
         { ready &&
             <Editor 
-                attribute={new Attribute('')}
-                defaultCategory={slug}
+                attributeSelected={null}
+                categories={categories}
                 onSuccess={handleCreate} 
                 onCancel={goBack}
+                onDelete={goBack}
+                onEnable={goBack}
                 t={t}
             /> 
         }
-        {dialog}
+
+        { dialog }
+
         { isLoading && <Loading/> }
     </>
 }

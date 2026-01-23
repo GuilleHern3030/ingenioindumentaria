@@ -4,6 +4,7 @@
     "name": "Nombre",
     "description": "Descripcion",
     "price": "Precio",
+    "discount": "Descuento",
     "in_stock": "En stock",
     "hidden": "Oculto",
     "is_new": "Es nuevo",

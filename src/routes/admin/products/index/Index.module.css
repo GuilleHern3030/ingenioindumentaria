@@ -7,19 +7,6 @@
     padding-bottom: 1em;
 }
 
-.instructions {
-    padding: 1em;
-    user-select: none;
-    font-size: 1.15em;
-}
-
-.instruction {
-    display: block;
-    padding: .25em 0;
-    text-align: center;
-    color:black;
-}
-
 .button {
     display: flex;
     flex-direction: column;

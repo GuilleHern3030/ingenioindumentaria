@@ -1,0 +1,38 @@
+.articles {
+    user-select: none;
+}
+
+.title {
+  text-align: center;
+  margin: .5em 0;
+  font-size: 1.8em;
+}
+
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.carousel > article {
+  max-width: 40vw; /* max 2 articles */
+}
+
+@media only screen and (min-width: 480px) {
+  .carousel > article { max-width: 30vw } /* max 3 articles inline */
+}
+
+@media only screen and (min-width: 768px) {
+  .carousel > article { max-width: 22vw } /* max 4 articles inline */
+}
+
+/*
+  Carousel config
+    if (width < 330) setVisible(1)       // Little Mobile
+    else if (width < 480) setVisible(2)  // Mobile
+    else if (width < 768) setVisible(3)  // Tablet
+    else setVisible(4)                   // Desktop
+
+*/

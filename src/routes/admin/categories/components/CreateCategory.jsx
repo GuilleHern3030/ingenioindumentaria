@@ -24,13 +24,18 @@ export default ({parent, onCreate, t}) => {
 
     useEffect(() => { 
         setIsCreating(false) 
-        if (parent) setIsDisabled(!parent.isActive())
+        if (parent) setIsDisabled(parent.disabled)
         else setIsDisabled(false)
     }, [parent])
 
+    useEffect(() => {
+        if (isCreating)
+            input.current.focus()
+    }, [ isCreating ])
+
     const handleCreate = () => {
         const categoryName = input.current.value.trim()
-        const parentSlug = parent ? parent.slug() : undefined
+        const parentSlug = parent ? parent.slug : undefined
         if (categoryName.length > 0) {
             if (!StringUtils.hasSpecialCharacter(categoryName)) {
                 request(setIsPosting, setWarning, post, categoryName, parentSlug)
