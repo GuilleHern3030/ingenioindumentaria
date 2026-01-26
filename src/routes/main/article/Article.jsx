@@ -22,6 +22,7 @@ import Filters from './components/filters/Filters'
 import Buy from './components/buy/Buy'
 import Error from './components/error/Error'
 import FilterUtils from './utils/FilterUtils'
+import ImagesUtils from './utils/ImagesUtils'
 
 export default () => {
 
@@ -60,8 +61,8 @@ export default () => {
                     const slugs = article.categories?.map(category => category.slug)
 
                     const queryFilters = FilterUtils.url()
-                    console.log("URL-filters", queryFilters)
-                    console.log("Variant ID selected:", variantId)
+                    //console.log("URL-filters", queryFilters)
+                    //console.log("Variant ID selected:", variantId)
 
                     const variant = (
                         variantId ? article.variants.find(variant => variant.id == variantId) :
@@ -158,7 +159,7 @@ export default () => {
             <>
             <section className={styles.datasection} id='article'>
 
-                <Images images={variant?.images.length > 0 ? variant.images : article.images} />
+                <Images images={ImagesUtils.parse(article?.images ?? [], variant?.images ?? [], article.variants?.length ?? 0)} />
 
                 <article className={styles.information}>
 

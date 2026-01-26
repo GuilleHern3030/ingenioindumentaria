@@ -34,7 +34,7 @@ export default () => {
     }
 
     return <>
-        <header className={styles.header}>
+        <header className={styles.header} id='header'>
             <div className={styles.fixedHeader}>
 
                 <div className={`flex-center ${styles.header_aside}`} style={{justifyContent:'flex-start'}}>

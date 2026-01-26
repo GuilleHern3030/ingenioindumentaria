@@ -10,9 +10,11 @@ import saveIcon from '@/assets/icons/accept.webp'
 import useClientInfo from '@/hooks/useClientInfo'
 import useProductData from './hooks/useProductData'
 
+// Utils
+import Slugs from './utils/SlugsUtils'
+
 // Objects
 import Articles from './utils/Articles'
-import attribute from '@/api/models/Attribute'
 import image from '@/api/models/Image'
 import variant from '@/api/models/Variant'
 
@@ -26,7 +28,6 @@ const Input = InputComponent as React.FC<any>
 
 // Components
 import Categories from './components/categories/Categories'
-//import Attributes from './components/attributes/Attributes'
 import Variants from './components/variants/Variants'
 import Image from './components/image/Image'
 
@@ -57,11 +58,12 @@ export default ({ onSuccess, onCancel, onDelete, t }) => {
         const articles = new Articles(product?.variants ?? [])
         console.log("Variants", articles)
 
-        //setSelectedAttributes(product?.attributes ?? []) // array de attributes
-        setSelectedSlugs(product?.categories.map(category => category.slug) ?? slug ? [ slug ] : []) // array de strings (slugs)
+        setSelectedSlugs(Slugs.getSelected(product?.categories, slug)) // array de strings (slugs)
         setCatalogImage(product?.images ? product.images[0] : undefined)
         setVariants(articles)
-        setVariant(variants?.length > 1 ? undefined : variants?.length == 1 ? variants[0] : null) 
+        setVariant(variants?.length > 0 ? 
+            undefined // Se mostrarán los inputs para crear una variante
+            : null) // Se mostrará la lista de variantes para elegir (incluso si hay uno solo)
 
     }, [ product ])
 
@@ -123,7 +125,7 @@ export default ({ onSuccess, onCancel, onDelete, t }) => {
     const handleDelete = () => {
         showDialog(
             t('editor_remove_title'), 
-            product?.isActive() ? 
+            product?.disabled !== true ? 
                 t('editor_disable_message') : 
                 t('editor_delete_message'), 
             () => onDelete(product)
@@ -132,6 +134,8 @@ export default ({ onSuccess, onCancel, onDelete, t }) => {
 
     return <>
 
+        { product?.disabled === true && <p className='warning'>{t('product_disabled')}</p>}
+        
         { warning && <p className='error'>{warning}</p>}
         
         <Categories 
@@ -181,7 +185,7 @@ export default ({ onSuccess, onCancel, onDelete, t }) => {
         <Variants 
             variants={variants}
             variant={variant}
-            productName={name?.current?.value}
+            nameRef={name}
             slugs={selectedSlugs}
             onHideVariant={() => setVariant(undefined)}
             onShowVariant={(variant:variant) => setVariant(variant)}

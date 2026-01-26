@@ -126,6 +126,6 @@ const Spinner = ({ deployed, products, categories, category, onSelect, t }) => {
 
 const SpinnerItem = ({ onClick, children, count, disabled }) => 
     <div className={styles.list_item} onClick={onClick}>
-        <p className={disabled ? styles.list_item_disabled : ''}> { children } </p>
-        { count != undefined && <p className={disabled || count === 0 ? styles.list_item_disabled : ''}>{(count)}</p> }
+        <p className={disabled ? styles.list_item_disabled : styles.list_item_enabled}> { children } </p>
+        { count != undefined && <p className={disabled || count === 0 ? styles.list_item_disabled : styles.list_item_enabled}>{(count)}</p> }
     </div>

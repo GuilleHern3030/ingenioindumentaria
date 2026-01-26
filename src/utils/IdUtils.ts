@@ -2,8 +2,8 @@ import String from './StringUtils'
 
 interface serializedId {
     id:number,
-    slug:string,
-    variantId:number
+    slug?:string,
+    variantId?:number
 }
 
 function isId(str:string):boolean {
@@ -29,7 +29,7 @@ export default {
             const id = isId(ids) ? String.lettersToNumber( (index > 0) ? ids.substring(0, index) : ids ) : undefined
             const variantId = (index > 0 && isId(ids)) ? Number(ids.substring(index)) : undefined
             return { slug, id, variantId }
-        }
+        } else return { slug: undefined, id: undefined, variantId: undefined }
     },
 
     id(serializedId:string):string {

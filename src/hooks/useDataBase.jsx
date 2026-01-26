@@ -124,7 +124,7 @@ export default function useDataBase() {
 }
 
 const formatArticle = (article) => {
-    console.log(article)
+    //console.log(article)
 
     if (Array.isArray(article))
         return article.map(object => formatArticle(object))
@@ -138,8 +138,10 @@ const formatArticle = (article) => {
     }
 
     const min = (arr) => {
-        const result = Math.min(...arr)
-        return (isNaN(result) || !isFinite(result)) ? null : result
+        try {
+            const result = Math.min(...arr)
+            return (isNaN(result) || !isFinite(result)) ? null : result
+        } catch(e) { return null }
     }
 
     article.price = min(article.variants?.map(variant => variant.price))

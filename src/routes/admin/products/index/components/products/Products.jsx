@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 import styles from './Products.module.css'
 
 import { selectByCategory } from "@/api/products"
 import { request } from "@/api";
+
 import Product from './Product.tsx';
+
 import Loading from '@/components/loading/Loading';
+
+import catalogIcon from '@/assets/icons/back.webp'
 
 export default ({ categories, category, onSelect, onCreate, onBack, t }) => {
 
@@ -13,6 +18,13 @@ export default ({ categories, category, onSelect, onCreate, onBack, t }) => {
     const [ error, setError ] = useState()
 
     const [ products, setProducts ] = useState()
+
+    const navigate = useNavigate()
+
+    const handleNavigate = () => {
+        const path = `/category/${category}`
+        navigate(path)
+    }
 
     useEffect(() => {
 
@@ -32,7 +44,11 @@ export default ({ categories, category, onSelect, onCreate, onBack, t }) => {
     }, [ category ])
 
     return <>
-        <p className={styles.title}>{category ? category.replaceAll("/", " / ").replaceAll("-", " ") : t('uncategorized')}</p>
+        <section className={styles.title}>
+            <div></div>
+            <p >{category ? category.replaceAll("/", " / ").replaceAll("-", " ") : t('uncategorized')}</p>
+            <img onClick={handleNavigate} src={catalogIcon}/>
+        </section>
 
         <section className={styles.products}>
             {

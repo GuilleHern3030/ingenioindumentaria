@@ -40,7 +40,7 @@ export default () => {
     }
 
     return <>
-        <header className={styles.header}>
+        <header className={styles.header} id='header'>
             <div className={styles.fixedHeader}>
 
                 <div className={`flex-center`} style={{justifyContent:'flex-start'}}>

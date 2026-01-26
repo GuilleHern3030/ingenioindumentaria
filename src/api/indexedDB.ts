@@ -193,6 +193,7 @@ const dbGetPks = (IDBrequest:IDBDatabase, objectStore:string, filter:Function = 
 
     console.time("idb count")
     const pks = []
+    console.log("ORDER TYPE:", order)
     if (order == null) {
         const cursor = store.openCursor()
         cursor.addEventListener('success', () => {
@@ -205,7 +206,9 @@ const dbGetPks = (IDBrequest:IDBDatabase, objectStore:string, filter:Function = 
             } else resolve(pks)
         })
     } else dbGetAll(IDBrequest, objectStore).then(objs => {
+        console.log("OBJECTS TO ORDER:", objs)
         const objectsSorted = sortBy(objs, order.key, order.order)
+        console.log("ORDERED OBJECTS:", objectsSorted)
         objectsSorted.forEach(object => {
             const filterResult = filter(object)
             if (filterResult == true)
@@ -312,13 +315,24 @@ export const remove = async (dbName:string) => {
 
 // [AUXILIARY FUNCTION] Ordena un array de objetos por una propiedad arbitraria
 function sortBy(arr:Array<any>, key:string, order:'asc'|'desc' = 'asc'): Array<any> {
-    const sorted = [...arr];
+    const sorted = [...arr]
+
+    const price = (article:any) => {
+        try {
+            const prices = article?.variants?.map(v => v['discount'] > 0 ? v['price'] - v['price'] * v['discount'] / 100 : v['price'])
+            const result = Math.min(...prices)
+            return (isNaN(result) || !isFinite(result)) ? null : result
+        } catch(e) { return null }
+    }
 
     try {
 
         sorted.sort((a, b) => {
-            let A = key == 'price' && a['discount'] > 0 ? a['price'] - a['price'] * a['discount'] / 100 : a[key];
-            let B = key == 'price' && b['discount'] > 0 ? b['price'] - b['price'] * b['discount'] / 100 : b[key];
+
+            let A = key == 'price' ? price(a) : a[key];
+            let B = key == 'price' ? price(b) : b[key];
+
+            console.log(A)
 
             // Manejo de undefined/null
             if (A == null) return 1;

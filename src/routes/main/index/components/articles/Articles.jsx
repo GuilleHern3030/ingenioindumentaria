@@ -19,8 +19,10 @@ export default ({ articles, limit, t }) => {
     const navigate = useNavigate()
     const width = useScreenWidth()
 
-    const handleArticleSelect = (id) => 
-        navigate("/article/" + IdUtils.serialize(id))
+    const handleArticleSelect = (article) => {
+        const serializedId = IdUtils.serialize(article.id)
+        navigate("/article/" + serializedId)
+    }
 
     useEffect(() => {
         if (width < 330) setVisible(1)       // Little Mobile

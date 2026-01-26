@@ -17,7 +17,7 @@ import { attributevalue } from '@/api/models/Attribute'
 import useClientInfo from '@/hooks/useClientInfo'
 
 
-export default ({ variant, productName, slugs, onSave, onDelete, onCancel, t }) => {
+export default ({ variant, slugs, nameRef, onSave, onDelete, onCancel, t }) => {
 
     const { coinSymbol, dataLoaded } = useClientInfo()
 
@@ -41,12 +41,14 @@ export default ({ variant, productName, slugs, onSave, onDelete, onCancel, t }) 
     const handleSave = () => {
         setError(null)
 
-        const variantName = name?.current?.value ?? productName.current?.value ?? ''
+        const variantName = name?.current?.value?.length > 0 ? name.current.value : nameRef.current?.value
+        console.log("variantName REF", name.current?.value)
+        console.log("NAME REF", nameRef.current?.value)
         if (variantName.trim().length > 0) {
             if (Number(price?.current?.value) > 0) {
                 onSave({
                     id: variant?.id ?? null,
-                    name: name?.current?.value.trim(),
+                    name: variantName.trim(),
                     description: description?.current?.value.trim(),
                     price: Number(price?.current?.value),
                     stock: stock?.current?.value.length > 0 ? Number(stock?.current?.value) : null,
@@ -61,7 +63,7 @@ export default ({ variant, productName, slugs, onSave, onDelete, onCancel, t }) 
 
     return !dataLoaded ? <Loading/> : <article className={styles.variant}>
         
-        <Input ref={name} name='fullname' className={styles.input} label={t("fullname")} defaultValue={variant?.name ?? productName ?? ''}/>
+        <Input ref={name} name='fullname' className={styles.input} label={t("fullname")} defaultValue={variant?.name ?? nameRef?.current?.value ?? ''}/>
         <Input ref={price} name='price' className={styles.input} label={`${t("price")}`} extension={coinSymbol} type='number' min={0} defaultValue={variant?.price}/>
         <Input ref={stock} name='stock' className={styles.input} label={`${t("in_stock")}`} extension={t('units')} type='number' min={0} defaultValue={variant === null ? 1 : variant?.stock}/>
 

@@ -1,9 +1,22 @@
 .title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     background-color: rgb(24, 24, 24);
     padding: .75em;
     text-align: center;
     text-transform: capitalize;
     user-select: none;
+}
+
+.title p {
+    color: aliceblue;
+}
+
+.title img {
+    height: 1.5em;
+    cursor: pointer;
 }
 
 .button {
@@ -35,7 +48,7 @@
 }
 
 .disabled {
-    background-color: brown;
+    background-color: rgba(126, 126, 113, 0.25);
 }
 
 .product:hover * {
@@ -47,7 +60,21 @@
     transition: transform .15s;
 }
 
+.disabled * {
+    color: gray;
+}
+
 .product span {
     font-weight: bold;
     padding-right: .35em;
+}
+
+.strike {
+    font-style: oblique;
+    color: var(--color-striked);
+    text-decoration: line-through;
+}
+
+.discount {
+    color: green;
 }

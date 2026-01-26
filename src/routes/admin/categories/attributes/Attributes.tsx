@@ -19,14 +19,16 @@ import Attributes from './Attributes'
 
 import category from '@/api/models/Category';
 import attribute from '@/api/models/Attribute';
-import Input from '../../components/input/Input';
+
+import InputComponent from '../../components/input/Input';
+const Input = InputComponent as React.FC<any>
 
 export default () => {
 
     const navigate = useNavigate()
     const location = useLocation()
 
-    const checkRef = useRef()
+    const checkRef = useRef<any>()
 
     const [isLoading, setIsLoading] = useState(true)
     const [isAdding, setIsAdding] = useState(false)
@@ -41,7 +43,7 @@ export default () => {
     const { t } = useOutletContext<any>()
 
     useEffect(() => {
-        if (location.state && location.state.categories && location.state.slug) {
+        if (location.state && location.state.categories && location.state.slug && location.state?.categories?.attributes?.length > 0) {
             const categories = location.state.categories
             const allAttributes = categories.attributes
             const slug = location.state.slug
@@ -88,7 +90,10 @@ export default () => {
                         console.log(allAttributes)
                         setDialog(<Alert
                             title={t('saved')}
-                            onAccept={() => navigate("/admin/categories")}
+                            onAccept={() => {
+                                window.scrollTo({top:0})
+                                navigate("/admin/categories")
+                            }}
                             message={undefined}> 
                                 <Saved 
                                     attributes={allAttributes} 
@@ -120,7 +125,10 @@ export default () => {
             title={t('cancel_edition_title')}
             message={t('cancel_edition_message')}
             onReject={() => setDialog(null)}
-            onAccept={() => navigate("/admin/categories")}
+            onAccept={() => {
+                window.scrollTo({top:0})
+                navigate("/admin/categories")
+            }}
             children={undefined}
         />)
     }

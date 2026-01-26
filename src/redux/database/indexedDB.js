@@ -76,6 +76,7 @@ export default {
         if (!lazyLoading && id > 0) {
             const db = await open(DATA_BASE_CATALOG)
             const article = await db.get(ARTICLES, id)
+            formatArticle(article)
             await db.close()
             if (article) resolve(article)
             else reject()
@@ -102,6 +103,7 @@ export default {
             await db.close()
 
             articles.forEach((article, index) => {
+                formatArticle(article)
                 if (pks[index].variantId) {
                     const variant = article.variants.find(variant => variant.id == pks[index].variantId)
                     article.variant = variant
@@ -124,7 +126,10 @@ export default {
         if (!lazyLoading) {
             const db = await open(DATA_BASE_CATALOG)
 
-            const pks = await db.pks(ARTICLES, (article) => article.discount > 0, order)
+            const pks = await db.pks(ARTICLES, (article) => {
+                formatArticle(article)
+                return article.discount > 0
+            }, order)
 
             const start = (page - 1) * lazyLoadLimit
 
@@ -146,7 +151,10 @@ export default {
         if (!lazyLoading) {
             const db = await open(DATA_BASE_CATALOG)
 
-            const pks = await db.pks(ARTICLES, (article) => article.newest === true, order)
+            const pks = await db.pks(ARTICLES, (article) => {
+                formatArticle(article)
+                return article.newest === true
+            }, order)
 
             const start = (page - 1) * lazyLoadLimit
 
@@ -175,6 +183,7 @@ export default {
             const db = await open(DATA_BASE_CATALOG)
 
             const pks = await db.pks(ARTICLES, (article) => {
+                formatArticle(article)
                 if (!route || article.categories.find(category => hasSlug(category.slug, route, include_children))) {
 
                     const filtersOk = (!filters || Object.keys(filters).length == 0) ? true :
@@ -213,8 +222,11 @@ export default {
             ]
             const db = await open(DATA_BASE_CATALOG)
             const start = (page - 1) * lazyLoadLimit
-            const filter = (article) => (!filters || Object.keys(filters).length == 0) ? true :
+            const filter = (article) => {
+                formatArticle(article)
+                return (!filters || Object.keys(filters).length == 0) ? true :
                 article.variants?.find(variant => hasFilters(variant.attributes, filters)) != undefined
+            }
             
             const results = await db.search(ARTICLES, ARTICLES_NAME_INDEX, prompts, filter, order, start, lazyLoadLimit)
             
@@ -301,4 +313,35 @@ const hasFilters = (attributes, filters) => {
             valueId == attribute.valueId
         ) != undefined
     ).length == attributesArray.length
+}
+
+/**
+ * Establece los valores mínimos de un Article
+ * @param {Record<string, any>} article Article
+ */
+const formatArticle = (article) => {
+
+    if (Array.isArray(article))
+        return article.map(object => formatArticle(object))
+
+    const sum = (arr) => {
+        try {
+            if (arr.includes(null)) return null;
+            const result = arr.reduce((acc, n) => acc + n, 0);
+            return isNaN(result) ? null : result
+        } catch(e) { return null }
+    }
+
+    const min = (arr) => {
+        try {
+            const result = Math.min(...arr)
+            return (isNaN(result) || !isFinite(result)) ? null : result
+        } catch(e) { return null }
+    }
+
+    article.price = min(article.variants?.map(variant => variant.price))
+    article.stock = sum(article.variants?.map(variant => variant.stock))
+    article.variants.forEach(variant => variant.name = variant.name ?? article.name )
+
+    return article
 }

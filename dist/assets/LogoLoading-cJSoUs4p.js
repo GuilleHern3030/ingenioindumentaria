@@ -1,0 +1,1 @@
+import{j as s,Z as o,x as r}from"./index-Da2ibMti.js";function e({style:a=void 0,color:n=void 0,backgroundColor:t=void 0,className:i=void 0}){return s.jsx("div",{className:`${o.logo} ${i||""}`,children:s.jsx("img",{className:`${o.icon} ${o.animation_size}`,src:r})})}export{e as L};

@@ -49,7 +49,11 @@ export default () => {
                     </> 
                 }
 
-                <Articles articles={preloadedArticles} limit={6} t={t} />
+                <Articles 
+                    articles={preloadedArticles} 
+                    limit={6} 
+                    t={t} 
+                />
 
                 <hr/>
 

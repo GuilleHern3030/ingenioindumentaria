@@ -38,21 +38,30 @@ export default function() {
     const location = useLocation()
     const navigate = useNavigate()
 
-    useEffect(() => {
+    useEffect(() => { loadData() }, [ ])
+
+    const loadData = () => {
         request(setIsLoading, setError, selectAll)
         .then((attributes:any) => {
             console.log("Response", attributes)
             console.log("Categories", attributes.categories)
             setCategories(attributes.categories)
             setAttributes(attributes)
+            setNetworkError(false)
         })
-    }, [ ])
+        .catch(e => {
+            console.error(e)
+            if (e?.isNetworkError())
+                setNetworkError(true)
+        })
+    }
 
     const handleSlugChange = (slug:string) => {
         setSlug(slug)
     }
 
     const handleAttributeSelected = (attribute: Record<string, any>) => {
+        window.scrollTo({top:0})
         navigate(`${attribute.id}`,
             { 
                 state: {
@@ -66,6 +75,7 @@ export default function() {
     }
 
     const handleAttributeCreate = () => {
+        window.scrollTo({top:0})
         navigate("new", 
             {
                 state: { 
@@ -77,7 +87,7 @@ export default function() {
     }
 
     return <>
-        { <Slug categories={categories} onSlugChange={(slug:string) => handleSlugChange(slug)}/> }
+        { categories && <Slug categories={categories} onSlugChange={(slug:string) => handleSlugChange(slug)}/> }
         { error && <p className='error'>{error}</p> }
         { !slug && 
             <section className={styles.instructions}>
@@ -109,7 +119,7 @@ export default function() {
                     </>
                 }
 
-            </> :  <Reload/>
+            </> :  <Reload onClick={loadData}/>
         }
     </>
 

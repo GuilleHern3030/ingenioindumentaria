@@ -24,3 +24,9 @@
     transition: transform .12s;
     user-select: none;
 }
+
+.create {
+    display: grid;
+    margin: 1.5em;
+    place-items: center;
+}

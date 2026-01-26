@@ -15,6 +15,8 @@ import Alert from "@/components/alert/Alert"
 import Loading from "@/components/loading/FullLoading"
 import useUser from "@/hooks/useUser"
 
+const TRIES = 5
+
 export default () => {
 
     const { t } = useOutletContext();
@@ -38,20 +40,30 @@ export default () => {
     const { id } = useParams()
 
     useEffect(() => {
-        request(setIsLoading, setError, select, id)
-        .then(response => {
-            console.log("product:", response.product)
+        const loadProduct = (tries = TRIES) => {
+            request(setIsLoading, setError, select, id)
+            .then(response => {
+                console.log("product:", response.product)
 
-            setProduct(response.product)
-            setAttributes(response.attributes)
-            setCategories(response.categories)
+                setProduct(response.product)
+                setAttributes(response.attributes)
+                setCategories(response.categories)
 
-            if (location.state) {
-                setFrom(location.state.from)
-                setSlug(location.state.slug)
-            }
-        })
-        .catch(e => { console.error(e); setProduct(null) })
+                if (location.state) {
+                    setFrom(location.state.from)
+                    setSlug(location.state.slug)
+                }
+            })
+            .catch(e => {
+                if (e.adminSessionExpired()) setIsAdminSessionActive(false)
+                else if (tries > 0) loadProduct(tries - 1)
+                else {
+                    console.error(e)
+                    setProduct(null) 
+                }
+            })
+        }
+        loadProduct()
     },[])
 
     const goBack = (result) => {
@@ -69,35 +81,37 @@ export default () => {
         />)
     }
 
-    const handleEdit = (data) => {
+    const handleEdit = (data, tries = TRIES) => {
         setIsLoading(true)
         verifySizeLimit(data.product, data.variants)
         .then(ok => {
             if (ok === true) {
                 request(setIsLoading, setError, edit, data)
-                .then(result => { 
-                    if (!devMode()) goBack(result) 
-                })
-                .catch(e => {
-                    if(e.adminSessionExpired())
-                        setIsAdminSessionActive(false)
-                    console.error(e)
-                })
+                .then(result => { goBack(result) })
             } else setError(t(`image_error_${ok}`))
         }).catch(e => { // network error
-            console.error(e)
-            setError(t('network_error'))
+            if(e.adminSessionExpired()) setIsAdminSessionActive(false)
+            else if (tries > 0) handleEdit(data, tries - 1)
+            else {
+                document.getElementById("header")?.scrollIntoView({ behavior: "smooth" })
+                console.error(e)
+                setError(e.toString())
+            }
         })
     }
 
-    const handleDelete = (product) => {
-        const deleter = product?.isActive() ? disable : remove
+    const handleDelete = (product, tries = TRIES) => {
+        const deleter = product?.disabled !== true ? disable : remove
         request(setIsLoading, setError, deleter, product)
         .then(result => { goBack(result) })
         .catch(e => {
-            if(e.adminSessionExpired())
-                setIsAdminSessionActive(false)
-            console.error(e)
+            if(e.adminSessionExpired()) setIsAdminSessionActive(false)
+            else if (tries > 0) handleDelete(product, tries - 1)
+            else {
+                document.getElementById("header")?.scrollIntoView({ behavior: "smooth" })
+                setError(e.toString())
+                console.error(e)
+            }
         })
     }
 

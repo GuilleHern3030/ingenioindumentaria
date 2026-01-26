@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useOutletContext } from "react-router-dom";
 
 import { selectAll } from '@/api/categories.ts'
-import { request } from '@/api'
+import { reload, request } from '@/api'
 
 import styles from './Index.module.css'
 
@@ -38,6 +38,7 @@ export default () => {
             setCategories(treeOfCategories)
             setListedCategories(treeOfCategories)
             callback && callback(treeOfCategories)
+            setNetworkError(false)
         })
         .catch(e => {
             console.error(e)
@@ -49,6 +50,7 @@ export default () => {
     useEffect(() => { loadCategories() }, [])
 
     const handleCategoryClick = (category) => {
+        document.getElementById("header")?.scrollIntoView({ behavior: "smooth" })
         if (category) {
             category.name = CategoryUtils.name(category)
             if (category && category.slug.startsWith(categorySelectedToMove?.slug)) { // category is child of categorySelectedToMove
@@ -99,11 +101,11 @@ export default () => {
                 <hr />
                 { !networkError ? 
                     <>
-                        {categories && !categorySelectedToMove && <Attributes categories={categories} category={categorySelected} t={t} />}
+                        {categories && categories.attributes.length > 0 && !categorySelectedToMove && <Attributes categories={categories} category={categorySelected} t={t} />}
                         {categorySelected && !categorySelectedToMove && categorySelected.disabled && <EnableCategory category={categorySelected} t={t} />}
                         {categorySelected && !categorySelectedToMove && <DeleteCategory category={categorySelected} t={t} />}
                         {categories && <MoveCategory categorySelected={categorySelectedToMove} category={categorySelected} onSelect={handleOnSelectToMove} t={t} />}
-                    </> : <Reload/>
+                    </> : <Reload onClick={loadCategories}/>
                 }
 
             </>

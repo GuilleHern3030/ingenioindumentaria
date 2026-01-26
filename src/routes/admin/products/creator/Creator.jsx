@@ -9,11 +9,14 @@ import Editor from '../layouts/editor/Editor.tsx'
 
 import { create, select } from '@/api/products'
 import { verifySizeLimit } from "@/api/images"
-import { devMode, request } from "@/api"
+import { devMode, reload, request } from "@/api"
 
 import Alert from "@/components/alert/Alert"
 import Loading from "@/components/loading/FullLoading"
 import useUser from "@/hooks/useUser"
+import Reload from "../../components/reload/Reload"
+
+const TRIES = 5
 
 export default () => {
 
@@ -36,20 +39,29 @@ export default () => {
     const [ error, setError ] = useState()
     
     useEffect(() => {
-        request(setIsLoading, setError, select)
-        .then(response => {
+        const loadProduct = (tries = TRIES) => {
+            request(setIsLoading, setError, select)
+            .then(response => {
 
-            setAttributes(response.attributes)
-            setCategories(response.categories)
+                setAttributes(response.attributes)
+                setCategories(response.categories)
 
-            if (location?.state) {
-                setFrom(location.state.from)
-                setSlug(location.state.slug)
-            }
-            setIsLoading(false)
-            setReady(true)
-        })
-        .catch(e => { console.error(e); setProduct(null) })
+                if (location?.state) {
+                    setFrom(location.state.from)
+                    setSlug(location.state.slug)
+                }
+                setIsLoading(false)
+                setReady(true)
+            })
+            .catch(e => { 
+                if (e.adminSessionExpired()) setIsAdminSessionActive(false)
+                else if (tries > 0) loadProduct(tries - 1)
+                else {
+                    console.error(e)
+                }
+            })
+        }
+        loadProduct()
     }, [])
 
     const goBack = (result) => {
@@ -67,28 +79,36 @@ export default () => {
         />)
     }
 
-    const handleCreate = (data) => {
+    const handleCreate = (data, tries = TRIES) => {
         setIsLoading(true)
         verifySizeLimit(data.product, data.variants)
         .then(ok => {
-            if (ok === true) {
+            if (ok === true)
                 request(setIsLoading, setError, create, data)
                 .then(result => { goBack(result) })
-                .catch(e => {
-                    if(e.adminSessionExpired())
-                        setIsAdminSessionActive(false)
-                    console.error(e)
-                })
-            } else setError(t(`image_error_${ok}`))
+            else setError(t(`image_error_${ok}`))
         }).catch(e => { // network error
-            console.error(e)
-            setError(t('network_error'))
+            if (e.adminSessionExpired()) setIsAdminSessionActive(false)
+            else if (tries > 0) handleCreate(data, tries - 1)
+            else {
+                console.error(e)
+                setError(e.toString())
+                document.getElementById("header")?.scrollIntoView({ behavior: "smooth" })
+                setIsLoading(false)
+            }
         })
     }
 
     return <>
         <h3 className={styles.subtitle}>Crear</h3>
-        { error && <p className="error">{error}</p>}
+        
+        { error && 
+            <>
+                <p className="error">{error}</p>
+                <Reload onClick={reload}/>
+            </>
+        }
+        
         { ready &&
             <EditorContextProvider
                 product={null}
@@ -102,7 +122,9 @@ export default () => {
                 /> 
             </EditorContextProvider>
         }
+
         {dialog}
+
         { isLoading && <Loading/> }
     </>
 }

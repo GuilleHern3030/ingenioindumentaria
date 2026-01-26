@@ -22,9 +22,9 @@ import Filter from './components/filter/Filter'
 
 const COLUMNS_PREDEFINED = 'template-columns'
 const getColumns = () => localStorage.getItem(COLUMNS_PREDEFINED) ?? 2
-const setColumns = (c) => localStorage.setItem(COLUMNS_PREDEFINED, c)
+const setColumns = (c) => localStorage.setItem(COLUMNS_PREDEFINED, c)       
 
-const goTop = () => window.scrollTo({top:0})
+const goTop = (soft) => soft ? document.getElementById("header")?.scrollIntoView({ behavior: "smooth" }) : window.scrollTo({top:0})
 
 export default ({ params='', parent='/', onLoadRequest, onAttributesRequest = () => {}, onError, onEmptySelect, onSelect }) => {
 
@@ -62,13 +62,14 @@ export default ({ params='', parent='/', onLoadRequest, onAttributesRequest = ()
     }
 
     const handleSetPage = (page) => {
+        goTop(true)
         setWarning()
         setPage(page)
         loadArticles(params, page, filters, order)
     }
 
     const refresh = (pageSelected, filtersSelected=filters, orderSelected=order) => {
-        goTop()
+        goTop(false)
         const queryParams = query(pageSelected, orderSelected, filtersSelected)
         console.log("PARAMS:", queryParams)
         navigate(`${location.pathname}${queryParams}`, { replace: true })

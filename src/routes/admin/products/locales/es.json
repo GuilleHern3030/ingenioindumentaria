@@ -6,6 +6,7 @@
     "instruction_3": "Además, cada producto puede contener los atributos que una categoría puede ofrecer.",
     "instruction_4": "Podés gestionar todos los artículos ingresando a la categoría correspondiente.",
     "product_without_category": "Productos sin categoría",
+    "product_disabled": "Este producto está deshabilitado",
     "categories_assigned": "Categorías asignadas",
     "uncategorized": "Sin asignación",
     "select_category": "Seleccionar categoría",

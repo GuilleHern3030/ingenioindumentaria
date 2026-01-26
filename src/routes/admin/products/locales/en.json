@@ -6,6 +6,7 @@
     "instruction_3": "In addition, each product can contain the attributes that a category can offer.",
     "instruction_4": "You can manage all items by entering the corresponding category.",
     "product_without_category": "Uncategorized products",
+    "product_disabled": "This product is disabled",
     "categories_assigned": "Assigned categories",
     "uncategorized": "Uncategorized",
     "select_category": "Select category",

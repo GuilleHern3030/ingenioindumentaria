@@ -8,7 +8,7 @@ import Variant from './variant/Variant.tsx'
 
 import useClientInfo from '@/hooks/useClientInfo'
 
-export default ({ variants, variant, productName, slugs, onHideVariant, onShowVariant, onSave, onDelete, t }) => {
+export default ({ variants, variant, nameRef, slugs, onHideVariant, onShowVariant, onSave, onDelete, t }) => {
 
     const { coinSymbol, dataLoaded } = useClientInfo()
 
@@ -38,7 +38,7 @@ export default ({ variants, variant, productName, slugs, onHideVariant, onShowVa
                         <h5>{t('variants_title')}</h5>
                         <Variant 
                             variant={variant} 
-                            productName={productName} 
+                            nameRef={nameRef} 
                             slugs={slugs}
                             onSave={handleSave} 
                             onDelete={variants?.length > 1 ? handleDelete : null} 
@@ -48,7 +48,7 @@ export default ({ variants, variant, productName, slugs, onHideVariant, onShowVa
                     </> : <>
                         <h5>{t('options_title')}</h5>
                         <div className={styles.options}>
-                            { variants.rove((variant, index) => <Option variant={variant} name={parseName(variants, variant.name, productName, index)} onClick={handleSelect} currency={coinSymbol} t={t} key={index}/>) }
+                            { variants.rove((variant, index) => <Option variant={variant} name={parseName(variants, variant.name, nameRef, index)} onClick={handleSelect} currency={coinSymbol} t={t} key={index}/>) }
                             <div className={styles.icon}> <img src={addIcon} onClick={() => handleSelect(null)}/> </div>
                         </div>
                     </>
@@ -92,8 +92,8 @@ const Option = ({ variant, currency, name, onClick, t }) => {
     </div>
 }
 
-const parseName = (variants, variantName, productName, index) => {
-    const name = variantName ?? productName
+const parseName = (variants, variantName, nameRef, index) => {
+    const name = variantName ?? nameRef?.current?.value
     const names = variants.rove(variant => variant.name).slice(0, index).filter(vName => vName == name)
     return names.length > 0 ? `${name} (${names.length})` : name
 }
