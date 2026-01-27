@@ -5,6 +5,7 @@
   background-color: var(--background-color);
   font-size: 12px; 
   min-height: 100vh;
+  min-height: 100dvh;
   --img-size: 45px;
   --header-height: 3.5em
 }

@@ -24,6 +24,8 @@ import Error from './components/error/Error'
 import FilterUtils from './utils/FilterUtils'
 import ImagesUtils from './utils/ImagesUtils'
 
+const goTop = (soft) => soft ? document.getElementById("header")?.scrollIntoView({ behavior: "smooth" }) : window.scrollTo({top:0})
+
 export default () => {
 
     const { t, ready } = useRouteI18n('main/article')
@@ -42,6 +44,7 @@ export default () => {
     const cart = useCart()
 
     useEffect(() => {
+        goTop(true)
 
         try {
 

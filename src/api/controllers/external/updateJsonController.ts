@@ -1,6 +1,6 @@
 import { email, language, axios } from '@/api'
 
-const endpoint = "/external/json/create";
+const endpoint = "/external/json/update";
 
 export const updateJson = async() => {
     
