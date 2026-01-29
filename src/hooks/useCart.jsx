@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from "react"
 import { DataBaseContext } from '@/context/DataBaseContext'
 
 // Api
-import { request } from '@/api'
+import { devConsole, request } from '@/api'
 
 // DataLoaders
 import indexedDB from "@/redux/database/indexedDB"
@@ -49,9 +49,9 @@ export default function useCart() {
 
         const image = variant?.images[0] ?? article.images[0]
 
-        console.clear()
-        console.log("article:", article)
-        console.log("variant:", variant)
+        //console.clear()
+        devConsole("[useCart] article:", article)
+        devConsole("[useCart] variant:", variant)
 
         const cartArticle = {
             id: IdUtils.serialize(article.id, variant?.id),
@@ -66,7 +66,7 @@ export default function useCart() {
             addedAt: new Date().toISOString()
         }
 
-        console.log("cartArticle:", cartArticle)
+        devConsole("[useCart] cartArticle:", cartArticle)
 
         const newCart = await addArticle(cartArticle)
 
@@ -107,7 +107,7 @@ export default function useCart() {
     }
 
     const params = () => {
-        console.log(cart)
+        devConsole(cart)
         return cart.map(item => `${item.quantity}${item.id}`).join('-')
     }
 

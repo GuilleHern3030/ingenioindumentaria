@@ -12,7 +12,7 @@ export const devMode = () => location.hostname.includes("localhost") || location
 
 export const devConsole = (...params:any[]) => {
     if (devMode())
-        return console.log(...params)
+        return console.log("%cDevConsole\n", "color:yellow;", ...params)
 }
 
 export const request = async(setIsLoading:Function, setError:Function, fetchFunction:Function, ...params:any) => new Promise((resolve, reject) => {
@@ -44,6 +44,7 @@ export const setCache = () => window.localStorage.setItem(CACHE, new Date().toIS
 export const clearCache = () => window.localStorage.removeItem(CACHE)
 
 export const isValidCache = () => {
+    if (isAdmin()) return false
     const timeStamp = window.localStorage.getItem(CACHE)
     if (timeStamp != null) try {
         const now:any = new Date()
@@ -54,20 +55,24 @@ export const isValidCache = () => {
     return false
 }
 
-export const loadDataBase = async() => {
-    if (!isValidCache()) {
-        console.time("Data loaded")
+export const loadDataBase = async(forceCache?:boolean) => {
+    if (!isValidCache() && navigator.onLine && forceCache !== true) {
+        devConsole("Fetching actualized data")
+        console.time("Data loaded in")
         const data = await pull()
-        console.timeEnd("Data loaded")
+        console.timeEnd("Data loaded in")
         if(!devMode() && !isAdmin()) 
             setCache()
-        console.log("Loaded:\n", data)
+        if(devMode() || isAdmin()) 
+            console.log("%cLoaded:\n", "color:lightgreen;", data)
         return data
     } else {
-        console.time("Cache loaded")
+        if (!navigator.onLine) console.warn("OFFLINE MODE")
+        console.time("Cache loaded in")
         const data = await cachePull()
-        console.timeEnd("Cache loaded")
-        console.warn("Cache loaded:\n", data)
+        console.timeEnd("Cache loaded in")
+        if(devMode() || isAdmin()) 
+            console.log("%cCache loaded:\n", "color:yellow;", data)
         return data
     }
 }

@@ -193,7 +193,6 @@ const dbGetPks = (IDBrequest:IDBDatabase, objectStore:string, filter:Function = 
 
     console.time("idb count")
     const pks = []
-    console.log("ORDER TYPE:", order)
     if (order == null) {
         const cursor = store.openCursor()
         cursor.addEventListener('success', () => {
@@ -206,9 +205,7 @@ const dbGetPks = (IDBrequest:IDBDatabase, objectStore:string, filter:Function = 
             } else resolve(pks)
         })
     } else dbGetAll(IDBrequest, objectStore).then(objs => {
-        console.log("OBJECTS TO ORDER:", objs)
         const objectsSorted = sortBy(objs, order.key, order.order)
-        console.log("ORDERED OBJECTS:", objectsSorted)
         objectsSorted.forEach(object => {
             const filterResult = filter(object)
             if (filterResult == true)
@@ -331,8 +328,6 @@ function sortBy(arr:Array<any>, key:string, order:'asc'|'desc' = 'asc'): Array<a
 
             let A = key == 'price' ? price(a) : a[key];
             let B = key == 'price' ? price(b) : b[key];
-
-            console.log(A)
 
             // Manejo de undefined/null
             if (A == null) return 1;

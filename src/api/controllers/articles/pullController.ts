@@ -16,6 +16,7 @@ export default async function (): Promise<any> {
 }
 
 export const backendPull = async (force?: boolean, forceAll = !lazyLoading) => {
+  if (!navigator.onLine) throw new Error("Backend Service storage is not available (offline)")
   if (force !== true && loadFromBackend !== undefined && loadFromBackend === false) throw new Error("Backend Service storage is not allowed")
 
   // Establecer parámetros de la query
@@ -80,7 +81,7 @@ class GoogleSheetV4 {
 
   constructor(json: any) {
     this.#rows = json.values
-    console.log("GoogleSheet", this.#rows)
+    devConsole("[pullController] GoogleSheet:", this.#rows)
   }
 
   // Separa en bloques donde se tenga un 'title' (una fila con una sola columna)

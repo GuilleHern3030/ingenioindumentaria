@@ -6,6 +6,8 @@ export default async(order:object=null, page:number=1, limit:number=lazyLoadLimi
 
     try {
 
+        if (!navigator.onLine) throw new Error()
+
         // Obtener el producto en formato JSON
         const json:any = await request(order, page, limit)
 

@@ -27,7 +27,7 @@ export default ({ article, filters, onChange, onClean, t }) => {
 
             const newFilters = { ...oldFilters }
 
-            console.log("NewFilters:", newFilters)
+            //console.log("NewFilters:", newFilters)
 
             onChange(newFilters)
 
@@ -53,7 +53,9 @@ export default ({ article, filters, onChange, onClean, t }) => {
                 />
             )
         }
-        <p className={styles.clean} onClick={onClean}>{t('clean_filters')}</p>
+        { Object.keys(filters).length > 0 &&
+            <p className={styles.clean} onClick={onClean}>{t('clean_filters')}</p>
+        }
     </div>
 
 }

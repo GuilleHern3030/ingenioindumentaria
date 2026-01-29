@@ -5,7 +5,8 @@
     height: 83px;
     width: 83px;
     border-radius: 100%;
-    bottom: 7vh;
+    top: 82vh;
+    top: 82dvh;
     right: var(--margin);
     z-index: 120;
     cursor: pointer;

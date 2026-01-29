@@ -3,8 +3,11 @@ import { useParams, useNavigate, useLocation, replace } from 'react-router-dom'
 
 import styles from './Article.module.css'
 
+import { devConsole } from '@/api'
+
 import { useRouteI18n } from '@/hooks/useRouteI18N'
 import { getParams as getQueryParams } from '@/hooks/useParams'
+import { scrollTo } from '@/hooks/useScreen'
 import useClientInfo from '@/hooks/useClientInfo'
 import useDataBase from '@/hooks/useDataBase'
 import useCart from '@/hooks/useCart'
@@ -21,6 +24,7 @@ import Options from './components/options/Options'
 import Filters from './components/filters/Filters'
 import Buy from './components/buy/Buy'
 import Error from './components/error/Error'
+
 import FilterUtils from './utils/FilterUtils'
 import ImagesUtils from './utils/ImagesUtils'
 
@@ -59,7 +63,7 @@ export default () => {
 
                     article.variants.forEach(variant => variant.name = variant.name ?? article.name )
 
-                    console.log("%cARTICLE", "color:blue; background:pink; padding:4px; border:1px solid blue;", article)
+                    devConsole("ARTICLE", article)
                     
                     const slugs = article.categories?.map(category => category.slug)
 
@@ -73,7 +77,7 @@ export default () => {
                         article.variants[0]
                     ) ?? article.variants[0]
                     
-                    console.log("%cVARIANT", "color:blue; background:pink; padding:4px; border:1px solid blue;", variant)
+                    devConsole("VARIANT", variant)
 
                     setCategories(slugs)
                     setArticle(article)
@@ -112,7 +116,7 @@ export default () => {
     const handleAddCart = (article, variant, quantity=1) => {
         cart.add(article, quantity, variant)
         .then(() => {
-            console.log("added")
+            devConsole("Cart added:", article, variant, quantity)
         })
         .catch(e => {
             console.error(e)
@@ -150,7 +154,7 @@ export default () => {
     }
 
     const handleSelect = (variant) => {
-        document.getElementById("article")?.scrollIntoView({ behavior: "smooth" })
+        scrollTo("article")
         setVariant(variant)
     }
 

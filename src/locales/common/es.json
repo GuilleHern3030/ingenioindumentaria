@@ -16,5 +16,7 @@
     "cart": "Carrito",
     "search": "Buscar",
     "search-other": "Ver otros artículos",
-    "admin": "Panel de administración"
+    "admin": "Panel de administración",
+    "online": "En línea",
+    "offline": "Sin conexión"
 }

@@ -16,7 +16,7 @@ import useClientInfo from "@/hooks/useClientInfo";
 import useUser from "@/hooks/useUser";
 
 import UserMenu from "./user-menu/UserMenu";
-import LogMenu from "@/components/header/icon-user/log-menu/LogMenu";
+import LogMenu from "@/routes/main/layouts/header/icon-user/log-menu/LogMenu";
 
 export default ({ onShowMenu, onHide, t }) => {
 

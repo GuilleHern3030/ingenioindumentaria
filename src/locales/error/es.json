@@ -2,5 +2,6 @@
     "handle_error_body": "La solicitud no es válida.",
     "session_expired": "La sesión caducó. Vuelve a iniciar sesión para continuar.",
     "no_articles_filter": "No hay productos con los filtros seleccionados",
-    "no_articles": "Lo sentimos, pero aún no tenemos artículos para mostrar"
+    "no_articles": "Lo sentimos, pero aún no tenemos artículos para mostrar",
+    "no_articles_offline": "Tu conexión a internet es inestable y no pudimos cargar artículos"
 }

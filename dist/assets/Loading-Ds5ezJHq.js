@@ -1,0 +1,1 @@
+import{j as e,Y as t}from"./index-DexlPwkc.js";function n({style:r=void 0,color:i=void 0,backgroundColor:s=void 0,className:o=void 0}){return e.jsx("div",{className:`${t.spinner} ${o||""}`,style:{borderColor:i,borderLeftColor:s,...r}})}export{n as L};

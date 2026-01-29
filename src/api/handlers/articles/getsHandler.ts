@@ -6,6 +6,8 @@ export default async(ids:number[]):Promise<Record<string, any>> => new Promise(a
 
     try {
 
+        if (!navigator.onLine) throw new Error()
+
         // Obtener el producto en formato JSON
         const rawArticles:Record<string, any> = await request(ids)
 

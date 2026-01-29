@@ -43,18 +43,29 @@ export const init = async (categories, attributes, articles = [], storedCart) =>
 }
 
 export const pull = async () => {
-    const db = await open(DATA_BASE_CATALOG)
+    try {
+        const db = await open(DATA_BASE_CATALOG)
 
-    const categories = await db.get(CATEGORIES)
-    const attributes = await db.get(ATTRIBUTES)
-    const articles = await db.get(ARTICLES)
+        const categories = await db.get(CATEGORIES)
+        const attributes = await db.get(ATTRIBUTES)
+        const articles = await db.get(ARTICLES)
 
-    db.close()
+        db.close()
 
-    return {
-        articles,
-        attributes,
-        categories
+        return {
+            articles,
+            attributes,
+            categories
+        }
+    } catch(e) {
+
+        console.error(e)
+        return {
+            articles: [],
+            attributes: [],
+            categories: []
+        }
+        
     }
 }
 

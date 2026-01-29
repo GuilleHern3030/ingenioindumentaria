@@ -65,7 +65,6 @@ export default function useDataBase() {
     const getCategories = () => {
         const tree = {}
         try {
-            console.log(categories)
             categories.forEach(category => {
                 const cleanSlug = category.slug.trim()
                 const parts = cleanSlug.split("/")
@@ -76,7 +75,6 @@ export default function useDataBase() {
                     current = current[part];
                 }
             })
-            console.log(tree)
         } catch (e) { }
         return tree
     }
@@ -124,7 +122,6 @@ export default function useDataBase() {
 }
 
 const formatArticle = (article) => {
-    //console.log(article)
 
     if (Array.isArray(article))
         return article.map(object => formatArticle(object))

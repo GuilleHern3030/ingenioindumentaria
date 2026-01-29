@@ -5,7 +5,7 @@ import styles from './Articles.module.css'
 
 import IdUtils from '@/utils/IdUtils'
 
-import useScreenWidth from '@/hooks/useScreenWidth'
+import { useScreenWidth } from '@/hooks/useScreen'
 import useClientInfo from '@/hooks/useClientInfo'
 
 import Carousel from '@/components/carousel/Carousel'

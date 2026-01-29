@@ -1,0 +1,1 @@
+const o={set(r){const e=[];for(let n in r){const t=r[n];(typeof t=="string"||typeof t=="boolean"||!Number.isNaN(Number(t)))&&e.push(`${n}=${t??""}`)}return e.length>0?"?"+e.join("&"):""},stringify(r){const e=[];return Object.entries(r).forEach(([n,t])=>{e.push(`${n}=${t??""}`)}),e.length>0?"?"+e.join("&"):""}};export{o as q};

@@ -3,10 +3,14 @@ import { devMode, loadDataBase } from '@/api';
 
 import { init as initIndexedDB, getCart as indexedCart } from '@/redux/database/indexedDB'
 
+import { useOnlineStatus } from '@/hooks/useOnlineStatus'
+
 export const DataBaseContext = createContext()
 const MAX_TRIES = 3
 
 export function DataBaseContextProvider(props) {
+
+    const online = useOnlineStatus()
 
     const initialized = useRef(false)
 
@@ -28,30 +32,49 @@ export function DataBaseContextProvider(props) {
         init()
     }, [])
 
+    useEffect(() => {
+        if (isInitializing === null && online === true) {
+            console.warn("ONLINE MODE\nReloading data")
+            init()
+        }
+    }, [ online ])
+
+    const loadData = async(forceCache) => {
+        const { articles, categories, attributes, cart } = await loadDataBase(forceCache)
+        const { hasDiscounts, hasNewests } = reduceArticles(articles)
+        setCategories(categories)
+        setAttributes(attributes)
+        setHasPromos(hasDiscounts)
+        setHasNewest(hasNewests)
+        setArticles(articles)
+        await initIndexedDB(categories, attributes, articles, cart)
+        setCart(await indexedCart())
+    }
+
     const init = async(tries=0) => {
 
-        if (tries < MAX_TRIES) try {
-
-            const { articles, categories, attributes, cart } = await loadDataBase()
-            const { hasDiscounts, hasNewests } = reduceArticles(articles)
-            setCategories(categories)
-            setAttributes(attributes)
-            setHasPromos(hasDiscounts)
-            setHasNewest(hasNewests)
-            setArticles(articles)
-            await initIndexedDB(categories, attributes, articles, cart)
-            setCart(await indexedCart())
-            setIsInitalizing(false)
-
+        try {
+            if (tries < MAX_TRIES) { 
+                await loadData()
+                if (!online) {
+                    setIsInitalizing(null)
+                    console.warn(`Unable to access data, using local data and waiting for online to reload`)
+                } else setIsInitalizing(false)
+            }
+            else if (tries === MAX_TRIES) {// Service unavailable -> try cached
+                await loadData(true)
+                console.warn(`SERVICE UNAVAILABLE`)
+                setIsInitalizing(null)
+            }
+            else { // Fails in laod
+                console.error(`FAIL IN LOAD DATA`)
+                setIsInitalizing(null)
+            }
         } catch(err) {
             tries ++
-            if (devMode() === true) tries = MAX_TRIES
             console.error(`(${tries}/${MAX_TRIES})`, err)
-            setTimeout(() => init(tries), 3000) // retry in 3s
-        } else { // Fails in laod
-            console.error(`FAIL IN LOAD DATA`)
-            setIsInitalizing(null)
-        }
+            setTimeout(() => init(tries), (devMode() === true) ? 50 : 3000) // retry in 3s
+        } 
     }
 
     return (<>

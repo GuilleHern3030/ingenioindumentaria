@@ -2,10 +2,14 @@ import { useState } from 'react'
 
 import styles from './Options.module.css'
 
+import { devConsole } from '@/api'
+
 import Filters from './filters/Filters'
 
 import FilterUtils from '../../utils/FilterUtils'
 import Articles from './articles/Articles'
+
+import { scrollTo } from '@/hooks/useScreen'
 
 export default ({ article, variant, categories, onSelect, t }) => {
 
@@ -16,13 +20,13 @@ export default ({ article, variant, categories, onSelect, t }) => {
         const filteredVariants = FilterUtils.selectVariants(article, filters)
         setFilters(filters)
         setVariants(filteredVariants)
-        console.log("[Options] filters:", filters)
-        console.log("[Options] filteredVariants:", filteredVariants)
+        devConsole("[Options] filters:", filters)
+        devConsole("[Options] filteredVariants:", filteredVariants)
         if (filteredVariants.length == 1) {
             const variant = filteredVariants[0]
             onSelect(variant)
             setFilters(FilterUtils.getFilters(variant))
-        }
+        } else scrollTo("options")
     }
 
     const handleFiltersClean = () => {
@@ -30,7 +34,7 @@ export default ({ article, variant, categories, onSelect, t }) => {
         setVariants(article.variants)
     }
 
-    return article.variants.length > 1 && <section className={styles.options}>
+    return article.variants.length > 1 && <section className={styles.options} id='options'>
 
         <h2 className={styles.title}>{t('options')}</h2>
 

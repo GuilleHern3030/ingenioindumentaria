@@ -5,6 +5,8 @@ export default async(slug:string, include_children:boolean=false, filters:object
 
     try {
 
+        if (!navigator.onLine) throw new Error()
+
         // Obtener el producto en formato JSON
         const rawCount:number = await request(slug, include_children, filters)
 

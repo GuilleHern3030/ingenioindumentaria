@@ -1,0 +1,90 @@
+.banner {
+    position: fixed;
+    top: 90vh;
+    top: 90dvh;
+    width: 100%;
+    z-index: 120;
+}
+
+.online {
+    animation: onAnimation 5s forwards !important;
+}
+
+.offline {
+    animation: offAnimation 5s forwards !important;
+}
+
+.online p {
+    background-color: green;
+}
+
+.offline p {
+    background-color: brown;
+}
+
+.text {
+    width: min-content;
+    margin: auto;
+    text-align: center;
+    user-select: none;
+    color: aliceblue;
+    word-break: keep-all;
+    text-wrap: nowrap;
+    padding: 2vh 3em;
+    padding: 2dvh 3em;
+    border-radius: 6px;
+    font-size: 2.8vh;
+    font-family: 'Roboto';
+}
+
+@keyframes onAnimation {
+  0% {
+    display: block;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+    display: block;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(300%);
+    display: none;
+  }
+}
+
+@keyframes offAnimation {
+  0% {
+    display: block;
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+    display: block;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(300%);
+    display: none;
+  }
+}

@@ -1,0 +1,1 @@
+import{d as r,j as t,L as a,O as o}from"./index-DexlPwkc.js";import{a9 as m}from"./index-DexlPwkc.js";function u(){const{t:s,ready:e}=r("/main/user");return e?t.jsx(t.Fragment,{children:t.jsx(o,{context:{t:s}})}):t.jsx(a,{})}export{u as default,m as routes};

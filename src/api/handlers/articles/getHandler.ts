@@ -7,6 +7,8 @@ export default async(id:number) => new Promise<product>(async(resolve, reject) =
 
     try {
 
+        if (!navigator.onLine) throw new Error()
+
         if (id > 0) {
 
             // Obtener el producto en formato JSON

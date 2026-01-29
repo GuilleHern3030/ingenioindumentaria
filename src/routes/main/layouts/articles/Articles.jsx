@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 
 import styles from './Articles.module.css'
 
+import { devConsole } from '@/api'
 import { lazyLoadLimit } from '@/api/config.json'
 import { Attributes } from '@/api/objects/Attributes'
 
@@ -71,16 +72,12 @@ export default ({ params='', parent='/', onLoadRequest, onAttributesRequest = ()
     const refresh = (pageSelected, filtersSelected=filters, orderSelected=order) => {
         goTop(false)
         const queryParams = query(pageSelected, orderSelected, filtersSelected)
-        console.log("PARAMS:", queryParams)
+        devConsole("Params:", queryParams.length > 0 ? queryParams : null)
         navigate(`${location.pathname}${queryParams}`, { replace: true })
     }
 
     useEffect(() => {
-        //console.clear()
-        //console.log("%cARTICLES LAYOUT", "color:blue; background:pink; padding:4px; border:1px solid blue;", params)
-
         loadArticles(params, page, filters, order)
-
     }, [ params ])
     
     const loadArticles = async(params, page, filters, order) => {
@@ -114,11 +111,11 @@ export default ({ params='', parent='/', onLoadRequest, onAttributesRequest = ()
 
             .then(data => { 
                 resolve(data)
-                console.log("[RESULT]:", data)
+                devConsole("Articles loaded:", data)
             })
 
             .catch(e => {
-                //console.warn("[RESULT REJECT]:", e)
+                console.warn(e)
                 reject(e)
             })
 
@@ -187,10 +184,10 @@ export default ({ params='', parent='/', onLoadRequest, onAttributesRequest = ()
     const handleSelect = (id, variantId) => {
         const queryParams = query(page, order, filters)
         const from = location.pathname + queryParams
-        console.log("Product id:", id)
-        console.log("Article id:", variantId)
-        console.log("Origin:", from)
-        console.log("Filters:", queryParams ?? "None")
+        devConsole("Product id:", id)
+        devConsole("Article id:", variantId)
+        devConsole("Origin:", from)
+        devConsole("Filters:", queryParams ?? "None")
         onSelect(id, variantId, queryParams, from)
     }
 
