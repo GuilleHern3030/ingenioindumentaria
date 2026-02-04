@@ -1,0 +1,1 @@
+const e="Here you can see the messages left by customers",s="The message cannot be retrieved",t="Do you want to delete this message?",o="There are no messages yet",a={messages_subtitle:e,message_is_not_recuperable:s,question_delete:t,no_messages:o};export{a as default,s as message_is_not_recuperable,e as messages_subtitle,o as no_messages,t as question_delete};

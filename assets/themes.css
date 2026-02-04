@@ -1,0 +1,43 @@
+:root {
+    --background-color: rgb(234, 194, 244);
+    
+    /*--background-color: rgb(223, 220, 220);*/
+    --header-background-color: aliceblue;
+    --footer-background-color: rgb(85, 10, 147);
+
+    --article-background-color: #eceff2;
+    --article-image-background-color: rgb(227, 219, 219);
+    --article-buy-background-color: rgb(12, 12, 12);
+    --article-buy-background-color-hover: rgb(98, 96, 96);
+    
+    --color: rgba(36, 36, 36);
+    --color-link: blue;
+    --color-filter: blue;
+    --color-striked: rgb(129, 126, 126);
+    --color-gray: rgba(109, 107, 107, 0.781);
+    --color-price: rgba(22, 22, 22);
+    --color-discount: rgb(40, 129, 32);
+    --color-article-buy: rgb(233, 225, 225);
+    --color-title: blueviolet;
+}
+
+.dark {
+    --background-color: rgb(24, 24, 24);
+    --header-background-color: rgb(10, 10, 10);
+    --footer-background-color: rgb(85, 10, 147);
+    
+    --article-background-color: rgb(60, 60, 60);
+    --article-image-background-color: rgb(227, 219, 219);
+    --article-buy-background-color: rgb(210, 200, 200);
+    --article-buy-background-color-hover: rgb(155, 153, 153);
+    
+    --color: rgb(239, 239, 239);
+    --color-link: rgb(57, 57, 144);
+    --color-filter: rgb(87, 149, 214);
+    --color-striked: rgb(94, 91, 91);
+    --color-gray: rgba(131, 131, 131, 0.916);
+    --color-price: rgb(232, 232, 232);
+    --color-discount: rgb(52, 165, 42);
+    --color-article-buy: rgb(20, 20, 20);
+    --color-title: rgb(164, 94, 230);
+}
