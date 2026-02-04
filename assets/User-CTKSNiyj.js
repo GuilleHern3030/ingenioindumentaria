@@ -1,0 +1,1 @@
+import{u as r,j as t,L as a,O as n}from"./index-ByDkJrQD.js";import{an as m}from"./index-ByDkJrQD.js";function u(){const{t:s,ready:e}=r("/main/user");return e?t.jsx(t.Fragment,{children:t.jsx(n,{context:{t:s}})}):t.jsx(a,{})}export{u as default,m as routes};

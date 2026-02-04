@@ -1,1 +1,0 @@
-import{j as s,aa as o,a7 as a}from"./index--svHLFhj.js";function e({style:r=void 0,color:n=void 0,backgroundColor:t=void 0,className:i=void 0}){return s.jsx("div",{className:`${o.logo} ${i||""}`,children:s.jsx("img",{className:`${o.icon} ${o.animation_size}`,src:a})})}export{e as L};
