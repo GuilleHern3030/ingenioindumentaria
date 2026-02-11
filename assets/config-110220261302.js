@@ -31,5 +31,6 @@ window.__APP_CONFIG__ = {
     "jpeg"
   ],
   "apiUrl": "https://backend.ingenioindumentaria.com",
-  "origin": "https://ingenioindumentaria.com"
+  "origin": "https://ingenioindumentaria.com",
+  "webTitle": "Ingenio Indumentaria"
 }
