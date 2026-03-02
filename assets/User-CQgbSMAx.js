@@ -1,1 +1,0 @@
-import{u as r,j as t,g as a,O as o}from"./index-DD0FOiGm.js";import{av as m}from"./index-DD0FOiGm.js";function u(){const{t:s,ready:e}=r("/main/user");return e?t.jsx(t.Fragment,{children:t.jsx(o,{context:{t:s}})}):t.jsx(a,{})}export{u as default,m as routes};

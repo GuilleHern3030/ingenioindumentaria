@@ -1,1 +1,0 @@
-const e="Acá podés visualizar los mensajes que dejan los clientes",s="El mensaje no se podrá recuperar",n="¿Querés borrar este mensaje?",a="Aún no hay mensajes",o={messages_subtitle:e,message_is_not_recuperable:s,question_delete:n,no_messages:a};export{o as default,s as message_is_not_recuperable,e as messages_subtitle,a as no_messages,n as question_delete};
